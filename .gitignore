@@ -44,3 +44,10 @@ app.*.map.json
 
 *.freezed.dart
 *.g.dart
+
+# Firebase specific
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+firebase-debug.log
+/lib/firebase_options.dart
+/ios/firebase_app_id_file.json
