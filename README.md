@@ -16,13 +16,23 @@
   <tbody>
     <tr>
       <td align="center" valign="top" width="25%"><a href="https://github.com/wingflower"><img src="https://avatars.githubusercontent.com/u/11768589?v=4" width="100px;" alt="WingFlower"/><br /><sub><b>Dongho Gwak</b></sub></a><br /></td>
+      <td></td>
+    </tr>
+    <tr>
       <td align="center" valign="top" width="25%"><a href="https://github.com/KimJJangGuv"><img src="https://avatars.githubusercontent.com/u/130346919?v=4" width="100px;" alt="
 KimJJangGu"/><br /><sub><b>
 KimJJangGu</b></sub></a><br /></td>
+      <td></td>
+    </tr>
+    <tr>
       <td align="center" valign="top" width="25%"><a href="https://github.com/sc2bat/"><img src="https://avatars.githubusercontent.com/u/87482415?v=4" width="100px;" alt="
 sc2bat"/><br /><sub><b>
 sc2bat</b></sub></a><br /></td>
+      <td></td>
+    </tr>
+    <tr>
       <td align="center" valign="top" width="25%"><a href="https://github.com/dodocap"><img src="https://avatars.githubusercontent.com/u/13670800?v=4" width="100px;" alt="dodocap"/><br /><sub><b>Su Young, Kim</b></sub></a><br /></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -36,12 +46,14 @@ sc2bat</b></sub></a><br /></td>
 https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=design&t=XSx1PJWzuheQVJ1A-0
 
 1. [ ] 로딩
+
 |진행|화면|기능|
 |---|---|---|
 ||로딩|로그인 여부 확인하여 초기화<br>[로그온-메인화면, 로그아웃-로그인화면]|
 
 
 2. [x] 계정
+
 |진행|화면|기능|
 |---|---|---|
 |:heavy_check_mark:|로그인|이메일, 패스워드로 로그인|
@@ -50,17 +62,20 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 |:heavy_check_mark:|비밀번호 초기화|비밀번호를 초기화|
 
 3. [ ] 메인
+
 |진행|화면|기능|
 |---|---|---|
 ||메인(목록)|- 도감 나열<br>[오름차순, 보유 / 미보유 구분]<br> - 가이드<br>[사용자 가이드 아이콘 표시]<br> - 룰렛타이머<br>[룰렛 활성화 아이콘표시]<br> - 로그아웃<br>[로그아웃 아이콘 표시]|
 ||플로팅|- 룰렛 이동<br>- 도감 정렬<br>- 유형 이동|
 
 4. [ ] 룰렛
+
 |진행|화면|기능|
 |---|---|---|
 ||룰렛|- 활성화 시간 표시<br>- 룰렛 버튼<br>[활성화/비활성화]|
 
 5. [ ] 정보
+
 |진행|화면|기능|
 |---|---|---|
 ||상세|- 이미지 표시<br>- 정보 표시<br>- 스탯 표시<br>- 진화 표시<br>- 유형 표시|
