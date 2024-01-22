@@ -1,4 +1,4 @@
-# We Are 2789!
+# Table of Contents
 
 - [Contributors](#contributors)
 - [ToDo](#todo)
@@ -109,4 +109,4 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 # License
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 
-[(Back to top)](#we-are-2789!)
+[(Back to top)](#table-of-contents)
