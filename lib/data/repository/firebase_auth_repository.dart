@@ -81,10 +81,24 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
   @override
   Future<Result<bool>> isVerified() async {
     if (_firebaseAuth.currentUser == null) {
-      return const Result.error('e');
+      return const Result.error('사용자 정보가 없습니다.');
     }
     await _firebaseAuth.currentUser!.reload();
 
     return Result.success(_firebaseAuth.currentUser!.emailVerified);
+  }
+
+  @override
+  Future<Result<void>> resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        return const Result.error('이메일 형식이 유효하지 않습니다');
+      }
+      return Result.error(e.code);
+    }
+
+    return const Result.success(null);
   }
 }

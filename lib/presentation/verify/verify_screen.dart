@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/presentation/common.dart';
 import 'package:pokedex_clean/presentation/verify/verify_ui_event.dart';
 import 'package:pokedex_clean/presentation/verify/verify_view_model.dart';
 import 'package:provider/provider.dart';
 
 class VerifyScreen extends StatefulWidget {
-  const VerifyScreen({super.key});
+  final EmailPassword emailPassword;
+  const VerifyScreen({super.key, required this.emailPassword});
 
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
@@ -60,7 +62,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 viewModel.sendVerifyEmail();
               }, child: const Text('재전송')),
               ElevatedButton(onPressed: (){
-                viewModel.verifyFinish();
+                viewModel.verifyFinish(widget.emailPassword);
               }, child: const Text('인증완료'))
             ],
           )

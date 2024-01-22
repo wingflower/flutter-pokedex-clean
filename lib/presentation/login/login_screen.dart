@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/presentation/common.dart';
 import 'package:pokedex_clean/presentation/login/login_ui_event.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
@@ -31,7 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
           case SuccessLogin():
             context.go('/main');
           case SuccessRegister():
-            context.push('/login/verify');
+            context.push('/login/verify',
+              extra: EmailPassword(email: _emailController.text, password: _passwordController.text),
+            );
         }
       });
     });
@@ -66,15 +69,20 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             obscureText: true,
           ),
+          const SizedBox(height: 32.0),
+          TextButton(onPressed: () {
+            viewModel.signInEmailAndPassword(_emailController.text, _passwordController.text);
+          }, child: const Text('LogIn')),
+          const SizedBox(height: 32.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(onPressed: () {
+                context.push('/login/reset_password', extra: _emailController.text);
+              }, child: const Text('Reset Password')),
+              TextButton(onPressed: () {
                 viewModel.registerEmailAndPassword(_emailController.text, _passwordController.text);
               }, child: const Text('Register')),
-              TextButton(onPressed: () {
-                viewModel.signInEmailAndPassword(_emailController.text, _passwordController.text);
-              }, child: const Text('LogIn')),
             ],
           )
         ],
