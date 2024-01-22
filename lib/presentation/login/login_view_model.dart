@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pokedex_clean/domain/use_case/login_use_case.dart';
-import 'package:pokedex_clean/domain/use_case/register_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/user/login_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/user/register_use_case.dart';
 import 'package:pokedex_clean/presentation/login/login_ui_event.dart';
 
 

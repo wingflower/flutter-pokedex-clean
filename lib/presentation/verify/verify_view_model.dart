@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pokedex_clean/domain/use_case/check_verify_use_case.dart';
-import 'package:pokedex_clean/domain/use_case/request_verify_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/user/check_verify_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/user/request_verify_use_case.dart';
 import 'package:pokedex_clean/presentation/verify/verify_ui_event.dart';
 
 class VerifyViewModel extends ChangeNotifier {
