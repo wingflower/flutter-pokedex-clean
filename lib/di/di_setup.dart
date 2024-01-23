@@ -53,5 +53,5 @@ void diSetup() {
       checkVerifyUseCase: getIt<CheckVerifyUseCase>(),
       storeUserAccountUseCase: getIt<StoreUserAccountUseCase>()));
   getIt.registerFactory<ResetPasswordViewModel>(() => ResetPasswordViewModel(resetPasswordUseCase: getIt<ResetPasswordUseCase>()));
-  getIt.registerFactory<MainViewModel>(() => MainViewModel(logoutUseCase: getIt<LogoutUseCase>()));
+  getIt.registerFactory<MainViewModel>(() => MainViewModel(logoutUseCase: getIt<LogoutUseCase>(), removeUserAccountUseCase: getIt<RemoveUserAccountUseCase>()));
 }
