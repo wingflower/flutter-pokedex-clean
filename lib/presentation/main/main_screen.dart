@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/presentation/common.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
@@ -38,8 +39,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final MainViewModel viewModel = context.watch();
+    final MainState state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
+        title: Text(_calculateTime(state.rewardTime)),
         actions: [
           IconButton(onPressed: () {
             showSimpleDialog(
@@ -55,5 +58,12 @@ class _MainScreenState extends State<MainScreen> {
         child: Text('Main화면'),
       ),
     );
+  }
+
+  String _calculateTime(int rewardTime) {
+    int minutes = rewardTime ~/ 60;
+    int seconds = rewardTime % 60;
+
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }
