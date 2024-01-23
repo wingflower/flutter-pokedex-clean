@@ -6,4 +6,6 @@ abstract interface class AuthRepository<T> {
   Future<Result<void>> register(T model);
   Future<Result<void>> requestVerify();
   Future<Result<bool>> isVerified();
+
+  Future<Result<void>> resetPassword(String email);
 }

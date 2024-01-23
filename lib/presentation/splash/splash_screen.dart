@@ -25,8 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
           case LoginStatus.loggedOut:
             context.go('/login');
           case LoginStatus.loggedIn:
-            // TODO
-            context.go('???');
+            context.go('/main');
           case LoginStatus.processing:
         }
       });
