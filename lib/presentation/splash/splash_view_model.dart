@@ -44,16 +44,10 @@ class SplashViewModel extends ChangeNotifier {
   Future<void> _login(String email, String password) async {
     final result = await _loginUseCase.execute(email, password);
     result.when(
-      success: (isVerified) {
-        if (isVerified) {
-          // TODO go main
-        } else {
-          // TODO go login
-        }
-      },
-      error: (e) {
-        // TODO go login
-      },
+      success: (isVerified) => _loginStatus.add(
+        isVerified ? LoginStatus.loggedIn : LoginStatus.loggedOut,
+      ),
+      error: (e) => _loginStatus.add(LoginStatus.loggedOut),
     );
   }
 }
