@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
               context,
               title: '로그아웃 성공',
               content: '다음에 또 만나요~!',
+              isVisibleCancelButton: true,
               cancelable: false,
               confirmAction: () => context.go('/login'),
             );

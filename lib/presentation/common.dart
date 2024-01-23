@@ -17,7 +17,7 @@ void showSimpleDialog(
   required String title,
   required String content,
   bool cancelable = true,
-  VoidCallback? cancelAction,
+  bool isVisibleCancelButton = true,
   VoidCallback? confirmAction,
 }) {
   showDialog(
@@ -27,7 +27,12 @@ void showSimpleDialog(
         return AlertDialog(
           title: Text(title),
           content: Text(content),
+          actionsAlignment: MainAxisAlignment.end,
           actions: [
+            if (isVisibleCancelButton)
+            TextButton(
+                onPressed: context.pop,
+                child: const Text('취소')),
             TextButton(
                 onPressed: () {
                   context.pop();
