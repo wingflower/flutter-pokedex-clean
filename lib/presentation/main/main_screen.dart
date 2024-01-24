@@ -6,6 +6,8 @@ import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
+import 'widget/main_pokemon_list_view.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -45,18 +47,21 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text(_calculateTime(state.rewardTime)),
         actions: [
-          IconButton(onPressed: () {
-            showSimpleDialog(
-              context,
-              title: '로그아웃',
-              content: '로그아웃 하시겠습니까?',
-              confirmAction: viewModel.logout,
-            );
-          }, icon: const Icon(Icons.logout_outlined))
+          IconButton(
+              onPressed: () {
+                showSimpleDialog(
+                  context,
+                  title: '로그아웃',
+                  content: '로그아웃 하시겠습니까?',
+                  confirmAction: viewModel.logout,
+                );
+              },
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: Center(
-        child: Text('Main화면'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: MainPokemonListView(pokemonDataList: viewModel.pokemonDataList),
       ),
     );
   }
