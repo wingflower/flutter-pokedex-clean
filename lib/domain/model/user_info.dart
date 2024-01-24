@@ -1,49 +1,42 @@
-class Storage {
-  final String email;
+class UserInfo {
   final List<String> pokemons;
 
 //<editor-fold desc="Data Methods">
-  const Storage({
-    required this.email,
+  const UserInfo({
     required this.pokemons,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Storage &&
+      (other is UserInfo &&
           runtimeType == other.runtimeType &&
-          email == other.email &&
           pokemons == other.pokemons);
 
   @override
-  int get hashCode => email.hashCode ^ pokemons.hashCode;
+  int get hashCode => pokemons.hashCode;
 
   @override
   String toString() {
-    return 'Storage{' + ' email: $email,' + ' pokemons: $pokemons,' + '}';
+    return 'UserInfo{' + ' pokemons: $pokemons,' + '}';
   }
 
-  Storage copyWith({
-    String? email,
+  UserInfo copyWith({
     List<String>? pokemons,
   }) {
-    return Storage(
-      email: email ?? this.email,
+    return UserInfo(
       pokemons: pokemons ?? this.pokemons,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'email': this.email,
       'pokemons': this.pokemons,
     };
   }
 
-  factory Storage.fromJson(Map<String, dynamic> map) {
-    return Storage(
-      email: map['email'] as String,
+  factory UserInfo.fromJson(Map<String, dynamic> map) {
+    return UserInfo(
       pokemons: map['pokemons'] as List<String>,
     );
   }
