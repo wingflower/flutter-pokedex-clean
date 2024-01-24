@@ -5,7 +5,7 @@ import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/domain/use_case/user/check_verify_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/request_verify_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
-import 'package:pokedex_clean/presentation/verify/verify_ui_event.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_ui_event.dart';
 
 class VerifyViewModel extends ChangeNotifier {
   final RequestVerifyUseCase _verifyUseCase;
