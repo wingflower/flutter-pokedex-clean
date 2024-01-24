@@ -6,13 +6,13 @@ import 'package:pokedex_clean/presentation/login/login_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
 import 'package:pokedex_clean/presentation/login/reset_password/reset_password_screen.dart';
 import 'package:pokedex_clean/presentation/login/reset_password/reset_password_view_model.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_screen.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_view_model.dart';
 import 'package:pokedex_clean/presentation/main/main_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/roulette/roulette_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
-import 'package:pokedex_clean/presentation/verify/verify_screen.dart';
-import 'package:pokedex_clean/presentation/verify/verify_view_model.dart';
 import 'package:provider/provider.dart';
 
 final routes = GoRouter(
