@@ -37,7 +37,7 @@ class UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> map) {
     return UserInfo(
-      pokemons: map['pokemons'] as List<String>,
+      pokemons: (map['pokemons'] as List<dynamic>).map((e) => e.toString()).toList(),
     );
   }
 
