@@ -76,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                context.go('/main/detail');
+                context.push('/main/detail');
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -115,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
               borderRadius: BorderRadius.circular(50),
             ),
               onTap: () {
-                context.go('/main/roulette');
+                context.push('/main/roulette');
               },
           ),
           SpeedDialChild(
