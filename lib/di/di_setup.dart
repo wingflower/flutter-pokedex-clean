@@ -17,9 +17,9 @@ import 'package:pokedex_clean/domain/use_case/user/reset_password_use_case.dart'
 import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
 import 'package:pokedex_clean/presentation/login/reset_password/reset_password_view_model.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_view_model.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
-import 'package:pokedex_clean/presentation/verify/verify_view_model.dart';
 
 final getIt = GetIt.instance;
 

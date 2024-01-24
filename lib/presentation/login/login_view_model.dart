@@ -47,8 +47,9 @@ class LoginViewModel extends ChangeNotifier {
 
     final result = await _loginUseCase.execute(email, password);
     result.when(
-      success: (verified) {
+      success: (verified) async {
         if (verified) {
+          await _storeUserAccountUseCase.execute(EmailPassword(email: email, password: password));
           _controller.add(const LoginUiEvent.successLogin());
         } else {
           _controller.add(const LoginUiEvent.successRegister());

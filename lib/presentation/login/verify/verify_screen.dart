@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/presentation/common.dart';
-import 'package:pokedex_clean/presentation/verify/verify_ui_event.dart';
-import 'package:pokedex_clean/presentation/verify/verify_view_model.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_ui_event.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_view_model.dart';
 import 'package:provider/provider.dart';
 
 class VerifyScreen extends StatefulWidget {

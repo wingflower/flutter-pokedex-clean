@@ -4,15 +4,56 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/use_case/user/logout_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/remove_user_account_use_case.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 
-class MainViewModel extends ChangeNotifier {
+class MainViewModel extends ChangeNotifier with WidgetsBindingObserver {
   final LogoutUseCase _logoutUseCase;
   final RemoveUserAccountUseCase _removeUserAccountUseCase;
 
   MainViewModel({required LogoutUseCase logoutUseCase, required RemoveUserAccountUseCase removeUserAccountUseCase})
       : _logoutUseCase = logoutUseCase,
-        _removeUserAccountUseCase = removeUserAccountUseCase;
+        _removeUserAccountUseCase = removeUserAccountUseCase {
+    WidgetsBinding.instance.addObserver(this);
+    _startTimer();
+  }
+
+  MainState _state = const MainState();
+  MainState get state => _state;
+
+  Timer? _rewardTimer;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _startTimer();
+      case AppLifecycleState.paused:
+        _stopTimer();
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.detached:
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  void _startTimer() {
+    _rewardTimer?.cancel();
+    _rewardTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _state = state.copyWith(rewardTime: state.rewardTime + 1);
+      notifyListeners();
+    });
+  }
+  void _stopTimer() {
+    _rewardTimer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   final StreamController<MainUiEvent> _controller = StreamController();
 
