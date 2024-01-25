@@ -19,13 +19,18 @@ class LoginViewModel extends ChangeNotifier {
         _storeUserAccountUseCase = storeUserAccountUseCase;
 
   final StreamController<LoginUiEvent> _controller = StreamController();
-
   Stream<LoginUiEvent> get stream => _controller.stream;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   Future<void> registerEmailAndPassword(String email, String password) async {
     if(!_isFormValid(email, password)) {
       return;
     }
+
+    _isLoading = true;
+    notifyListeners();
 
     final result = await _registerUseCase.execute(email, password);
 
@@ -38,12 +43,18 @@ class LoginViewModel extends ChangeNotifier {
         _controller.add(LoginUiEvent.showSnackBar(e));
       },
     );
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> signInEmailAndPassword(String email, String password) async {
     if(!_isFormValid(email, password)) {
       return;
     }
+
+    _isLoading = true;
+    notifyListeners();
 
     final result = await _loginUseCase.execute(email, password);
     result.when(
@@ -57,6 +68,9 @@ class LoginViewModel extends ChangeNotifier {
       },
       error: (e) => _controller.add(LoginUiEvent.showSnackBar(e)),
     );
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   bool _isFormValid(String email, String password) {
