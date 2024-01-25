@@ -13,39 +13,43 @@ class FirestoreUserInfoRepository implements UserInfoRepository {
   }) : _instance = instance;
 
   @override
-  Future<void> addUserInfo(String email, UserInfo userInfo) async {
-    await _instance.collection('user_info').doc(email).set(userInfo.toJson());
-  }
-
-  @override
-  Future<void> deleteUserInfo(String email) async {
-    final snapshot = await _userInfoRef.doc(email).get();
-    final json = snapshot.data();
-
-    if (json != null) {
-      await _instance
-          .collection('user_info')
-          .doc(email)
-          .set(const UserInfo(pokemons: []).toJson());
-    }
-  }
-
-  @override
   Future<Result<UserInfo>> getUserInfo(String email) async {
-    final snapshot = await _userInfoRef.doc(email).get();
-    final json = snapshot.data();
+    final Map<String, dynamic> json;
+    try{
+      final snapshot = await _userInfoRef.doc(email).get();
+      json = snapshot.data() as Map<String, dynamic>;
+    } catch (e) {
+      return Result.error('이메일 확인. $email');
+    }
 
-    if (json == null) {
+    if (json.isEmpty) {
       return const Result.success(UserInfo(pokemons: []));
     }
     return Result.success(UserInfo.fromJson(json));
   }
 
   @override
-  Future<void> updateUserInfo(String email, UserInfo userInfo) async {
-    await _instance
-        .collection('user_info')
-        .doc(email)
-        .set(userInfo.toJson(), SetOptions(merge: true));
+  Future<Result<void>> updateUserInfo(String email, UserInfo userInfo) async {
+    try{
+      await _instance
+          .collection('user_info')
+          .doc(email)
+          .set(userInfo.toJson(), SetOptions(merge: true));
+      return const Result.success(null);
+    } catch (e) {
+      return Result.error('네트워크 상태 확인. ($email)');
+    }
+  }
+
+  @override
+  Future<Result<void>> addUserInfo(String email, UserInfo userInfo) {
+    // TODO: implement addUserInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<void>> deleteUserInfo(String email) {
+    // TODO: implement deleteUserInfo
+    throw UnimplementedError();
   }
 }
