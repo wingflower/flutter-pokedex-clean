@@ -4,6 +4,28 @@ import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.da
 import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_image_widget.dart';
 
+enum TypeEnum {
+  none,
+  normal,
+  fighting,
+  flying,
+  poison,
+  ground,
+  rock,
+  bug,
+  ghost,
+  steel,
+  fire,
+  water,
+  grass,
+  electric,
+  psychic,
+  ice,
+  dragon,
+  dark,
+  fairy,
+}
+
 class MainGridViewWidget extends StatelessWidget {
   const MainGridViewWidget({
     super.key,
@@ -61,15 +83,17 @@ class MainGridViewWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Row(
                       children: [
-                        const Column(
-                          children: [
-                            GridTypeImageWidget(
+                        Column(
+                          children: List.generate(
+                            pokemonList[index].types.length,
+                            (typeIndex) => GridTypeImageWidget(
                               isCollected: true,
-                              typeImageUrl: 'assets/images/types/bug_type.png',
+                              typeImageUrl:
+                                  'assets/images/types/${TypeEnum.values[int.parse(pokemonList[index].types[typeIndex])].toString().split('.').last}_type.png',
                               typeimageSize: 32.0,
                               iconSize: 24.0,
                             ),
-                          ],
+                          ),
                         ),
                         PokemonImageWidget(
                           isCollected: true,
