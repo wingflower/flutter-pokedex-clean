@@ -13,7 +13,8 @@ class Pokemon {
   final String special_attack;
   final String special_defense;
   final String speed;
-  final bool isCollected;
+  final String color;
+  bool isCollected;
 
   Pokemon({
     required this.id,
@@ -30,8 +31,9 @@ class Pokemon {
     required this.special_attack,
     required this.special_defense,
     required this.speed,
-    this.isCollected = false,
-  });
+    required this.color,
+    bool? isCollected,
+  }) : isCollected = isCollected ?? false;
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
     return Pokemon(
@@ -52,8 +54,13 @@ class Pokemon {
       special_attack: json['special_attack'] as String,
       special_defense: json['special_defense'] as String,
       speed: json['speed'] as String,
+      color: json['color'] as String,
       isCollected: json['isCollected'] as bool? ?? false,
     );
+  }
+
+  set setIsCollected(bool value) {
+    isCollected = value;
   }
 }
 
