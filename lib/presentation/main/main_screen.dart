@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/presentation/common.dart';
-import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
@@ -41,10 +41,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final MainViewModel viewModel = context.watch();
-    final MainState state = viewModel.state;
+
+    AppTimer appTimer = context.watch();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_calculateTime(state.rewardTime)),
+        title: Text(_calculateTime(appTimer.timeState)),
         actions: [
           IconButton(
             onPressed: () {},
@@ -54,14 +56,16 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () {},
             icon: const Icon(Icons.info_outline),
           ),
-          IconButton(onPressed: () {
-            showSimpleDialog(
-              context,
-              title: '로그아웃',
-              content: '로그아웃 하시겠습니까?',
-              confirmAction: viewModel.logout,
-            );
-          }, icon: const Icon(Icons.logout_outlined))
+          IconButton(
+              onPressed: () {
+                showSimpleDialog(
+                  context,
+                  title: '로그아웃',
+                  content: '로그아웃 하시겠습니까?',
+                  confirmAction: viewModel.logout,
+                );
+              },
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
       body: Padding(
@@ -95,6 +99,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButton: SpeedDial(
+        overlayOpacity: 0,
         animatedIcon: AnimatedIcons.menu_close,
         children: [
           SpeedDialChild(
@@ -114,9 +119,9 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-              onTap: () {
-                context.push('/main/roulette');
-              },
+            onTap: () {
+              context.push('/main/roulette');
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),

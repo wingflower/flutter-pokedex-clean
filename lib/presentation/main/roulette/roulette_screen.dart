@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_clean/app_timer.dart';
+import 'package:provider/provider.dart';
 
 class RouletteScreen extends StatefulWidget {
   const RouletteScreen({super.key});
@@ -10,12 +12,12 @@ class RouletteScreen extends StatefulWidget {
 class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 500),
+    duration: const Duration(seconds: 3),
   );
 
   late final Animation<double> _scaleAnimation = CurvedAnimation(
     parent: _animationController,
-    curve: Curves.decelerate,
+    curve: Curves.easeIn,
   );
 
   @override
@@ -26,7 +28,9 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animationSize = Tween(begin: 0.5, end: 1.0).animate(_animationController);
+    final Animation<double> animationSize = Tween(begin: 0.5, end: 2.0).animate(_animationController);
+
+    AppTimer appTimer = context.watch();
 
     return Scaffold(
       appBar: AppBar(
@@ -44,9 +48,13 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: const Center(child: Text('타이머')),
+                child: Center(
+                  child: Text(_calculateTime(appTimer.timeState)),
+                ),
               ),
-              const Padding(padding: EdgeInsets.only(bottom: 16)),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 16),
+              ),
               Container(
                 width: 250,
                 height: 40,
@@ -54,35 +62,31 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: const Center(child: Text('뽑기 횟수')),
-              ),
-              const Padding(padding: EdgeInsets.all(16)),
-              RotationTransition(
-                turns: Tween<double>(begin: 0.0, end: 5.0).animate(_scaleAnimation),
-                child: ScaleTransition(
-                  scale: animationSize,
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/pokeball/pokeball.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                child: const Center(
+                  child: Text('뽑기 횟수'),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: ElevatedButton(
-                  // 앱 접속 후 최초 1회 활성화, 뽑기 실시 후 횟수 소진 시 비활성, 누르면 타이머 초기화 시키기
-                  onPressed: () {
-                    _animationController.forward(from: 0.0);
-                  },
-                  child: const Text(
-                    '뽑기',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+              const Padding(
+                padding: EdgeInsets.all(16),
+              ),
+              RotationTransition(
+                turns: Tween<double>(begin: 0.0, end: 10.0).animate(_scaleAnimation),
+                child: ScaleTransition(
+                  scale: animationSize,
+                  child: GestureDetector(
+                    onTap: () {
+                      _animationController.forward(from: 0.0);
+                    },
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/pokeball/pokeball.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -91,5 +95,12 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
         ),
       ),
     );
+  }
+
+  String _calculateTime(int rewardTime) {
+    int minutes = rewardTime ~/ 60;
+    int seconds = rewardTime % 60;
+
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }

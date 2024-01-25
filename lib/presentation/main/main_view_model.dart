@@ -13,50 +13,13 @@ class MainViewModel extends ChangeNotifier with WidgetsBindingObserver {
 
   MainViewModel({required LogoutUseCase logoutUseCase, required RemoveUserAccountUseCase removeUserAccountUseCase})
       : _logoutUseCase = logoutUseCase,
-        _removeUserAccountUseCase = removeUserAccountUseCase {
-    WidgetsBinding.instance.addObserver(this);
-    _startTimer();
-  }
+        _removeUserAccountUseCase = removeUserAccountUseCase;
 
   MainState _state = const MainState();
+
   MainState get state => _state;
 
-  Timer? _rewardTimer;
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _startTimer();
-      case AppLifecycleState.paused:
-        _stopTimer();
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.hidden:
-      case AppLifecycleState.detached:
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  void _startTimer() {
-    _rewardTimer?.cancel();
-    _rewardTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _state = state.copyWith(rewardTime: state.rewardTime + 1);
-      notifyListeners();
-    });
-  }
-  void _stopTimer() {
-    _rewardTimer?.cancel();
-  }
-
-  @override
-  void dispose() {
-    _stopTimer();
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
   final StreamController<MainUiEvent> _controller = StreamController();
-
 
   Stream<MainUiEvent> get stream => _controller.stream;
 
