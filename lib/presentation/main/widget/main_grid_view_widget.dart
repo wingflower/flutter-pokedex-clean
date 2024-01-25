@@ -46,12 +46,13 @@ class MainGridViewWidget extends StatelessWidget {
         ),
         itemCount: pokemonList.length,
         itemBuilder: (context, index) {
+          // pokemonList[index].isCollected = true;
           return GestureDetector(
             onTap: null,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: true
+                color: pokemonList[index].isCollected
                     ? _getColorFromString('green')
                     : _getColorFromString('black'),
               ),
@@ -64,7 +65,10 @@ class MainGridViewWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          pokemonList[index].description.name,
+                          pokemonList[index].isCollected
+                              ? pokemonList[index].description.name
+                              : '?' *
+                                  pokemonList[index].description.name.length,
                           style: const TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -87,7 +91,7 @@ class MainGridViewWidget extends StatelessWidget {
                           children: List.generate(
                             pokemonList[index].types.length,
                             (typeIndex) => GridTypeImageWidget(
-                              isCollected: true,
+                              isCollected: pokemonList[index].isCollected,
                               typeImageUrl:
                                   'assets/images/types/${TypeEnum.values[int.parse(pokemonList[index].types[typeIndex])].toString().split('.').last}_type.png',
                               typeimageSize: 32.0,
@@ -96,7 +100,7 @@ class MainGridViewWidget extends StatelessWidget {
                           ),
                         ),
                         PokemonImageWidget(
-                          isCollected: true,
+                          isCollected: pokemonList[index].isCollected,
                           pokemonImageSize: 152.0,
                           imageurl: pokemonList[index].imageurl,
                         ),
