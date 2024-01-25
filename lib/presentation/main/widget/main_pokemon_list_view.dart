@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 
 class MainPokemonListView extends StatelessWidget {
-  final List<Pokemon> pokemonDataList;
+  final MainState state;
 
   const MainPokemonListView({
     super.key,
-    required this.pokemonDataList,
+    required this.state,
   });
 
   @override
   Widget build(BuildContext context) {
-    print('list length ${pokemonDataList.length}');
+    List<Pokemon> pokemonList = state.pokemonListData;
+    print('qwerasdf MainPokemonListView ${pokemonList.length}');
     return ListView.builder(
-        itemCount: pokemonDataList.length,
+        itemCount: pokemonList.length,
         itemBuilder: (context, index) {
           return Container(
             decoration: const BoxDecoration(
@@ -35,7 +37,7 @@ class MainPokemonListView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Image.network(
-                          pokemonDataList[index].imageurl,
+                          pokemonList[index].imageurl,
                           width: 60,
                           height: 60,
                           fit: BoxFit.cover,
@@ -72,34 +74,6 @@ class MainPokemonListView extends StatelessWidget {
                               ],
                             ),
                           ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 80.0,
-                        child: Row(
-                          children: List.generate(
-                            pokemonDataList[index].types.length,
-                            (typeIndex) =>
-                                Text(pokemonDataList[index].types[typeIndex]),
-                            // Image.asset(
-                            //   '${pokemonDataList[index].types[typeIndex]}',
-                            //   width: 40.0,
-                            //   height: 60.0,
-                            // ),
-                          ),
-                          // [
-                          //     // pokemonDataList[index].types
-                          //   Image.asset(
-                          //     'assets/images/types/grass_type.png',
-                          //     width: 40.0,
-                          //     height: 60.0,
-                          //   ),
-                          //   Image.asset(
-                          //     'assets/images/types/poison_type.png',
-                          //     width: 40.0,
-                          //     height: 60.0,
-                          //   ),
-                          // ],
                         ),
                       ),
                     ],

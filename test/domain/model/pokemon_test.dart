@@ -1,4 +1,4 @@
-class Pokemon {
+class PokemonTest {
   final String id;
   final String imageurl;
   final PokemonDescription description;
@@ -14,7 +14,7 @@ class Pokemon {
   final String special_defense;
   final String speed;
 
-  Pokemon({
+  PokemonTest({
     required this.id,
     required this.imageurl,
     required this.description,
@@ -31,8 +31,8 @@ class Pokemon {
     required this.speed,
   });
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
+  factory PokemonTest.fromJson(Map<String, dynamic> json) {
+    return PokemonTest(
       id: json['id'] as String,
       imageurl: json['imageurl'] as String,
       description: PokemonDescription.fromJson(
@@ -84,7 +84,7 @@ class PokemonAbility {
 
   factory PokemonAbility.fromJson(Map<String, dynamic> json) {
     return PokemonAbility(
-      ability_id: json['ability_id'] as String,
+      ability_id: json['ability_id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       flavor_text: json['flavor_text'] as String? ?? '',
     );

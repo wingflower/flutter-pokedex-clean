@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
-import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/logout_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/remove_user_account_use_case.dart';
@@ -78,10 +77,17 @@ class MainViewModel extends ChangeNotifier with WidgetsBindingObserver {
     );
   }
 
-  List<Pokemon> pokemonDataList = [];
-
   Future<void> fetchPokemonDataList() async {
-    pokemonDataList = (await _getPokemonUseCase.execute()) as List<Pokemon>;
+    _state = state.copyWith(isLoading: true);
     notifyListeners();
+
+    final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
+    fetchPokemonDataListResult.when(
+      success: (pokemonList) {
+        _state = state.copyWith(pokemonListData: pokemonList, isLoading: false);
+        notifyListeners();
+      },
+      error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
+    );
   }
 }

@@ -6,7 +6,7 @@ import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
-import 'widget/main_pokemon_list_view.dart';
+import 'widget/main_grid_view_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -35,6 +35,7 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
+      viewModel.fetchPokemonDataList();
     });
     super.initState();
   }
@@ -59,10 +60,11 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: MainPokemonListView(pokemonDataList: viewModel.pokemonDataList),
-      ),
+      body: state.isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : MainGridViewWidget(pokemonList: state.pokemonListData),
     );
   }
 
