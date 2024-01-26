@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
   Timer? _timer;
   int _timeState = 0;
+  final int _maxTimeState = 10;
+  int _count = 0;
+  final int _maxCount = 10;
 
   int get timeState => _timeState;
+  int get count => _count;
 
   AppTimer() {
     WidgetsBinding.instance.addObserver(this);
@@ -17,14 +21,33 @@ class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        _timeState += 1;
-        notifyListeners();
+        if (_timeState < _maxTimeState) {
+          _timeState += 1;
+          notifyListeners();
+        }
+        if (_timeState == _maxTimeState) {
+          _timeState = 0;
+          notifyListeners();
+        }
+        if (_timeState % 10 == 0) {
+          _count += 1;
+          notifyListeners();
+        }
+        if (_count == _maxCount) {
+          _timer?.cancel();
+        }
       },
     );
   }
 
   void _stopTimer() {
     _timer?.cancel();
+  }
+
+  void spinRoulette() {
+    _count -= 1;
+    _startTimer();
+    notifyListeners();
   }
 
   @override

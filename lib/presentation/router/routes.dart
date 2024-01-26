@@ -52,10 +52,7 @@ final routes = GoRouter(
       routes: [
         GoRoute(
           path: 'roulette',
-          builder: (_, __) => ChangeNotifierProvider(
-            create: (_) => getIt<MainViewModel>(),
-            child: const RouletteScreen(),
-          ),
+          builder: (_, __) => const RouletteScreen(),
         ),
         GoRoute(
           path: 'detail',
