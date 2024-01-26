@@ -5,27 +5,7 @@ import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.da
 import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_image_widget.dart';
 
-enum TypeEnum {
-  none,
-  normal,
-  fighting,
-  flying,
-  poison,
-  ground,
-  rock,
-  bug,
-  ghost,
-  steel,
-  fire,
-  water,
-  grass,
-  electric,
-  psychic,
-  ice,
-  dragon,
-  dark,
-  fairy,
-}
+import '../../common/type_enum.dart';
 
 class MainGridViewWidget extends StatelessWidget {
   const MainGridViewWidget({
@@ -49,7 +29,11 @@ class MainGridViewWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           pokemonList[index].setIsCollected = true;
           return GestureDetector(
-            onTap: () => context.go('/main/detail'),
+            onTap: () => context.go('/main/detail', extra: pokemonList[index]),
+            // onTap: () => context.go(Uri(
+            //         path: '/main/detail',
+            //         queryParameters: {'pokemonData': pokemonList[index]})
+            //     .toString()),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),

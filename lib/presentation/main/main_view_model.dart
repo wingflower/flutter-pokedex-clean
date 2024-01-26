@@ -90,4 +90,22 @@ class MainViewModel extends ChangeNotifier with WidgetsBindingObserver {
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
   }
+
+  Future<void> fetchPokemonDataOnebyId(String targetId) async {
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+
+    final fetchPokemonDataResult =
+        await _getPokemonUseCase.executeOne(targetId);
+    fetchPokemonDataResult.when(
+      success: (pokemon) {
+        _state = state.copyWith(
+          pokemonListData: [pokemon],
+          isLoading: false,
+        );
+        notifyListeners();
+      },
+      error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
+    );
+  }
 }
