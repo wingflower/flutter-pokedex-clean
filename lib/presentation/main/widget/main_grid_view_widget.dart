@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
@@ -48,7 +49,7 @@ class MainGridViewWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           pokemonList[index].setIsCollected = true;
           return GestureDetector(
-            onTap: null,
+            onTap: () => context.go('/main/detail'),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
