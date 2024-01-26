@@ -19,8 +19,6 @@ import 'package:pokedex_clean/domain/use_case/user/request_verify_use_case.dart'
 import 'package:pokedex_clean/domain/use_case/user/reset_password_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
-import 'package:pokedex_clean/presentation/login/reset_password/reset_password_view_model.dart';
-import 'package:pokedex_clean/presentation/login/verify/verify_view_model.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
 
@@ -67,15 +65,13 @@ void diSetup() {
       getUserAccountUseCase: getIt<GetUserAccountUseCase>(),
       removeUserAccountUseCase: getIt<RemoveUserAccountUseCase>()));
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel(
-      loginUseCase: getIt<LoginUseCase>(),
-      registerUseCase: getIt<RegisterUseCase>(),
-      storeUserAccountUseCase: getIt<StoreUserAccountUseCase>()));
-  getIt.registerFactory<VerifyViewModel>(() => VerifyViewModel(
-      verifyUseCase: getIt<RequestVerifyUseCase>(),
-      checkVerifyUseCase: getIt<CheckVerifyUseCase>(),
-      storeUserAccountUseCase: getIt<StoreUserAccountUseCase>()));
-  getIt.registerFactory<ResetPasswordViewModel>(() => ResetPasswordViewModel(
-      resetPasswordUseCase: getIt<ResetPasswordUseCase>()));
+        loginUseCase: getIt<LoginUseCase>(),
+        registerUseCase: getIt<RegisterUseCase>(),
+        storeUserAccountUseCase: getIt<StoreUserAccountUseCase>(),
+        resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+        requestVerifyUseCase: getIt<RequestVerifyUseCase>(),
+        checkVerifyUseCase: getIt<CheckVerifyUseCase>(),
+      ));
   getIt.registerFactory<MainViewModel>(() => MainViewModel(
         logoutUseCase: getIt<LogoutUseCase>(),
         removeUserAccountUseCase: getIt<RemoveUserAccountUseCase>(),

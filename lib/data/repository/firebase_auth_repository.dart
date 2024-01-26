@@ -24,6 +24,8 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
         return const Result.error('유저 정보를 찾을 수 없습니다');
       } else if (e.code == 'wrong-password') {
         return const Result.error('패스워드가 잘못되었습니다');
+      } else if (e.code == 'user-disabled') {
+        return const Result.error('해당 계정은 사용할 수 없습니다. 관리자에게 문의하세요.');
       }
     }
     return const Result.error('이메일 또는 패스워드를 확인해주세요');
