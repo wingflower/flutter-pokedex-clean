@@ -70,36 +70,6 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       body: MainGridViewWidget(pokemonList: viewModel.state.pokemonListData),
-      //  Padding(
-      //   padding: const EdgeInsets.all(12.0),
-      //   child: GridView.builder(
-      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //       crossAxisCount: 2,
-      //       crossAxisSpacing: 8.0,
-      //       mainAxisSpacing: 8.0,
-      //     ),
-      //     itemCount: 20,
-      //     itemBuilder: (context, index) {
-      //       return GestureDetector(
-      //         onTap: () {
-      //           context.push('/main/detail');
-      //         },
-      //         child: ClipRRect(
-      //           borderRadius: BorderRadius.circular(20),
-      //           child: Container(
-      //             color: Colors.blue,
-      //             child: Center(
-      //               child: Text(
-      //                 'Item $index',
-      //                 style: const TextStyle(color: Colors.white),
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       );
-      //     },
-      //   ),
-      // ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         children: [
