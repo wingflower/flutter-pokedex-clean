@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/presentation/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
@@ -49,22 +50,85 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(_calculateTime(state.rewardTime)),
         actions: [
           IconButton(
-              onPressed: () {
-                showSimpleDialog(
-                  context,
-                  title: '로그아웃',
-                  content: '로그아웃 하시겠습니까?',
-                  confirmAction: viewModel.logout,
-                );
-              },
-              icon: const Icon(Icons.logout_outlined))
+            onPressed: () {},
+            icon: const Icon(Icons.access_time),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.info_outline),
+          ),
+          IconButton(onPressed: () {
+            showSimpleDialog(
+              context,
+              title: '로그아웃',
+              content: '로그아웃 하시겠습니까?',
+              confirmAction: viewModel.logout,
+            );
+          }, icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: state.isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : MainGridViewWidget(pokemonList: state.pokemonListData),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                context.push('/main/detail');
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Item $index',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.bolt_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.sort_by_alpha),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.circle_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+              onTap: () {
+                context.push('/main/roulette');
+              },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.star_border_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

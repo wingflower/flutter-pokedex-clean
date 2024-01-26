@@ -45,11 +45,11 @@ sc2bat</b></sub></a><br /></td>
 ### figma Link
 https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=design&t=XSx1PJWzuheQVJ1A-0
 
-1. [ ] 로딩
+1. [x] 로딩
 
 |진행|화면|기능|
 |---|---|---|
-||로딩|로그인 여부 확인하여 초기화<br>[로그온-메인화면, 로그아웃-로그인화면]|
+|:heavy_check_mark:|로딩|로그인 여부 확인하여 초기화<br>[로그온-메인화면, 로그아웃-로그인화면]|
 
 
 2. [x] 계정
@@ -65,14 +65,20 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 
 |진행|화면|기능|
 |---|---|---|
-||메인(목록)|- 도감 나열<br>[오름차순, 보유 / 미보유 구분]<br> - 가이드<br>[사용자 가이드 아이콘 표시]<br> - 룰렛타이머<br>[룰렛 활성화 아이콘표시]<br> - 로그아웃<br>[로그아웃 아이콘 표시]|
+|진행중|메인(목록)|- 도감 나열<br>[오름차순, 보유 / 미보유 구분]<br> - 가이드<br>[사용자 가이드 아이콘 표시]<br> - 룰렛타이머<br>[룰렛 활성화 아이콘표시]<br> - 로그아웃<br>[로그아웃 아이콘 표시]|
 ||플로팅|- 룰렛 이동<br>- 도감 정렬<br>- 유형 이동|
+
+3.1 :heavy_check_mark: 데이터 파싱
+- type_data
+https://gist.githubusercontent.com/sc2bat/f495ec7cf9ce22bad0e69f42f656194f/raw/abf6f776ab9e11dc68eb675a44a58f730c22318c/type_data.json
+- pokemon_data
+https://gist.githubusercontent.com/sc2bat/28d2991fb9e361f0e50fd52ac7c40774/raw/a72d0f8ddfcbff5dc523f626c96f4ef1f1f2e0f4/pokemon_data.json
 
 4. [ ] 룰렛
 
 |진행|화면|기능|
 |---|---|---|
-||룰렛|- 활성화 시간 표시<br>- 룰렛 버튼<br>[활성화/비활성화]|
+|진행중|룰렛|- 활성화 시간 표시<br>- 룰렛 버튼<br>[활성화/비활성화]|
 
 5. [ ] 정보
 
@@ -80,6 +86,16 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 |---|---|---|
 ||상세|- 이미지 표시<br>- 정보 표시<br>- 스탯 표시<br>- 진화 표시<br>- 유형 표시|
 ||유형|- 유형 종류 표시<br>- 유형 효과 표시|
+
+6. [ ] Firestore
+
+|진행|화면|기능|
+|---|---|---|
+|:heavy_check_mark:|연동||
+|진행중|Read||
+||Create||
+||Update||
+||Delete||
 
 
 # Features
