@@ -9,5 +9,6 @@ class MainState with _$MainState {
     @Default(false) bool isLoading,
     @Default(0) int rewardTime,
     @Default([]) List<Pokemon> pokemonListData,
+    @Default(2) int gridCrossAxisCount,
   }) = _MainState;
 }
