@@ -7,6 +7,8 @@ import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
+import 'widget/main_grid_view_widget.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -34,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
+      viewModel.fetchPokemonDataList();
     });
     super.initState();
   }
