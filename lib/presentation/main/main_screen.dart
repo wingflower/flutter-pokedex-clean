@@ -57,46 +57,49 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () {},
             icon: const Icon(Icons.info_outline),
           ),
-          IconButton(onPressed: () {
-            showSimpleDialog(
-              context,
-              title: '로그아웃',
-              content: '로그아웃 하시겠습니까?',
-              confirmAction: viewModel.logout,
-            );
-          }, icon: const Icon(Icons.logout_outlined))
+          IconButton(
+              onPressed: () {
+                showSimpleDialog(
+                  context,
+                  title: '로그아웃',
+                  content: '로그아웃 하시겠습니까?',
+                  confirmAction: viewModel.logout,
+                );
+              },
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-          ),
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                context.push('/main/detail');
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text(
-                      'Item $index',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+      body: MainGridViewWidget(pokemonList: viewModel.state.pokemonListData),
+      //  Padding(
+      //   padding: const EdgeInsets.all(12.0),
+      //   child: GridView.builder(
+      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: 2,
+      //       crossAxisSpacing: 8.0,
+      //       mainAxisSpacing: 8.0,
+      //     ),
+      //     itemCount: 20,
+      //     itemBuilder: (context, index) {
+      //       return GestureDetector(
+      //         onTap: () {
+      //           context.push('/main/detail');
+      //         },
+      //         child: ClipRRect(
+      //           borderRadius: BorderRadius.circular(20),
+      //           child: Container(
+      //             color: Colors.blue,
+      //             child: Center(
+      //               child: Text(
+      //                 'Item $index',
+      //                 style: const TextStyle(color: Colors.white),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         children: [
@@ -117,9 +120,9 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-              onTap: () {
-                context.push('/main/roulette');
-              },
+            onTap: () {
+              context.push('/main/roulette');
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),
