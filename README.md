@@ -72,7 +72,7 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 - type_data
 https://gist.githubusercontent.com/sc2bat/f495ec7cf9ce22bad0e69f42f656194f/raw/abf6f776ab9e11dc68eb675a44a58f730c22318c/type_data.json
 - pokemon_data
-https://gist.githubusercontent.com/sc2bat/28d2991fb9e361f0e50fd52ac7c40774/raw/a72d0f8ddfcbff5dc523f626c96f4ef1f1f2e0f4/pokemon_data.json
+https://gist.githubusercontent.com/sc2bat/28d2991fb9e361f0e50fd52ac7c40774/raw/48a3eb10ff8094a300775471c1d8b7e0bbb29f09/pokemon_data.json
 
 4. [ ] 룰렛
 
