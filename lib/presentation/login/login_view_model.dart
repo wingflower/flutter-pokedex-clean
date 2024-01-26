@@ -1,18 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/domain/use_case/user/login_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/register_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
 import 'package:pokedex_clean/presentation/login/login_ui_event.dart';
 
 
 class LoginViewModel extends ChangeNotifier {
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
+  final StoreUserAccountUseCase _storeUserAccountUseCase;
 
-  LoginViewModel({required LoginUseCase loginUseCase, required RegisterUseCase registerUseCase})
+  LoginViewModel({required LoginUseCase loginUseCase, required RegisterUseCase registerUseCase, required StoreUserAccountUseCase storeUserAccountUseCase})
       : _loginUseCase = loginUseCase,
-        _registerUseCase = registerUseCase;
+        _registerUseCase = registerUseCase,
+        _storeUserAccountUseCase = storeUserAccountUseCase;
 
   final StreamController<LoginUiEvent> _controller = StreamController();
 
@@ -26,7 +30,8 @@ class LoginViewModel extends ChangeNotifier {
     final result = await _registerUseCase.execute(email, password);
 
     result.when(
-      success: (data) {
+      success: (data) async {
+        await _storeUserAccountUseCase.execute(EmailPassword(email: email, password: password));
         _controller.add(const LoginUiEvent.successRegister());
       },
       error: (e) {
@@ -42,8 +47,9 @@ class LoginViewModel extends ChangeNotifier {
 
     final result = await _loginUseCase.execute(email, password);
     result.when(
-      success: (verified) {
+      success: (verified) async {
         if (verified) {
+          await _storeUserAccountUseCase.execute(EmailPassword(email: email, password: password));
           _controller.add(const LoginUiEvent.successLogin());
         } else {
           _controller.add(const LoginUiEvent.successRegister());

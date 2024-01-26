@@ -1,17 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/domain/use_case/user/check_verify_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/request_verify_use_case.dart';
-import 'package:pokedex_clean/presentation/verify/verify_ui_event.dart';
+import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
+import 'package:pokedex_clean/presentation/login/verify/verify_ui_event.dart';
 
 class VerifyViewModel extends ChangeNotifier {
   final RequestVerifyUseCase _verifyUseCase;
   final CheckVerifyUseCase _checkVerifyUseCase;
+  final StoreUserAccountUseCase _storeUserAccountUseCase;
 
-  VerifyViewModel({required RequestVerifyUseCase verifyUseCase, required CheckVerifyUseCase checkVerifyUseCase})
+  VerifyViewModel(
+      {required RequestVerifyUseCase verifyUseCase,
+      required CheckVerifyUseCase checkVerifyUseCase,
+      required StoreUserAccountUseCase storeUserAccountUseCase})
       : _verifyUseCase = verifyUseCase,
-        _checkVerifyUseCase = checkVerifyUseCase {
+        _checkVerifyUseCase = checkVerifyUseCase,
+        _storeUserAccountUseCase = storeUserAccountUseCase {
     sendVerifyEmail();
   }
 
@@ -27,14 +34,16 @@ class VerifyViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> verifyFinish() async {
+  Future<void> verifyFinish(EmailPassword emailPassword) async {
     final result = await _checkVerifyUseCase.execute();
     result.when(
-      success: (isVerify) {
-        _controller.add(isVerify
-            ? const VerifyUiEvent.successVerify()
-            : const VerifyUiEvent.showSnackBar('인증이 완료되지 않았습니다')
-        );
+      success: (isVerified) async {
+        if (isVerified) {
+          await _storeUserAccountUseCase.execute(emailPassword);
+          _controller.add(const VerifyUiEvent.successVerify());
+        } else {
+          _controller.add(const VerifyUiEvent.showSnackBar('인증이 완료되지 않았습니다'));
+        }
       },
       error: (e) => VerifyUiEvent.showSnackBar(e),
     );

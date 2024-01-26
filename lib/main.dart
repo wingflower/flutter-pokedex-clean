@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart'  hide EmailAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
 import 'package:pokedex_clean/firebase_options.dart';
 import 'package:pokedex_clean/presentation/router/routes.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: routes,
       title: 'Pokedex Clean',
       theme: ThemeData(
