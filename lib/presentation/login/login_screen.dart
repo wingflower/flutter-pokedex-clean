@@ -6,6 +6,7 @@ import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/login/login_ui_event.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
+import 'package:pokedex_clean/presentation/routes.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,14 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case SuccessLogin():
-            context.go('/main');
+            context.goNamed(pageMain);
           case SuccessRegister():
             _pageController.nextPage(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.ease);
             viewModel.sendVerifyEmail();
           case SuccessVerify():
-            context.go('/main');
+            context.goNamed(pageMain);
           case SuccessResetPassword():
             showSimpleDialog(
               context,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/presentation/routes.dart';
 import 'package:pokedex_clean/presentation/splash/login_status.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
 import 'package:provider/provider.dart';
@@ -24,10 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
       _subscription = viewModel.loginStatus.listen((event) {
         switch (event) {
           case LoginStatus.loggedOut:
-            context.go('/login');
+            context.goNamed(pageLogin);
             FlutterNativeSplash.remove();
           case LoginStatus.loggedIn:
-            context.go('/main');
+            context.goNamed(pageMain);
             FlutterNativeSplash.remove();
           case LoginStatus.processing:
         }

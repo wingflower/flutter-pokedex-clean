@@ -4,6 +4,7 @@ import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_image_widget.dart';
+import 'package:pokedex_clean/presentation/routes.dart';
 
 enum TypeEnum {
   none,
@@ -49,7 +50,7 @@ class MainGridViewWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           pokemonList[index].setIsCollected = true;
           return GestureDetector(
-            onTap: () => context.go('/main/detail'),
+            onTap: () => context.goNamed(pageDetail),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),

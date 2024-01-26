@@ -5,6 +5,7 @@ import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
+import 'package:pokedex_clean/presentation/routes.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/main_grid_view_widget.dart';
@@ -32,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
               content: '다음에 또 만나요~!',
               isVisibleCancelButton: false,
               cancelable: false,
-              confirmAction: () => context.go('/login'),
+              confirmAction: () => context.goNamed(pageLogin),
             );
         }
       });
@@ -90,9 +91,7 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            onTap: () {
-              context.push('/main/roulette');
-            },
+            onTap: () => context.pushNamed(pageRoulette),
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),
