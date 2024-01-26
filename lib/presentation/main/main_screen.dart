@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: MainGridViewWidget(pokemonList: viewModel.state.pokemonListData),
+      body: MainGridViewWidget(state: viewModel.state),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         children: [

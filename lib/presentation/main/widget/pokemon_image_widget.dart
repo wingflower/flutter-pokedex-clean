@@ -6,16 +6,46 @@ class PokemonImageWidget extends StatelessWidget {
   const PokemonImageWidget({
     super.key,
     required this.isCollected,
-    required this.pokemonImageSize,
     required this.imageurl,
+    required this.gridCrossAxisCount,
   });
 
   final bool isCollected;
-  final double pokemonImageSize;
   final String imageurl;
+  final int gridCrossAxisCount;
 
   @override
   Widget build(BuildContext context) {
+    double pokemonImageSize = 154.0;
+    switch (gridCrossAxisCount) {
+      case 2:
+        pokemonImageSize =
+            ((MediaQuery.of(context).size.width / gridCrossAxisCount)
+                  ..toStringAsFixed(2)) -
+                24.0;
+        break;
+      case 3:
+        pokemonImageSize =
+            ((MediaQuery.of(context).size.width / gridCrossAxisCount)
+                  ..toStringAsFixed(2)) -
+                24.0;
+        break;
+      case 4:
+        pokemonImageSize =
+            ((MediaQuery.of(context).size.width / gridCrossAxisCount)
+                  ..toStringAsFixed(2)) -
+                8.0;
+        break;
+      case 5:
+        pokemonImageSize =
+            ((MediaQuery.of(context).size.width / gridCrossAxisCount)
+                  ..toStringAsFixed(2)) -
+                8.0;
+        break;
+      default:
+        pokemonImageSize = 50.0;
+        break;
+    }
     return Container(
       alignment: Alignment.center,
       child: isCollected
@@ -27,7 +57,6 @@ class PokemonImageWidget extends StatelessWidget {
                 opacity: 0.5,
                 child: Image.asset(
                   pokeball,
-                  // color: Colors.black.withOpacity(0.6),
                   width: pokemonImageSize,
                   height: pokemonImageSize,
                 ),

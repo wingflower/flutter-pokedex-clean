@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart' hide EmailAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
 import 'package:pokedex_clean/firebase_options.dart';
@@ -12,6 +13,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   diSetup();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   runApp(const MyApp());
 }
