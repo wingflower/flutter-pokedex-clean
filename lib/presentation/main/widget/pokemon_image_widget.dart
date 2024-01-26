@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pokedex_clean/core/assets.dart';
+import 'package:pokedex_clean/presentation/common/assets.dart';
 
 class PokemonImageWidget extends StatelessWidget {
   const PokemonImageWidget({
