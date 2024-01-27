@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 
+import 'widget/detail_ability_column_widget.dart';
 import 'widget/detail_about_column_widget.dart';
 import 'widget/detail_evolution_image_widget.dart';
 import 'widget/detail_image_container_widget.dart';
@@ -77,42 +78,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const DetailInfoTitleTextWidget(title: '특성'),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(pokemonData.abilities.length,
-                              (index) {
-                            return GestureDetector(
-                              onTap: () => print(
-                                'qwerasdf ${pokemonData.abilities[index].ability_id}',
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    pokemonData.abilities[index].name,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                    ),
-                                    child: Text(
-                                      '- ${pokemonData.abilities[index].flavor_text}',
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
+                      DetailAbilityColumnWidget(pokemonData: pokemonData),
                     ],
                   ),
                   const SizedBox(
