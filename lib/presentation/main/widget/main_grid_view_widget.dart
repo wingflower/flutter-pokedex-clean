@@ -77,8 +77,8 @@ class MainGridViewWidget extends StatelessWidget {
                             pokemonList[index].types.length,
                             (typeIndex) => GridTypeImageWidget(
                               isCollected: pokemonList[index].isCollected,
-                              typeImageUrl:
-                                  'assets/images/types/${TypeEnum.values[int.parse(pokemonList[index].types[typeIndex])].toString().split('.').last}_type.png',
+                              typeImageUrl: getTypeImagebyTypeId(
+                                  pokemonList[index].types[typeIndex]),
                               typeimageSize: 32.0,
                               iconSize: 24.0,
                             ),

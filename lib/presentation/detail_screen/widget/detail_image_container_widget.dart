@@ -112,7 +112,7 @@ class DetailImageContainerWidget extends StatelessWidget {
                     children: List.generate(
                       pokemonData.types.length,
                       (index) => Image.asset(
-                        'assets/images/types/${TypeEnum.values[int.parse(pokemonData.types[index])].toString().split('.').last}_type.png',
+                        getTypeImagebyTypeId(pokemonData.types[index]),
                       ),
                     ),
                   ),

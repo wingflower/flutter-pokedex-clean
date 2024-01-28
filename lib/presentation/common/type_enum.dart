@@ -19,3 +19,7 @@ enum TypeEnum {
   dark,
   fairy,
 }
+
+String getTypeImagebyTypeId(String typeId) {
+  return 'assets/images/types/${TypeEnum.values[int.parse(typeId)].toString().split('.').last}_type.png';
+}
