@@ -36,6 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
             showSnackBar(context, event.message);
           case SuccessLogin():
             context.go('/main');
+          case SuccessLoginButNotVerified():
+            _pageController.nextPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease);
           case SuccessRegister():
             _pageController.nextPage(
                 duration: const Duration(milliseconds: 300),

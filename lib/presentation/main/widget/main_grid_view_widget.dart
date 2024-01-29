@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
-import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.dart';
-import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
-import 'package:pokedex_clean/presentation/main/widget/pokemon_image_widget.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
+import 'package:pokedex_clean/presentation/main/widget/fifth_column_grid_view_widget.dart';
+import 'package:pokedex_clean/presentation/main/widget/fourth_column_grid_view_widget.dart';
+import 'package:pokedex_clean/presentation/main/widget/third_column_grid_view_widget.dart';
+
+import 'two_column_grid_view_widget.dart';
 
 import '../../common/type_enum.dart';
 
 class MainGridViewWidget extends StatelessWidget {
   const MainGridViewWidget({
     super.key,
-    required this.pokemonList,
+    required this.state,
   });
 
-  final List<Pokemon> pokemonList;
+  final MainState state;
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +94,28 @@ class MainGridViewWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          );
-        },
+                  child: gridCrossAxisCount == 2
+                      ? TwoColumnGridViewWidget(
+                          pokemon: pokemonList[index],
+                          gridCrossAxisCount: gridCrossAxisCount,
+                        )
+                      : gridCrossAxisCount == 3
+                          ? ThirdColumnGridViewWidget(
+                              pokemon: pokemonList[index],
+                              gridCrossAxisCount: gridCrossAxisCount,
+                            )
+                          : gridCrossAxisCount == 4
+                              ? FourthColumnGridViewWidget(
+                                  pokemon: pokemonList[index],
+                                  gridCrossAxisCount: gridCrossAxisCount,
+                                )
+                              : FifthColumnGridViewWidget(
+                                  pokemon: pokemonList[index],
+                                  gridCrossAxisCount: gridCrossAxisCount,
+                                )),
+            );
+          },
+        ),
       ),
     );
   }

@@ -79,7 +79,7 @@ class LoginViewModel extends ChangeNotifier {
           await _storeUserAccountUseCase.execute(EmailPassword(email: email, password: password));
           _controller.add(const LoginUiEvent.successLogin());
         } else {
-          _controller.add(const LoginUiEvent.successRegister());
+          _controller.add(const LoginUiEvent.successLoginButNotVerified());
         }
       },
       error: (e) => _controller.add(LoginUiEvent.showSnackBar(e)),
