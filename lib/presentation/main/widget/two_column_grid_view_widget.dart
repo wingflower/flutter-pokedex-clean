@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/presentation/common/type_enum.dart';
 import 'package:pokedex_clean/presentation/main/widget/grid_type_image_widget.dart';
-import 'package:pokedex_clean/presentation/main/widget/main_grid_view_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/pokemon_image_widget.dart';
 
@@ -32,9 +32,7 @@ class TwoColumnGridViewWidget extends StatelessWidget {
               pokemon.types.length,
               (typeIndex) => GridTypeImageWidget(
                 isCollected: pokemon.isCollected,
-                typeImageUrl:
-                    // 'assets/images/types/fire_type.png',
-                    'assets/images/types/${TypeEnum.values[int.parse(pokemon.types[typeIndex])].toString().split('.').last}_type.png',
+                typeImageUrl: getTypeImagebyTypeId(pokemon.types[typeIndex]),
                 typeimageSize: 48.0,
                 iconSize: 24.0,
               ),
