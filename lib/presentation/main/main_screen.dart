@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex_clean/app_timer.dart';
-import 'package:pokedex_clean/presentation/common.dart';
+import 'package:pokedex_clean/presentation/common/common.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
+
+import 'widget/main_grid_view_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -34,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
+      viewModel.fetchPokemonDataList();
     });
     super.initState();
   }
@@ -41,12 +44,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final MainViewModel viewModel = context.watch();
-
-    AppTimer appTimer = context.watch();
-
+    final MainState state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
-        title: Text(_calculateTime(appTimer.timeState)),
+        title: Text(_calculateTime(state.rewardTime)),
         actions: [
           IconButton(
             onPressed: () {},
@@ -68,38 +69,8 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-          ),
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                context.push('/main/detail');
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text(
-                      'Item $index',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+      body: MainGridViewWidget(state: viewModel.state),
       floatingActionButton: SpeedDial(
-        overlayOpacity: 0,
         animatedIcon: AnimatedIcons.menu_close,
         children: [
           SpeedDialChild(
@@ -119,9 +90,9 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            onTap: () {
-              context.push('/main/roulette');
-            },
+              onTap: () {
+                context.push('/main/roulette');
+              },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),

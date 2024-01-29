@@ -30,9 +30,7 @@ void showSimpleDialog(
           actionsAlignment: MainAxisAlignment.end,
           actions: [
             if (isVisibleCancelButton)
-            TextButton(
-                onPressed: context.pop,
-                child: const Text('취소')),
+              TextButton(onPressed: context.pop, child: const Text('취소')),
             TextButton(
                 onPressed: () {
                   context.pop();
@@ -42,4 +40,31 @@ void showSimpleDialog(
           ],
         );
       });
+}
+
+Color getColorFromString(String colorString) {
+  switch (colorString) {
+    case 'white':
+      return Colors.white.withOpacity(0.3);
+    case 'yellow':
+      return Colors.yellow.withOpacity(0.3);
+    case 'green':
+      return Colors.green.withOpacity(0.3);
+    case 'purple':
+      return Colors.purple.withOpacity(0.3);
+    case 'brown':
+      return Colors.brown.withOpacity(0.3);
+    case 'red':
+      return Colors.red.withOpacity(0.3);
+    case 'black':
+      return Colors.black.withOpacity(0.3);
+    case 'blue':
+      return Colors.blue.withOpacity(0.3);
+    case 'gray':
+      return Colors.grey.withOpacity(0.3);
+    case 'pink':
+      return Colors.pink.withOpacity(0.3);
+    default:
+      return Colors.transparent; // 기본값 설정
+  }
 }
