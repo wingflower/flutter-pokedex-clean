@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/presentation/splash/login_status.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
@@ -24,8 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
         switch (event) {
           case LoginStatus.loggedOut:
             context.go('/login');
+            FlutterNativeSplash.remove();
           case LoginStatus.loggedIn:
             context.go('/main');
+            FlutterNativeSplash.remove();
           case LoginStatus.processing:
         }
       });
@@ -41,10 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Loading...'),
-      ),
+    return const Scaffold(
     );
   }
 }

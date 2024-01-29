@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex_clean/presentation/common.dart';
+import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
+
+import 'widget/main_grid_view_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -33,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
+      viewModel.fetchPokemonDataList();
     });
     super.initState();
   }
@@ -45,18 +49,58 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text(_calculateTime(state.rewardTime)),
         actions: [
-          IconButton(onPressed: () {
-            showSimpleDialog(
-              context,
-              title: '로그아웃',
-              content: '로그아웃 하시겠습니까?',
-              confirmAction: viewModel.logout,
-            );
-          }, icon: const Icon(Icons.logout_outlined))
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.access_time),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.info_outline),
+          ),
+          IconButton(
+              onPressed: () {
+                showSimpleDialog(
+                  context,
+                  title: '로그아웃',
+                  content: '로그아웃 하시겠습니까?',
+                  confirmAction: viewModel.logout,
+                );
+              },
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: Center(
-        child: Text('Main화면'),
+      body: MainGridViewWidget(state: viewModel.state),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.bolt_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.sort_by_alpha),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.circle_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+              onTap: () {
+                context.push('/main/roulette');
+              },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.star_border_outlined),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ],
       ),
     );
   }
