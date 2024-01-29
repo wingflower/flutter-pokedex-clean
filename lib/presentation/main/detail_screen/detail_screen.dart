@@ -19,122 +19,132 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '#${pokemonData.id} ${pokemonData.description.name}',
-        ),
-        backgroundColor: getColorFromString(pokemonData.color),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.info_outline,
-              size: 32.0,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: Text(
+            '#${pokemonData.id} ${pokemonData.description.name}',
+          ),
+          backgroundColor: getColorFromString(pokemonData.color),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.info_outline,
+                size: 32.0,
+              ),
+            ),
+          ],
+          expandedHeight: 200.0,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Image.network(
+              'https://via.placeholder.com/400x200',
+              fit: BoxFit.cover,
             ),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            DetailImageContainerWidget(pokemonData: pokemonData),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  // About
-                  Column(
+          floating: false,
+          pinned: true,
+          snap: false,
+        ),
+        SliverToBoxAdapter(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                DetailImageContainerWidget(pokemonData: pokemonData),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // const DetailInfoTitleTextWidget(title: 'About'),
-                      DetailAboutColumnWidget(pokemonData: pokemonData),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  // Ability
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const DetailInfoTitleTextWidget(title: '특성'),
-                      DetailAbilityColumnWidget(pokemonData: pokemonData),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  // Stat
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const DetailInfoTitleTextWidget(title: '스탯'),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            // Hp
-                            DetailStatInfoRowWidget(
-                                infoTitle: '체력', infoFigure: pokemonData.hp),
-                            // Attack
-                            DetailStatInfoRowWidget(
-                                infoTitle: '공격력',
-                                infoFigure: pokemonData.attack),
-                            // Defense
-                            DetailStatInfoRowWidget(
-                                infoTitle: '방어력',
-                                infoFigure: pokemonData.defense),
-                            // Sp.Attak
-                            DetailStatInfoRowWidget(
-                                infoTitle: '특수공격력',
-                                infoFigure: pokemonData.special_attack),
-                            //Sp.Defense
-                            DetailStatInfoRowWidget(
-                                infoTitle: '특수방어력',
-                                infoFigure: pokemonData.special_defense),
-                            //Speed
-                            DetailStatInfoRowWidget(
-                                infoTitle: '속도', infoFigure: pokemonData.speed),
-                          ],
-                        ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // About
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // const DetailInfoTitleTextWidget(title: 'About'),
+                          DetailAboutColumnWidget(pokemonData: pokemonData),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // Ability
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DetailInfoTitleTextWidget(title: '특성'),
+                          DetailAbilityColumnWidget(pokemonData: pokemonData),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // Stat
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DetailInfoTitleTextWidget(title: '스탯'),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                // Hp
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '체력',
+                                    infoFigure: pokemonData.hp),
+                                // Attack
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '공격력',
+                                    infoFigure: pokemonData.attack),
+                                // Defense
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '방어력',
+                                    infoFigure: pokemonData.defense),
+                                // Sp.Attak
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '특수공격력',
+                                    infoFigure: pokemonData.special_attack),
+                                //Sp.Defense
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '특수방어력',
+                                    infoFigure: pokemonData.special_defense),
+                                //Speed
+                                DetailStatInfoRowWidget(
+                                    infoTitle: '속도',
+                                    infoFigure: pokemonData.speed),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // Evolution
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DetailInfoTitleTextWidget(title: '진화'),
+                          DetailEvolutionImageWidget(pokemonData: pokemonData),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      DetailTypeColumnWidget(pokemonData: pokemonData),
+                      const SizedBox(
+                        height: 16.0,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  // Evolution
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const DetailInfoTitleTextWidget(title: '진화'),
-                      DetailEvolutionImageWidget(pokemonData: pokemonData),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  DetailTypeColumnWidget(pokemonData: pokemonData),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  // const Column(
-                  //   children: [
-                  //     DetailInfoTitleTextWidget(title: 'Against'),
-                  //     Text(''),
-                  //   ],
-                  // ),
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

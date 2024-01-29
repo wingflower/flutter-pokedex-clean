@@ -38,9 +38,13 @@ final routes = GoRouter(
         GoRoute(
           path: 'detail',
           builder: (_, state) {
-            return DetailScreen(
-              pokemonData: state.extra! as Pokemon,
-            );
+            if (state.extra != null) {
+              return DetailScreen(
+                pokemonData: state.extra! as Pokemon,
+              );
+            } else {
+              return const MainScreen();
+            }
           },
         ),
       ],
