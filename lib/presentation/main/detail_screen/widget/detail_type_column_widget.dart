@@ -4,7 +4,6 @@ import 'package:pokedex_clean/presentation/common/type_enum.dart';
 import 'package:pokedex_clean/presentation/common/widget/type_page_view_container.dart';
 import 'package:pokedex_clean/presentation/main/detail_screen/widget/detail_info_title_text_widget.dart';
 
-
 class DetailTypeColumnWidget extends StatelessWidget {
   const DetailTypeColumnWidget({
     super.key,
@@ -124,8 +123,8 @@ class DetailTypeColumnWidget extends StatelessWidget {
                             ),
                             scrollable: true,
                             content: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              height: MediaQuery.of(context).size.height * 0.7,
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              height: MediaQuery.of(context).size.height * 0.6,
                               child: PageView(
                                 children: [
                                   TypePageViewContainer(
