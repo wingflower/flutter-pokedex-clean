@@ -20,6 +20,20 @@ class MainGridViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Pokemon> pokemonList = state.pokemonListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
+
+    List<String> collectionList = [
+      "0001",
+      "0002",
+      "0003",
+      "0004",
+      "0005",
+      "0006",
+      "0007",
+      "0008",
+      "0009",
+      "0025",
+    ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GridView.builder(
@@ -30,10 +44,37 @@ class MainGridViewWidget extends StatelessWidget {
         ),
         itemCount: pokemonList.length,
         itemBuilder: (context, index) {
-          pokemonList[index].setIsCollected = true;
+          // pokemonList[index].setIsCollected = true;
+          // if (index != 0 && index % 2 == 0 || index > 10) {
+          //   pokemonList[index].setIsCollected = false;
+          // }
+          for (int i = 0; i < collectionList.length; i++) {
+            if (pokemonList[index].id == collectionList[i]) {
+              pokemonList[index].setIsCollected = true;
+              // print('qwerasdf ${pokemonList[index].description.name}');
+            }
+          }
           return GestureDetector(
-            onTap: () =>
-                context.push('/main/detail', extra: pokemonList[index]),
+            onTap: () => pokemonList[index].isCollected
+                ? context.push('/main/detail', extra: pokemonList[index])
+                : showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('안내'),
+                        content: Text(
+                            '${'?' * pokemonList[index].description.name.length} 은(는) 미보유 상태입니다.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('확인'),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
