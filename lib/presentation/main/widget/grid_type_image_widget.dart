@@ -23,20 +23,7 @@ class GridTypeImageWidget extends StatelessWidget {
               width: typeimageSize,
               height: typeimageSize,
             )
-          : Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.black45,
-                  width: 2.0,
-                ),
-              ),
-              child: Icon(
-                Icons.question_mark_rounded,
-                color: Colors.black45,
-                size: iconSize,
-              ),
-            ),
+          : null,
     );
   }
 }
