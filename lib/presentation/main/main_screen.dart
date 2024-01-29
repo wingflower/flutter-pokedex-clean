@@ -90,9 +90,9 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            onTap: () {
-              context.push('/main/roulette');
-            },
+              onTap: () {
+                context.push('/main/roulette');
+              },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),
