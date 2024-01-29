@@ -7,27 +7,7 @@ import 'package:pokedex_clean/presentation/main/widget/third_column_grid_view_wi
 
 import 'two_column_grid_view_widget.dart';
 
-enum TypeEnum {
-  none,
-  normal,
-  fighting,
-  flying,
-  poison,
-  ground,
-  rock,
-  bug,
-  ghost,
-  steel,
-  fire,
-  water,
-  grass,
-  electric,
-  psychic,
-  ice,
-  dragon,
-  dark,
-  fairy,
-}
+import '../../common/type_enum.dart';
 
 class MainGridViewWidget extends StatelessWidget {
   const MainGridViewWidget({
@@ -39,37 +19,80 @@ class MainGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Pokemon> pokemonList = state.pokemonListData;
-    int gridCrossAxisCount = state.gridCrossAxisCount;
-
-    gridCrossAxisCount = 3;
-
-    return Scrollbar(
-      thumbVisibility: true,
-      thickness: 8.0,
-      radius: const Radius.circular(16.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: gridCrossAxisCount,
-            crossAxisSpacing: 4.0,
-            mainAxisSpacing: 4.0,
-          ),
-          itemCount: pokemonList.length,
-          itemBuilder: (context, index) {
-            if (index % 4 == 0 || index % 7 == 0) {
-              pokemonList[index].setIsCollected = true;
-            }
-            return GestureDetector(
-              // onTap: () => context.go('/main/detail'),
-              onTap: null,
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: pokemonList[index].isCollected
-                        ? _getColorFromString(pokemonList[index].color)
-                        : _getColorFromString('black'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+        ),
+        itemCount: pokemonList.length,
+        itemBuilder: (context, index) {
+          pokemonList[index].setIsCollected = true;
+          return GestureDetector(
+            onTap: () => context.go('/main/detail', extra: pokemonList[index]),
+            // onTap: () => context.go(Uri(
+            //         path: '/main/detail',
+            //         queryParameters: {'pokemonData': pokemonList[index]})
+            //     .toString()),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: pokemonList[index].isCollected
+                    ? _getColorFromString(pokemonList[index].color)
+                    : _getColorFromString('black'),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          pokemonList[index].isCollected
+                              ? pokemonList[index].description.name
+                              : '?' *
+                                  pokemonList[index].description.name.length,
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 32.0,
+                        ),
+                        PokemonIdTextWidget(
+                          id: pokemonList[index].id,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: List.generate(
+                            pokemonList[index].types.length,
+                            (typeIndex) => GridTypeImageWidget(
+                              isCollected: pokemonList[index].isCollected,
+                              typeImageUrl: getTypeImagebyTypeId(
+                                  pokemonList[index].types[typeIndex]),
+                              typeimageSize: 32.0,
+                              iconSize: 24.0,
+                            ),
+                          ),
+                        ),
+                        PokemonImageWidget(
+                          isCollected: pokemonList[index].isCollected,
+                          pokemonImageSize: 152.0,
+                          imageurl: pokemonList[index].imageurl,
+                        ),
+                      ],
+                    ),
                   ),
                   child: gridCrossAxisCount == 2
                       ? TwoColumnGridViewWidget(
