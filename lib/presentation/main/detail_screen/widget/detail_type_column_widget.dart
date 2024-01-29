@@ -19,12 +19,18 @@ class DetailTypeColumnWidget extends StatelessWidget {
       "name": "독",
       "imageurl": "assets/images/types/poison_type.png",
       "double_damage_to": [
-        {"id": "12"},
-        {"id": "18"},
-        {"id": "4"},
         {"id": "5"},
         {"id": "6"},
-        {"id": "8"}
+        {"id": "7"},
+        {"id": "8"},
+        {"id": "9"},
+        {"id": "10"},
+        {"id": "11"},
+        {"id": "12"},
+        {"id": "13"},
+        {"id": "14"},
+        {"id": "15"},
+        {"id": "16"}
       ],
       "double_damage_from": [
         {"id": "5"},
@@ -103,7 +109,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
                                       height: 64.0,
                                     ),
                                     Text(
-                                      '타입 ${testType["name"]} 의 정보',
+                                      '${testType["name"]} 타입의 상성정보',
                                       style: const TextStyle(
                                         fontSize: 16.0,
                                       ),
@@ -122,22 +128,25 @@ class DetailTypeColumnWidget extends StatelessWidget {
                               ],
                             ),
                             scrollable: true,
-                            content: SizedBox(
+                            content: Container(
                               width: MediaQuery.of(context).size.width * 0.6,
                               height: MediaQuery.of(context).size.height * 0.6,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
                               child: PageView(
                                 children: [
                                   TypePageViewContainer(
-                                      title: 'good',
-                                      goodForType: goodForType,
+                                      title: '유리함',
+                                      typeList: goodForType,
                                       color: Colors.blue),
                                   TypePageViewContainer(
-                                      title: 'bad',
-                                      goodForType: badForType,
+                                      title: '불리함',
+                                      typeList: badForType,
                                       color: Colors.red),
                                   TypePageViewContainer(
-                                      title: 'none',
-                                      goodForType: noneForType,
+                                      title: '효과없음',
+                                      typeList: noneForType,
                                       color: Colors.grey),
                                 ],
                               ),
