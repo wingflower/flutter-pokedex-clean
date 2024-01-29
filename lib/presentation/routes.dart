@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
-import 'package:pokedex_clean/domain/model/email_password.dart';
+import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/detail_screen/detail_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
@@ -16,11 +16,13 @@ final routes = GoRouter(
   routes: [
     GoRoute(
       path: '/splash',
-      builder: (_, __) => ChangeNotifierProvider(create: (_) => getIt<SplashViewModel>(), child: const SplashScreen()),
+      builder: (_, __) => ChangeNotifierProvider(
+          create: (_) => getIt<SplashViewModel>(), child: const SplashScreen()),
     ),
     GoRoute(
       path: '/login',
-      builder: (_, __) => ChangeNotifierProvider(create: (_) => getIt<LoginViewModel>(), child: const LoginScreen()),
+      builder: (_, __) => ChangeNotifierProvider(
+          create: (_) => getIt<LoginViewModel>(), child: const LoginScreen()),
     ),
     GoRoute(
       path: '/main',
@@ -35,7 +37,9 @@ final routes = GoRouter(
         ),
         GoRoute(
           path: 'detail',
-          builder: (_, __) => const DetailScreen(),
+          builder: (_, state) => DetailScreen(
+            pokemonData: state.pathParameters['pokemonData'] as Pokemon,
+          ),
         ),
       ],
     ),
