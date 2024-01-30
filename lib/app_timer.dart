@@ -13,41 +13,53 @@ class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
 
   AppTimer() {
     WidgetsBinding.instance.addObserver(this);
-    _startTimer();
   }
 
-  void _startTimer() {
-    _timer?.cancel();
-    _timer = Timer.periodic(
+  void startTimer() {
+    _timer ??= Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (_timeState < _maxTimeState) {
-          _timeState += 1;
-          notifyListeners();
-        }
-        if (_timeState == _maxTimeState) {
-          _timeState = 0;
-          notifyListeners();
-        }
-        if (_timeState % 10 == 0) {
-          _count += 1;
-          notifyListeners();
-        }
-        if (_count == _maxCount) {
-          _timer?.cancel();
-        }
+        timeCount();
       },
     );
   }
 
-  void _stopTimer() {
-    _timer?.cancel();
+  void timeCount() {
+    if (_timeState < _maxTimeState) {
+      _timeState += 1;
+      notifyListeners();
+    }
+    if (_timeState == _maxTimeState) {
+      _timeState = 0;
+      notifyListeners();
+    }
+    if (_timeState % _maxTimeState == 0) {
+      _count += 1;
+      notifyListeners();
+    }
+    if (_count == _maxCount) {
+      _timer?.cancel();
+    }
   }
 
-  void spinRoulette() {
-    _count -= 1;
-    _startTimer();
+  void _stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void resetTimer() {
+    _timer?.cancel();
+    _timer = null;
+    _timeState = 0;
+    _count = 0;
     notifyListeners();
+  }
+
+  void subtractCount() {
+    _count -= 1;
+    notifyListeners();
+    _stopTimer();
+    startTimer();
   }
 
   @override
@@ -61,7 +73,7 @@ class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        _startTimer();
+        startTimer();
       case AppLifecycleState.paused:
         _stopTimer();
       case AppLifecycleState.inactive:

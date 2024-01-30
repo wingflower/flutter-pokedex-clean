@@ -12,7 +12,7 @@ class RouletteScreen extends StatefulWidget {
 class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(seconds: 1),
+    duration: const Duration(milliseconds: 500),
   );
 
   late final Animation<double> _scaleAnimation = CurvedAnimation(
@@ -23,11 +23,14 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+    _animationController.addStatusListener(
+      (status) {
+        if (status == AnimationStatus.completed) {
+          _animationController.reverse();
+          _showDialog();
+        }
+      },
+    );
   }
 
   @override
@@ -83,7 +86,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                         ? () {
                             if (_animationController.isDismissed || _animationController.isCompleted) {
                               _animationController.forward(from: 0.0);
-                              appTimer.spinRoulette();
+                              appTimer.subtractCount();
                             }
                           }
                         : null,
@@ -112,5 +115,25 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     int seconds = rewardTime % 60;
 
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(child: Text('포켓몬 이름')),
+          content: Image.asset('assets/images/splash/splash.png'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

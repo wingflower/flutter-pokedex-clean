@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -21,11 +22,13 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     Future.microtask(() {
       final MainViewModel viewModel = context.read();
+      final AppTimer appTimer = context.read();
       viewModel.stream.listen((event) {
         switch (event) {
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case SuccessLogout():
+            appTimer.resetTimer();
             showSimpleDialog(
               context,
               title: '로그아웃 성공',
@@ -37,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         }
       });
       viewModel.fetchPokemonDataList();
+      appTimer.startTimer();
     });
     super.initState();
   }
@@ -44,10 +48,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final MainViewModel viewModel = context.watch();
-    final MainState state = viewModel.state;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_calculateTime(state.rewardTime)),
+        title: Consumer<AppTimer>(
+          builder: (context, appTimer, child) {
+            return Text('CNT: ${appTimer.count}');
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -90,9 +98,9 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-              onTap: () {
-                context.push('/main/roulette');
-              },
+            onTap: () {
+              context.push('/main/roulette');
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),
