@@ -13,6 +13,5 @@ class MainState with _$MainState {
     @Default(0) int rewardTime,
     @Default([]) List<Pokemon> pokemonListData,
     @Default(2) int gridCrossAxisCount,
-    @Default(-1) int getPokemonIndex,
   }) = _MainState;
 }
