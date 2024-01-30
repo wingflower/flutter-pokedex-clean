@@ -22,19 +22,6 @@ class MainGridViewWidget extends StatelessWidget {
     List<Pokemon> pokemonList = state.pokemonListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
-    List<String> collectionList = [
-      "0001",
-      "0002",
-      "0003",
-      "0004",
-      "0005",
-      "0006",
-      "0007",
-      "0008",
-      "0009",
-      "0025",
-    ];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GridView.builder(
@@ -45,16 +32,7 @@ class MainGridViewWidget extends StatelessWidget {
         ),
         itemCount: pokemonList.length,
         itemBuilder: (context, index) {
-          // pokemonList[index].setIsCollected = true;
-          // if (index != 0 && index % 2 == 0 || index > 10) {
-          //   pokemonList[index].setIsCollected = false;
-          // }
-          for (int i = 0; i < collectionList.length; i++) {
-            if (pokemonList[index].id == collectionList[i]) {
-              pokemonList[index].setIsCollected = true;
-              // print('qwerasdf ${pokemonList[index].description.name}');
-            }
-          }
+          pokemonList[index].isCollected = true;
           return GestureDetector(
             onTap: () => pokemonList[index].isCollected
                 ? context.push('/main/detail', extra: pokemonList[index])
