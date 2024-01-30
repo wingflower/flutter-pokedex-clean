@@ -62,25 +62,42 @@ class MainViewModel extends ChangeNotifier {
     bool boolSortDirection = state.sortDirection;
     bool boolSortIsCollected = state.sortIsCollected;
 
-    if (state.sortIsCollected) {
-      pokemonList.sort((a, b) {
-        if (a.isCollected && !b.isCollected) {
-          return state.sortDirection ? -1 : 1;
-        } else if (!a.isCollected && b.isCollected) {
-          return state.sortDirection ? 1 : -1;
+    print('qwerasdf boolSortDirection $boolSortDirection');
+    print('qwerasdf boolSortIsCollected $boolSortIsCollected');
+
+    pokemonList.sort(
+      (a, b) {
+        if (a.isCollected != b.isCollected) {
+          return state.sortIsCollected
+              ? (a.isCollected ? -1 : 1)
+              : (a.isCollected ? 1 : -1);
         } else {
           return state.sortDirection
               ? a.id.compareTo(b.id)
               : b.id.compareTo(a.id);
         }
-      });
-    } else {
-      pokemonList.sort((a, b) {
-        return state.sortDirection
-            ? a.id.compareTo(b.id)
-            : b.id.compareTo(a.id);
-      });
-    }
+      },
+    );
+
+    // pokemonList.sort((a, b) {
+    //   if (a.isCollected && !b.isCollected) {
+    //     return state.sortIsCollected ? -1 : 1;
+    //   } else if (!a.isCollected && b.isCollected) {
+    //     return state.sortIsCollected ? 1 : -1;
+    //   } else {
+    //     return state.sortDirection
+    //         ? a.id.compareTo(b.id)
+    //         : b.id.compareTo(a.id);
+    //   }
+    // });
+    // if (state.sortIsCollected) {
+    // } else {
+    //   pokemonList.sort((a, b) {
+    //     return state.sortDirection
+    //         ? a.id.compareTo(b.id)
+    //         : b.id.compareTo(a.id);
+    //   });
+    // }
 
     switch (option) {
       case 'direction':
