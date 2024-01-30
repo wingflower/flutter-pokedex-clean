@@ -5,40 +5,47 @@ class TypePageViewContainer extends StatelessWidget {
   const TypePageViewContainer({
     super.key,
     required this.title,
-    required this.goodForType,
+    required this.typeList,
     required this.color,
   });
 
   final String title;
-  final List<String> goodForType;
+  final List<String> typeList;
   final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.0),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
         ),
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16.0,
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+            ),
+            itemCount: typeList.length,
+            itemBuilder: (context, index) => Image.asset(
+              getTypeImagebyTypeId(
+                typeList[index],
               ),
+              width: 16.0,
+              height: 16.0,
             ),
-            Column(
-              children: List.generate(goodForType.length, (index) {
-                return Image.asset(
-                  getTypeImagebyTypeId(goodForType[index]),
-                );
-              }),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
