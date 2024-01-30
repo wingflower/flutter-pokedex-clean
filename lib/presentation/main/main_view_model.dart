@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
-import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
@@ -52,9 +50,11 @@ class MainViewModel extends ChangeNotifier {
       success: (data) {
         _state = state.copyWith(email: data.$1);
         _getUserInfo();
-      }, error: (e) async {
+      },
+      error: (e) async {
         await _removeUserAccountUseCase.execute(keyEmail, keyPassword);
-        _controller.add(const MainUiEvent.errorInitialize('사용자 정보를 초기화하는데 실패했습니다.'));
+        _controller
+            .add(const MainUiEvent.errorInitialize('사용자 정보를 초기화하는데 실패했습니다.'));
       },
     );
   }
@@ -91,9 +91,10 @@ class MainViewModel extends ChangeNotifier {
     final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (pokemonList) {
-        
         for (final numberString in state.userInfo.pokemons) {
-          pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
+          pokemonList
+              .firstWhere((element) => element.id == numberString)
+              .isCollected = true;
         }
         _state = state.copyWith(
           pokemonListData: pokemonList,

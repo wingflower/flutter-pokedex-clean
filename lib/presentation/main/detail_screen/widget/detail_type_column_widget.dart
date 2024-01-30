@@ -158,7 +158,9 @@ class DetailTypeColumnWidget extends StatelessWidget {
                   );
                 },
                 child: Image.asset(
-                  getTypeImagebyTypeId(pokemonData.types[index]),
+                  getTypeImagebyTypeId(
+                    pokemonData.types[index],
+                  ),
                 ),
               );
             },
