@@ -3,13 +3,13 @@ import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
 
 class AddAndUpdateUserInfoUseCase {
-  final UserInfoRepository _repository;
+  final UserInfoRepository _userInfoRepository;
 
   const AddAndUpdateUserInfoUseCase({
-    required UserInfoRepository repository,
-  }) : _repository = repository;
+    required UserInfoRepository userInfoRepository,
+  }) : _userInfoRepository = userInfoRepository;
 
   Future<Result<void>> execute(String email, UserInfo userInfo) {
-    return _repository.updateUserInfo(email, userInfo);
+    return _userInfoRepository.updateUserInfo(email, userInfo);
   }
 }

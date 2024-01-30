@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -34,9 +36,18 @@ class _MainScreenState extends State<MainScreen> {
               cancelable: false,
               confirmAction: () => context.go('/login'),
             );
+          case ErrorInitialize():
+            showSimpleDialog(
+              context,
+              title: '오류',
+              content: event.message,
+              isVisibleCancelButton: false,
+              cancelable: false,
+              confirmAction: () => context.go('/login'),
+            );
         }
       });
-      viewModel.fetchPokemonDataList();
+      //viewModel.fetchPokemonDataList();
     });
     super.initState();
   }
