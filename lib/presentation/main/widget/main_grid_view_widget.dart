@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/widget/fifth_column_grid_view_widget.dart';
 import 'package:pokedex_clean/presentation/main/widget/fourth_column_grid_view_widget.dart';
@@ -79,8 +80,8 @@ class MainGridViewWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: pokemonList[index].isCollected
-                    ? _getColorFromString(pokemonList[index].color)
-                    : _getColorFromString('black'),
+                    ? getColorFromString(pokemonList[index].color)
+                    : getColorFromString('black'),
               ),
               child: gridCrossAxisCount == 2
                   ? TwoColumnGridViewWidget(
@@ -106,33 +107,5 @@ class MainGridViewWidget extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Color _getColorFromString(String colorString) {
-    // {'white', 'yellow', 'green', 'purple', 'brown', 'red', 'black', 'blue', 'gray', 'pink'}
-    switch (colorString) {
-      case 'white':
-        return Colors.white.withOpacity(0.3);
-      case 'yellow':
-        return Colors.yellow.withOpacity(0.3);
-      case 'green':
-        return Colors.green.withOpacity(0.3);
-      case 'purple':
-        return Colors.purple.withOpacity(0.3);
-      case 'brown':
-        return Colors.brown.withOpacity(0.3);
-      case 'red':
-        return Colors.red.withOpacity(0.3);
-      case 'black':
-        return Colors.black.withOpacity(0.3);
-      case 'blue':
-        return Colors.blue.withOpacity(0.3);
-      case 'gray':
-        return Colors.grey.withOpacity(0.3);
-      case 'pink':
-        return Colors.pink.withOpacity(0.3);
-      default:
-        return Colors.transparent; // 기본값 설정
-    }
   }
 }

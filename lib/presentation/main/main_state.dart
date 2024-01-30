@@ -10,5 +10,7 @@ class MainState with _$MainState {
     @Default(0) int rewardTime,
     @Default([]) List<Pokemon> pokemonListData,
     @Default(2) int gridCrossAxisCount,
+    @Default(true) bool sortDirection,
+    @Default(false) bool sortIsCollected,
   }) = _MainState;
 }

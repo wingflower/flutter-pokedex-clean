@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
+import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/logout_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/remove_user_account_use_case.dart';
@@ -51,5 +52,100 @@ class MainViewModel extends ChangeNotifier {
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
+  }
+
+  Future<void> sortPokemonDataList(String option) async {
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+
+    List<Pokemon> pokemonList = List.from(state.pokemonListData);
+    bool boolSortDirection = state.sortDirection;
+    bool boolSortIsCollected = state.sortIsCollected;
+
+    if (state.sortIsCollected) {
+      pokemonList.sort((a, b) {
+        if (a.isCollected && !b.isCollected) {
+          return state.sortDirection ? -1 : 1;
+        } else if (!a.isCollected && b.isCollected) {
+          return state.sortDirection ? 1 : -1;
+        } else {
+          return state.sortDirection
+              ? a.id.compareTo(b.id)
+              : b.id.compareTo(a.id);
+        }
+      });
+    } else {
+      pokemonList.sort((a, b) {
+        return state.sortDirection
+            ? a.id.compareTo(b.id)
+            : b.id.compareTo(a.id);
+      });
+    }
+
+    switch (option) {
+      case 'direction':
+        boolSortDirection = !boolSortDirection;
+        break;
+      case 'collected':
+        boolSortIsCollected = !boolSortIsCollected;
+        break;
+      default:
+        break;
+    }
+
+    // if (false) {
+    //   pokemonList.sort(
+    //     (a, b) {
+    //       a.isCollected;
+    //       b.isCollected;
+
+    //       if (a.isCollected && !b.isCollected) {
+    //         return -1;
+    //       } else if (!a.isCollected && b.isCollected) {
+    //         return 1;
+    //       } else if (state.sortDirection) {
+    //         return a.id.compareTo(b.id);
+    //       } else {
+    //         return b.id.compareTo(a.id);
+    //       }
+    //     },
+    //   );
+    // }
+
+    // if(state.sortDirection){
+    //   pokemonList.sort((a, b) => int.parse(b.id).compareTo(int.parse(a.id)));
+    // }else{
+    //   pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    // }
+
+    // if (option == 'reverse') {
+    //   pokemonList.sort((a, b) => int.parse(b.id).compareTo(int.parse(a.id)));
+
+    //   print('qwerasdf ${pokemonList[1].id}');
+    // } else if (option == 'forward') {
+    //   pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    // } else if (option == 'collectionChecked') {
+    //   pokemonList.sort(
+    //     (a, b) {
+    //       a.isCollected;
+    //       b.isCollected;
+
+    //       if (a.isCollected && !b.isCollected) {
+    //         return -1;
+    //       } else if (!a.isCollected && b.isCollected) {
+    //         return 1;
+    //       } else {
+    //         return a.id.compareTo(b.id);
+    //       }
+    //     },
+    //   );
+    // }
+    _state = state.copyWith(
+      pokemonListData: pokemonList,
+      isLoading: false,
+      sortDirection: boolSortDirection,
+      sortIsCollected: boolSortIsCollected,
+    );
+    notifyListeners();
   }
 }
