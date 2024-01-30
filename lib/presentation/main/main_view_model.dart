@@ -91,14 +91,72 @@ class MainViewModel extends ChangeNotifier {
     final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (pokemonList) {
+        
         for (final numberString in state.userInfo.pokemons) {
           pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
         }
-
-        _state = state.copyWith(pokemonListData: pokemonList, isLoading: false);
+        _state = state.copyWith(
+          pokemonListData: pokemonList,
+          isLoading: false,
+          sortDirection: true,
+          sortIsCollected: false,
+        );
         notifyListeners();
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
+  }
+
+  Future<void> sortPokemonDataList(String option) async {
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+
+    List<Pokemon> sortedPokemonList = [];
+    List<Pokemon> pokemonList = List.from(state.pokemonListData);
+    bool boolSortDirection = state.sortDirection;
+    bool boolSortIsCollected = state.sortIsCollected;
+
+    switch (option) {
+      case 'direction':
+        boolSortDirection = !boolSortDirection;
+        break;
+      case 'collected':
+        boolSortIsCollected = !boolSortIsCollected;
+        break;
+      default:
+        break;
+    }
+
+    if (boolSortIsCollected) {
+      List<Pokemon> collectedList = [];
+      List<Pokemon> notCollectedList = [];
+      for (var pokemon in pokemonList) {
+        pokemon.isCollected
+            ? collectedList.add(pokemon)
+            : notCollectedList.add(pokemon);
+      }
+      collectedList.sort((a, b) => boolSortDirection
+          ? int.parse(a.id).compareTo(int.parse(b.id))
+          : int.parse(b.id).compareTo(int.parse(a.id)));
+      notCollectedList.sort((a, b) => boolSortDirection
+          ? int.parse(a.id).compareTo(int.parse(b.id))
+          : int.parse(b.id).compareTo(int.parse(a.id)));
+
+      sortedPokemonList = boolSortDirection
+          ? [...collectedList, ...notCollectedList]
+          : [...notCollectedList, ...collectedList];
+    } else {
+      pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+      sortedPokemonList =
+          boolSortDirection ? pokemonList : pokemonList.reversed.toList();
+    }
+
+    _state = state.copyWith(
+      pokemonListData: sortedPokemonList,
+      isLoading: false,
+      sortDirection: boolSortDirection,
+      sortIsCollected: boolSortIsCollected,
+    );
+    notifyListeners();
   }
 }

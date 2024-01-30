@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final MainViewModel viewModel = context.watch();
     final MainState state = viewModel.state;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_calculateTime(state.rewardTime)),
@@ -85,25 +86,37 @@ class _MainScreenState extends State<MainScreen> {
         animatedIcon: AnimatedIcons.menu_close,
         children: [
           SpeedDialChild(
-            child: const Icon(Icons.bolt_outlined),
+            label: !state.sortDirection ? '정방향' : '역방향',
+            child: state.sortDirection
+                ? const Icon(Icons.upload)
+                : const Icon(Icons.download),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
+            onTap: () {
+              viewModel.sortPokemonDataList('direction');
+            },
           ),
           SpeedDialChild(
-            child: const Icon(Icons.sort_by_alpha),
+            label: '컬렉션만',
+            child: !state.sortIsCollected
+                ? const Icon(Icons.check_box_outline_blank_outlined)
+                : const Icon(Icons.check_box_outlined),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
+            onTap: () {
+              viewModel.sortPokemonDataList('collected');
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.circle_outlined),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-              onTap: () {
-                context.push('/main/roulette');
-              },
+            onTap: () {
+              context.push('/main/roulette');
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),
