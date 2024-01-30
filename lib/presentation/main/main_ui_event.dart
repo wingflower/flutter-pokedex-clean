@@ -6,4 +6,5 @@ part 'main_ui_event.freezed.dart';
 sealed class MainUiEvent with _$MainUiEvent {
   const factory MainUiEvent.showSnackBar(String message) = ShowSnackBar;
   const factory MainUiEvent.successLogout() = SuccessLogout;
+  const factory MainUiEvent.errorInitialize(String message) = ErrorInitialize;
 }
