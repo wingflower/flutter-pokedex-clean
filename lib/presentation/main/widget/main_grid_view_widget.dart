@@ -22,66 +22,74 @@ class MainGridViewWidget extends StatelessWidget {
     List<Pokemon> pokemonList = state.pokemonListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 4.0,
-          mainAxisSpacing: 4.0,
-        ),
-        itemCount: pokemonList.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () => pokemonList[index].isCollected
-                ? context.push('/main/detail', extra: pokemonList[index])
-                : showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('안내'),
-                        content: Text(
-                            '${'?' * pokemonList[index].description.name.length} 은(는) 미보유 상태입니다.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('확인'),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: pokemonList[index].isCollected
-                    ? getColorFromString(pokemonList[index].color)
-                    : getColorFromString('black'),
-              ),
-              child: gridCrossAxisCount == 2
-                  ? TwoColumnGridViewWidget(
-                      pokemon: pokemonList[index],
-                      gridCrossAxisCount: gridCrossAxisCount,
-                    )
-                  : gridCrossAxisCount == 3
-                      ? ThirdColumnGridViewWidget(
-                          pokemon: pokemonList[index],
-                          gridCrossAxisCount: gridCrossAxisCount,
-                        )
-                      : gridCrossAxisCount == 4
-                          ? FourthColumnGridViewWidget(
-                              pokemon: pokemonList[index],
-                              gridCrossAxisCount: gridCrossAxisCount,
-                            )
-                          : FifthColumnGridViewWidget(
-                              pokemon: pokemonList[index],
-                              gridCrossAxisCount: gridCrossAxisCount,
+    return RawScrollbar(
+      thickness: 8.0,
+      interactive: true,
+      trackVisibility: true,
+      thumbVisibility: true,
+      thumbColor: Colors.grey.withOpacity(0.7),
+      radius: const Radius.circular(20),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 4.0,
+            mainAxisSpacing: 4.0,
+          ),
+          itemCount: pokemonList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => pokemonList[index].isCollected
+                  ? context.push('/main/detail', extra: pokemonList[index])
+                  : showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('안내'),
+                          content: Text(
+                              '${'?' * pokemonList[index].description.name.length} 은(는) 미보유 상태입니다.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('확인'),
                             ),
-            ),
-          );
-        },
+                          ],
+                        );
+                      },
+                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: pokemonList[index].isCollected
+                      ? getColorFromString(pokemonList[index].color)
+                      : getColorFromString('black'),
+                ),
+                child: gridCrossAxisCount == 2
+                    ? TwoColumnGridViewWidget(
+                        pokemon: pokemonList[index],
+                        gridCrossAxisCount: gridCrossAxisCount,
+                      )
+                    : gridCrossAxisCount == 3
+                        ? ThirdColumnGridViewWidget(
+                            pokemon: pokemonList[index],
+                            gridCrossAxisCount: gridCrossAxisCount,
+                          )
+                        : gridCrossAxisCount == 4
+                            ? FourthColumnGridViewWidget(
+                                pokemon: pokemonList[index],
+                                gridCrossAxisCount: gridCrossAxisCount,
+                              )
+                            : FifthColumnGridViewWidget(
+                                pokemon: pokemonList[index],
+                                gridCrossAxisCount: gridCrossAxisCount,
+                              ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
