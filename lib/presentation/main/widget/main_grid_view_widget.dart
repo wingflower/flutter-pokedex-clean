@@ -19,7 +19,7 @@ class MainGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Pokemon> pokemonList = state.pokemonListData;
+    List<Pokemon> pokemonList = state.isFiltered ? state.filterListData : state.pokemonListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
     return Padding(
