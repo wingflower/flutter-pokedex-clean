@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
-import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -123,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
               borderRadius: BorderRadius.circular(50),
             ),
               onTap: () {
-                context.push('/main/roulette');
+                context.push('/main/roulette', extra: state.pokemonListData);
               },
           ),
           SpeedDialChild(
@@ -135,12 +133,5 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
-  }
-
-  String _calculateTime(int rewardTime) {
-    int minutes = rewardTime ~/ 60;
-    int seconds = rewardTime % 60;
-
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }

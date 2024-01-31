@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/app_timer.dart';
+import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RouletteScreen extends StatefulWidget {
-  const RouletteScreen({super.key});
+  final List<Pokemon> pokemonList;
+  const RouletteScreen({super.key, required this.pokemonList});
 
   @override
   State<RouletteScreen> createState() => _RouletteScreenState();
@@ -26,8 +29,8 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     _animationController.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
+          _showPokemonDialog();
           _animationController.reverse();
-          _showDialog();
         }
       },
     );
@@ -44,6 +47,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     final Animation<double> animationSize = Tween(begin: 1.0, end: 2.0).animate(_animationController);
     final AppTimer appTimer = context.watch();
     final bool activeButton = appTimer.count > 0;
+    final RouletteViewModel viewModel = context.watch();
 
     return Scaffold(
       appBar: AppBar(
@@ -87,6 +91,9 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                             if (_animationController.isDismissed || _animationController.isCompleted) {
                               _animationController.forward(from: 0.0);
                               appTimer.subtractCount();
+                              viewModel.drawPokemon(widget.pokemonList);
+
+                              print(viewModel.drawPokemon(widget.pokemonList));
                             }
                           }
                         : null,
@@ -116,24 +123,27 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
+  void _showPokemonDialog() {
+    final RouletteViewModel viewModel = context.read();
 
-  void _showDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(child: Text('포켓몬 이름')),
-          content: Image.asset('assets/images/splash/splash.png'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('확인'),
-            ),
-          ],
-        );
-      },
+      builder: (_) => AlertDialog(
+        title: const Center(child: Text("포켓몬 획득!")),
+        content: Image.network(
+          viewModel.drawPokemon(widget.pokemonList),
+          height: 400,
+          width: 400,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("확인"),
+          ),
+        ],
+      ),
     );
   }
 }
