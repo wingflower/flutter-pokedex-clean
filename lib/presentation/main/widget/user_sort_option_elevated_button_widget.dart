@@ -80,6 +80,7 @@ class _UserSortOptionElevatedButtonWidgetState
                         divisions: 3,
                         label: currentSliderValue.round().toString(),
                         onChanged: (double value) {
+                          // widget.mainViewModel.updateGridColumnOption(value);
                           setState(() {
                             currentSliderValue = value;
                           });
@@ -102,6 +103,7 @@ class _UserSortOptionElevatedButtonWidgetState
                       ToggleButtons(
                         direction: Axis.horizontal,
                         onPressed: (int index) {
+                          // widget.mainViewModel.updateCollectionOption(                              selectedCollectionOptions, index);
                           setState(() {
                             for (int i = 0;
                                 i < selectedCollectionOptions.length;
@@ -129,6 +131,7 @@ class _UserSortOptionElevatedButtonWidgetState
                       ToggleButtons(
                         direction: Axis.horizontal,
                         onPressed: (int index) {
+                          // widget.mainViewModel.updateDirectionOption(                              selectedDirectionOptions, index);
                           setState(() {
                             for (int i = 0;
                                 i < selectedDirectionOptions.length;

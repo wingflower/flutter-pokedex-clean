@@ -12,7 +12,7 @@ class MainState with _$MainState {
     @Default(false) bool isLoading,
     @Default(false) bool isFiltered,
     @Default([]) List<Pokemon> pokemonListData,
-    @Default([]) List<Pokemon> currentPokemonList,
+    @Default([]) List<Pokemon> filterListData,
     @Default(2) int gridCrossAxisCount,
     @Default([true, false, false]) List<bool> sortIsCollected,
     @Default([true, false]) List<bool> sortDirection,

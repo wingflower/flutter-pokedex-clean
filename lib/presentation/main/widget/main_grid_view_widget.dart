@@ -19,7 +19,7 @@ class MainGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Pokemon> pokemonList = state.currentPokemonList;
+    List<Pokemon> pokemonList = state.filterListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
     return RawScrollbar(

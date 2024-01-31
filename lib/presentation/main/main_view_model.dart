@@ -138,7 +138,7 @@ class MainViewModel extends ChangeNotifier {
       directionOption: state.sortDirection,
     );
 
-    _state = state.copyWith(currentPokemonList: sortedPokemonList);
+    _state = state.copyWith(filterListData: sortedPokemonList);
     notifyListeners();
   }
 
@@ -151,8 +151,29 @@ class MainViewModel extends ChangeNotifier {
     }
 
     List<Pokemon> filterList =
-        _searchByNamePokemonUseCase.execute(name, state.currentPokemonList);
-    _state = state.copyWith(currentPokemonList: filterList, isFiltered: true);
+        _searchByNamePokemonUseCase.execute(name, state.filterListData);
+    _state = state.copyWith(filterListData: filterList, isFiltered: true);
+    notifyListeners();
+  }
+
+  void updateGridColumnOption(double gridViewColumnCount) {
+    _state = state.copyWith(gridCrossAxisCount: gridViewColumnCount.toInt());
+    notifyListeners();
+  }
+
+  void updateCollectionOption(List<bool> collectionOption, int index) {
+    for (int i = 0; i < collectionOption.length; i++) {
+      collectionOption[i] = i == index;
+    }
+    _state = state.copyWith(sortIsCollected: collectionOption);
+    notifyListeners();
+  }
+
+  void updateDirectionOption(List<bool> directionOption, int index) {
+    for (int i = 0; i < directionOption.length; i++) {
+      directionOption[i] = i == index;
+    }
+    _state = state.copyWith(sortDirection: directionOption);
     notifyListeners();
   }
 }
