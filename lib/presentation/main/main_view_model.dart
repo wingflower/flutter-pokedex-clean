@@ -138,25 +138,21 @@ class MainViewModel extends ChangeNotifier {
       directionOption: state.sortDirection,
     );
 
-    _state = state.copyWith(sortedPokemonListData: sortedPokemonList);
+    _state = state.copyWith(currentPokemonList: sortedPokemonList);
     notifyListeners();
   }
 
   void searchPokemon(String name) {
+    sortedByOptionPokemonList();
     if (name.isEmpty) {
       _state = state.copyWith(isFiltered: false);
       notifyListeners();
       return;
     }
 
-    print(
-        'qwerasdf main view model searchPokemon ${state.sortDirection.length}');
-
     List<Pokemon> filterList =
-        _searchByNamePokemonUseCase.execute(name, state.sortedPokemonListData);
-    // List<Pokemon> filterList =
-    //     _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
-    _state = state.copyWith(filterListData: filterList, isFiltered: true);
+        _searchByNamePokemonUseCase.execute(name, state.currentPokemonList);
+    _state = state.copyWith(currentPokemonList: filterList, isFiltered: true);
     notifyListeners();
   }
 }
