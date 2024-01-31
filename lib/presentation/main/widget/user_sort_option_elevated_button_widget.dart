@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
+import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 
 const List<Widget> collectionOptions = <Widget>[
   Text('전체'),
@@ -11,8 +14,13 @@ const List<Widget> directionOptions = <Widget>[
 ];
 
 class UserSortOptionElevatedButtonWidget extends StatefulWidget {
+  // final MainState mainState;
+  final MainViewModel mainViewModel;
+
   const UserSortOptionElevatedButtonWidget({
     super.key,
+    // required this.mainState, required MainViewModel viewModel, required MainViewModel mainViewModel,
+    required this.mainViewModel,
   });
 
   @override
@@ -22,19 +30,29 @@ class UserSortOptionElevatedButtonWidget extends StatefulWidget {
 
 class _UserSortOptionElevatedButtonWidgetState
     extends State<UserSortOptionElevatedButtonWidget> {
+  late MainState mainState;
+  late List<bool> selectedCollectionOptions;
+  late List<bool> selectedDirectionOptions;
+  late double currentSliderValue;
+
+  @override
+  void initState() {
+    super.initState();
+    mainState = widget.mainViewModel.state;
+    selectedCollectionOptions = List.from(mainState.sortIsCollected);
+    selectedDirectionOptions = List.from(mainState.sortDirection);
+    currentSliderValue = mainState.gridCrossAxisCount.toDouble();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<bool> selectedCollectionOptions = <bool>[true, false, false];
-    final List<bool> selectedDirectionOptions = <bool>[true, false];
-    double currentSliderValue = 2.0;
     return GestureDetector(
       onTap: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(content: StatefulBuilder(
-              builder: (BuildContext context,
-                  void Function(void Function()) setState) {
+              builder: (BuildContext context, setState) {
                 return SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.height * 0.6,
@@ -53,22 +71,8 @@ class _UserSortOptionElevatedButtonWidgetState
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 16.0,
-                        child: const Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          '메인 열 수',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
+                      const DivideSizedBoxWidget(),
+                      const UserOptionTextWidget(title: '메인 열 수'),
                       Slider(
                         value: currentSliderValue,
                         min: 2,
@@ -93,22 +97,8 @@ class _UserSortOptionElevatedButtonWidgetState
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 16.0,
-                        child: const Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          '컬렉션 보유',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
+                      const DivideSizedBoxWidget(),
+                      const UserOptionTextWidget(title: '컬렉션 보유'),
                       ToggleButtons(
                         direction: Axis.horizontal,
                         onPressed: (int index) {
@@ -117,7 +107,6 @@ class _UserSortOptionElevatedButtonWidgetState
                                 i < selectedCollectionOptions.length;
                                 i++) {
                               selectedCollectionOptions[i] = i == index;
-                              // print('qwerasdf ${selectedCollectionOptions[i]}');
                             }
                           });
                         },
@@ -134,22 +123,8 @@ class _UserSortOptionElevatedButtonWidgetState
                         isSelected: selectedCollectionOptions,
                         children: collectionOptions,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 16.0,
-                        child: const Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          '정렬 방향',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
+                      const DivideSizedBoxWidget(),
+                      const UserOptionTextWidget(title: '정렬 방향'),
                       const SizedBox(height: 6.0),
                       ToggleButtons(
                         direction: Axis.horizontal,
@@ -159,7 +134,6 @@ class _UserSortOptionElevatedButtonWidgetState
                                 i < selectedDirectionOptions.length;
                                 i++) {
                               selectedDirectionOptions[i] = i == index;
-                              // print('qwerasdf ${selectedDirectionOptions[i]}');
                             }
                           });
                         },
@@ -177,6 +151,20 @@ class _UserSortOptionElevatedButtonWidgetState
                         children: directionOptions,
                       ),
                       const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.mainViewModel.updateUserOption(
+                            selectedCollectionOptions,
+                            selectedDirectionOptions,
+                            currentSliderValue.toInt(),
+                          );
+
+                          context.pop();
+                        },
+                        child: const Text(
+                          '확인',
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -187,6 +175,44 @@ class _UserSortOptionElevatedButtonWidgetState
       },
       child: const Icon(
         Icons.sort,
+      ),
+    );
+  }
+}
+
+class UserOptionTextWidget extends StatelessWidget {
+  final String title;
+  const UserOptionTextWidget({
+    super.key,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16.0,
+        ),
+      ),
+    );
+  }
+}
+
+class DivideSizedBoxWidget extends StatelessWidget {
+  const DivideSizedBoxWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.5,
+      height: 16.0,
+      child: const Divider(
+        color: Colors.grey,
       ),
     );
   }

@@ -135,7 +135,9 @@ void diSetup() {
     ),
   );
   getIt.registerSingleton<SortedByOptionPokemonUseCase>(
-    SortedByOptionPokemonUseCase(),
+    SortedByOptionPokemonUseCase(
+      pokemonRepository: getIt<PokemonRepository>(),
+    ),
   );
   getIt.registerSingleton<SearchByNamePokemonUseCase>(
     SearchByNamePokemonUseCase(),

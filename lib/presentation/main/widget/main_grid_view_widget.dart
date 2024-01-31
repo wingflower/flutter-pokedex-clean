@@ -19,7 +19,10 @@ class MainGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Pokemon> pokemonList = state.isFiltered ? state.filterListData : state.pokemonListData;
+    List<Pokemon> pokemonList =
+        state.isFiltered ? state.filterListData : state.sortedPokemonListData;
+    // List<Pokemon> pokemonList =
+    //     state.isFiltered ? state.filterListData : state.pokemonListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
     return RawScrollbar(
@@ -32,8 +35,8 @@ class MainGridViewWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: gridCrossAxisCount,
             crossAxisSpacing: 4.0,
             mainAxisSpacing: 4.0,
           ),

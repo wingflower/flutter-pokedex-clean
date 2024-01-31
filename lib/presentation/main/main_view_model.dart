@@ -107,67 +107,38 @@ class MainViewModel extends ChangeNotifier {
         _state = state.copyWith(
           pokemonListData: pokemonList,
           isLoading: false,
-          sortDirection: true,
-          sortIsCollected: false,
+          // sortDirection: true,
+          // sortIsCollected: false,
         );
         notifyListeners();
+        sortedByOptionPokemonList();
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
   }
 
-  void sortedByOptionPokemonList(String option) async {
-    // _state = state.copyWith(isLoading: true);
-    // notifyListeners();
+  void updateUserOption(List<bool> selectedCollectionOptions,
+      List<bool> selectedDirectionOptions, int gridColumnCount) {
+    _state = state.copyWith(
+      sortDirection: selectedDirectionOptions,
+      sortIsCollected: selectedCollectionOptions,
+      gridCrossAxisCount: gridColumnCount,
+    );
 
-    // List<Pokemon> sortedPokemonList = [];
-    // List<Pokemon> pokemonList = List.from(state.pokemonListData);
-    // bool boolSortDirection = state.sortDirection;
-    // bool boolSortIsCollected = state.sortIsCollected;
+    sortedByOptionPokemonList();
+    notifyListeners();
+  }
 
-    // switch (option) {
-    //   case 'direction':
-    //     boolSortDirection = !boolSortDirection;
-    //     break;
-    //   case 'collected':
-    //     boolSortIsCollected = !boolSortIsCollected;
-    //     break;
-    //   default:
-    //     break;
-    // }
+  void sortedByOptionPokemonList() {
+    List<Pokemon> sortedPokemonList = [];
 
-    // if (boolSortIsCollected) {
-    //   List<Pokemon> collectedList = [];
-    //   List<Pokemon> notCollectedList = [];
-    //   for (var pokemon in pokemonList) {
-    //     pokemon.isCollected
-    //         ? collectedList.add(pokemon)
-    //         : notCollectedList.add(pokemon);
-    //   }
-    //   collectedList.sort((a, b) => boolSortDirection
-    //       ? int.parse(a.id).compareTo(int.parse(b.id))
-    //       : int.parse(b.id).compareTo(int.parse(a.id)));
-    //   notCollectedList.sort((a, b) => boolSortDirection
-    //       ? int.parse(a.id).compareTo(int.parse(b.id))
-    //       : int.parse(b.id).compareTo(int.parse(a.id)));
+    sortedPokemonList = _sortedByOptionPokemonUseCase.execute(
+      pokemonDataList: state.pokemonListData,
+      collectionOption: state.sortIsCollected,
+      directionOption: state.sortDirection,
+    );
 
-    //   sortedPokemonList = boolSortDirection
-    //       ? [...collectedList, ...notCollectedList]
-    //       : [...notCollectedList, ...collectedList];
-    // } else {
-    //   pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-    //   sortedPokemonList =
-    //       boolSortDirection ? pokemonList : pokemonList.reversed.toList();
-    // }
-
-    _sortedByOptionPokemonUseCase.execute();
-
-    // _state = state.copyWith(
-    //   pokemonListData: sortedPokemonList,
-    //   isLoading: false,
-    //   sortDirection: boolSortDirection,
-    //   sortIsCollected: boolSortIsCollected,
-    // );
+    _state = state.copyWith(sortedPokemonListData: sortedPokemonList);
     notifyListeners();
   }
 
@@ -178,8 +149,13 @@ class MainViewModel extends ChangeNotifier {
       return;
     }
 
+    print(
+        'qwerasdf main view model searchPokemon ${state.sortDirection.length}');
+
     List<Pokemon> filterList =
-        _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
+        _searchByNamePokemonUseCase.execute(name, state.sortedPokemonListData);
+    // List<Pokemon> filterList =
+    //     _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
     _state = state.copyWith(filterListData: filterList, isFiltered: true);
     notifyListeners();
   }

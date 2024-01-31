@@ -84,7 +84,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          const UserSortOptionElevatedButtonWidget(),
+          UserSortOptionElevatedButtonWidget(
+            mainViewModel: viewModel,
+          ),
           IconButton(
               onPressed: () {
                 showSimpleDialog(
@@ -97,34 +99,34 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: MainGridViewWidget(state: viewModel.state),
+      body: MainGridViewWidget(state: state),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         children: [
-          SpeedDialChild(
-            label: !state.sortDirection ? '정방향' : '역방향',
-            child: state.sortDirection
-                ? const Icon(Icons.upload)
-                : const Icon(Icons.download),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            onTap: () {
-              viewModel.sortedByOptionPokemonList('direction');
-            },
-          ),
-          SpeedDialChild(
-            label: '컬렉션만',
-            child: !state.sortIsCollected
-                ? const Icon(Icons.check_box_outline_blank_outlined)
-                : const Icon(Icons.check_box_outlined),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            onTap: () {
-              viewModel.sortedByOptionPokemonList('collected');
-            },
-          ),
+          // SpeedDialChild(
+          //   label: !state.sortDirection ? '정방향' : '역방향',
+          //   child: state.sortDirection
+          //       ? const Icon(Icons.upload)
+          //       : const Icon(Icons.download),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(50),
+          //   ),
+          //   onTap: () {
+          //     viewModel.sortedByOptionPokemonList('direction');
+          //   },
+          // ),
+          // SpeedDialChild(
+          //   label: '컬렉션만',
+          //   child: !state.sortIsCollected
+          //       ? const Icon(Icons.check_box_outline_blank_outlined)
+          //       : const Icon(Icons.check_box_outlined),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(50),
+          //   ),
+          //   onTap: () {
+          //     viewModel.sortedByOptionPokemonList('collected');
+          //   },
+          // ),
           SpeedDialChild(
             child: const Icon(Icons.circle_outlined),
             shape: RoundedRectangleBorder(

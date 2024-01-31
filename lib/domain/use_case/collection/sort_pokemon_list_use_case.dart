@@ -1,32 +1,24 @@
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/domain/repository/pokemon_repository.dart';
 
 class SortedByOptionPokemonUseCase {
-  Future<List<Pokemon>> execute() async {
-    List<Pokemon> sortedPokemonList = [];
+  final PokemonRepository _pokemonRepository;
 
-    // if (boolSortIsCollected) {
-    //   List<Pokemon> collectedList = [];
-    //   List<Pokemon> notCollectedList = [];
-    //   for (var pokemon in pokemonList) {
-    //     pokemon.isCollected
-    //         ? collectedList.add(pokemon)
-    //         : notCollectedList.add(pokemon);
-    //   }
-    //   collectedList.sort((a, b) => boolSortDirection
-    //       ? int.parse(a.id).compareTo(int.parse(b.id))
-    //       : int.parse(b.id).compareTo(int.parse(a.id)));
-    //   notCollectedList.sort((a, b) => boolSortDirection
-    //       ? int.parse(a.id).compareTo(int.parse(b.id))
-    //       : int.parse(b.id).compareTo(int.parse(a.id)));
+  SortedByOptionPokemonUseCase({
+    required PokemonRepository pokemonRepository,
+  }) : _pokemonRepository = pokemonRepository;
 
-    //   sortedPokemonList = boolSortDirection
-    //       ? [...collectedList, ...notCollectedList]
-    //       : [...notCollectedList, ...collectedList];
-    // } else {
-    //   pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-    //   sortedPokemonList =
-    //       boolSortDirection ? pokemonList : pokemonList.reversed.toList();
-    // }
+  List<Pokemon> execute({
+    required List<Pokemon> pokemonDataList,
+    required List<bool> collectionOption,
+    required List<bool> directionOption,
+  }) {
+    List<Pokemon> sortedPokemonList =
+        _pokemonRepository.sortedByCollectionPokemonListUseCase(
+            pokemonDataList, collectionOption);
+    sortedPokemonList = _pokemonRepository.sortedByDriectionPokemonListUseCase(
+        sortedPokemonList, directionOption);
+
     return sortedPokemonList;
   }
 }

@@ -29,8 +29,34 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
-  Future<Result<List<Pokemon>>> sortPokemonListUseCase() {
-    // TODO: implement sortPokemonListUseCase
-    throw UnimplementedError();
+  List<Pokemon> sortedByCollectionPokemonListUseCase(
+      List<Pokemon> pokemonDataList, List<bool> collectionOption) {
+    List<Pokemon> resultList = [];
+    for (int i = 0; i < collectionOption.length; i++) {
+      if (collectionOption[i]) {
+        if (i == 1) {
+          resultList
+              .addAll(pokemonDataList.where((pokemon) => pokemon.isCollected));
+        } else if (i == 2) {
+          resultList
+              .addAll(pokemonDataList.where((pokemon) => !pokemon.isCollected));
+        } else {
+          resultList.addAll(pokemonDataList);
+        }
+      }
+    }
+    return resultList;
+  }
+
+  @override
+  List<Pokemon> sortedByDriectionPokemonListUseCase(
+      List<Pokemon> pokemonDataList, List<bool> directionOption) {
+    List<Pokemon> sortedList = List.from(pokemonDataList);
+
+    sortedList.sort((a, b) => directionOption[0]
+        ? int.parse(a.id).compareTo(int.parse(b.id))
+        : int.parse(b.id).compareTo(int.parse(a.id)));
+
+    return sortedList;
   }
 }
