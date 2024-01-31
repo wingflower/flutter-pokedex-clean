@@ -27,24 +27,20 @@ class _UserSortOptionElevatedButtonWidgetState
     final List<bool> selectedCollectionOptions = <bool>[true, false, false];
     final List<bool> selectedDirectionOptions = <bool>[true, false];
     double currentSliderValue = 2.0;
-    return ElevatedButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(content: StatefulBuilder(
-              //   title: const Center(
-              //   child: Text(
-              //     '사용자 옵션',
-              //   ),
-              // ),
               builder: (BuildContext context,
                   void Function(void Function()) setState) {
                 return SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(16.0),
@@ -57,13 +53,22 @@ class _UserSortOptionElevatedButtonWidgetState
                           ),
                         ),
                       ),
-                      const Text(
-                        '메인 열 수',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 16.0,
+                        child: const Divider(
+                          color: Colors.grey,
                         ),
                       ),
-                      const SizedBox(height: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          '메인 열 수',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
                       Slider(
                         value: currentSliderValue,
                         min: 2,
@@ -76,14 +81,34 @@ class _UserSortOptionElevatedButtonWidgetState
                           });
                         },
                       ),
-                      const SizedBox(height: 16.0),
-                      const Text(
-                        '컬렉션 보유',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('2'),
+                            Text('3'),
+                            Text('4'),
+                            Text('5'),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 6.0),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 16.0,
+                        child: const Divider(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          '컬렉션 보유',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
                       ToggleButtons(
                         direction: Axis.horizontal,
                         onPressed: (int index) {
@@ -92,7 +117,7 @@ class _UserSortOptionElevatedButtonWidgetState
                                 i < selectedCollectionOptions.length;
                                 i++) {
                               selectedCollectionOptions[i] = i == index;
-                              print('qwerasdf ${selectedCollectionOptions[i]}');
+                              // print('qwerasdf ${selectedCollectionOptions[i]}');
                             }
                           });
                         },
@@ -109,11 +134,20 @@ class _UserSortOptionElevatedButtonWidgetState
                         isSelected: selectedCollectionOptions,
                         children: collectionOptions,
                       ),
-                      const SizedBox(height: 16.0),
-                      const Text(
-                        '정렬 방향',
-                        style: TextStyle(
-                          fontSize: 16.0,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 16.0,
+                        child: const Divider(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          '정렬 방향',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 6.0),
@@ -125,7 +159,7 @@ class _UserSortOptionElevatedButtonWidgetState
                                 i < selectedDirectionOptions.length;
                                 i++) {
                               selectedDirectionOptions[i] = i == index;
-                              print('qwerasdf ${selectedDirectionOptions[i]}');
+                              // print('qwerasdf ${selectedDirectionOptions[i]}');
                             }
                           });
                         },
