@@ -7,6 +7,7 @@ import 'package:pokedex_clean/presentation/main/detail_screen/detail_screen.dart
 import 'package:pokedex_clean/presentation/main/main_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_screen.dart';
+import 'package:pokedex_clean/presentation/main/type/type_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,12 @@ final routes = GoRouter(
             } else {
               return const MainScreen();
             }
+          },
+        ),
+        GoRoute(
+          path: 'type',
+          builder: (_, __) {
+            return const TypeScreen();
           },
         ),
       ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
@@ -16,6 +17,7 @@ class MainViewModel extends ChangeNotifier {
   final LogoutUseCase _logoutUseCase;
   final RemoveUserAccountUseCase _removeUserAccountUseCase;
   final GetPokemonUseCase _getPokemonUseCase;
+  final SortedPokemonListUseCase _sortPokemonListUseCase;
   final GetUserAccountUseCase _getUserAccountUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final AddAndUpdateUserInfoUseCase _addAndUpdateUserInfoUseCase;
@@ -24,11 +26,13 @@ class MainViewModel extends ChangeNotifier {
     required LogoutUseCase logoutUseCase,
     required RemoveUserAccountUseCase removeUserAccountUseCase,
     required GetPokemonUseCase getPokemonUseCase,
+    required SortedPokemonListUseCase sortedPokemonListUseCase,
     required GetUserAccountUseCase getUserAccountUseCase,
     required GetUserInfoUseCase getUserInfoUseCase,
     required AddAndUpdateUserInfoUseCase addAndUpdateUserInfoUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
+        _sortPokemonListUseCase = sortedPokemonListUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
         _getUserAccountUseCase = getUserAccountUseCase,
         _getUserInfoUseCase = getUserInfoUseCase,

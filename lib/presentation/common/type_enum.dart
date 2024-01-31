@@ -23,3 +23,7 @@ enum TypeEnum {
 String getTypeImagebyTypeId(String typeId) {
   return 'assets/images/types/${TypeEnum.values[int.parse(typeId)].toString().split('.').last}_type.png';
 }
+
+String getTypeDoubleImagebyTypeId(String typeId) {
+  return 'assets/images/types/${TypeEnum.values[int.parse(typeId)].toString().split('.').last}_type_2x.png';
+}

@@ -1,9 +1,9 @@
 import 'package:pokedex_clean/domain/repository/pokemon_repository.dart';
 
-class SortPokemonListUseCase {
+class SortedPokemonListUseCase {
   final PokemonRepository _pokemonRepository;
 
-  SortPokemonListUseCase({
+  SortedPokemonListUseCase({
     required PokemonRepository pokemonRepository,
   }) : _pokemonRepository = pokemonRepository;
 
