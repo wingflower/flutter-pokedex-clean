@@ -93,9 +93,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           SpeedDialChild(
             label: !state.sortDirection ? '정방향' : '역방향',
-            child: state.sortDirection
-                ? const Icon(Icons.upload)
-                : const Icon(Icons.download),
+            child: state.sortDirection ? const Icon(Icons.upload) : const Icon(Icons.download),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -120,9 +118,17 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-              onTap: () {
-                context.push('/main/roulette', extra: state.pokemonListData);
-              },
+            onTap: () async {
+              final result = await context.push(
+                '/main/roulette',
+                extra: {
+                  'pokemonData': state.pokemonListData,
+                  'userInfo': state.userInfo,
+                  'email': state.email,
+                },
+              );
+              viewModel.refresh();
+            },
           ),
           SpeedDialChild(
             child: const Icon(Icons.star_border_outlined),

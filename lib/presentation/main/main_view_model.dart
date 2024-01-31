@@ -159,4 +159,16 @@ class MainViewModel extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void refresh() {
+    final List<Pokemon> pokemonList = state.pokemonListData;
+
+    for (final numberString in state.userInfo.pokemons) {
+      pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
+    }
+    _state = state.copyWith(
+      pokemonListData: pokemonList,
+    );
+    notifyListeners();
+  }
 }

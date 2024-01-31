@@ -176,6 +176,7 @@ void diSetup() {
   getIt.registerFactory<RouletteViewModel>(
     () => RouletteViewModel(
       drawPokemonUseCase: getIt<DrawPokemonUseCase>(),
+      addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
     ),
   );
   // ============================================================

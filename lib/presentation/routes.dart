@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/presentation/login/login_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
 import 'package:pokedex_clean/presentation/main/detail_screen/detail_screen.dart';
@@ -33,10 +34,15 @@ final routes = GoRouter(
         GoRoute(
           path: 'roulette',
           builder: (_, state) {
+            final map = state.extra! as Map<String, dynamic>;
             return ChangeNotifierProvider(
-            create: (_) => getIt<RouletteViewModel>(),
-            child: RouletteScreen(pokemonList: state.extra! as List<Pokemon>),
-          );
+              create: (_) => getIt<RouletteViewModel>(),
+              child: RouletteScreen(
+                pokemonList: map['pokemonData'] as List<Pokemon>,
+                userInfo: map['userInfo'] as UserInfo,
+                email: map['email'] as String,
+              ),
+            );
           },
         ),
         GoRoute(
