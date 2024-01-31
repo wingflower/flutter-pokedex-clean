@@ -8,6 +8,7 @@ import 'package:pokedex_clean/presentation/main/detail_screen/detail_screen.dart
 import 'package:pokedex_clean/presentation/main/main_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_screen.dart';
+import 'package:pokedex_clean/presentation/main/type/type_screen.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
 import 'package:pokedex_clean/presentation/splash/splash_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
@@ -18,11 +19,13 @@ final routes = GoRouter(
   routes: [
     GoRoute(
       path: '/splash',
-      builder: (_, __) => ChangeNotifierProvider(create: (_) => getIt<SplashViewModel>(), child: const SplashScreen()),
+      builder: (_, __) => ChangeNotifierProvider(
+          create: (_) => getIt<SplashViewModel>(), child: const SplashScreen()),
     ),
     GoRoute(
       path: '/login',
-      builder: (_, __) => ChangeNotifierProvider(create: (_) => getIt<LoginViewModel>(), child: const LoginScreen()),
+      builder: (_, __) => ChangeNotifierProvider(
+          create: (_) => getIt<LoginViewModel>(), child: const LoginScreen()),
     ),
     GoRoute(
       path: '/main',
@@ -55,6 +58,12 @@ final routes = GoRouter(
             } else {
               return const MainScreen();
             }
+          },
+        ),
+        GoRoute(
+          path: 'type',
+          builder: (_, __) {
+            return const TypeScreen();
           },
         ),
       ],

@@ -3,4 +3,5 @@ import 'package:pokedex_clean/domain/model/pokemon.dart';
 
 abstract interface class PokemonRepository {
   Future<Result<List<Pokemon>>> getPokemonList();
+  Future<Result<List<Pokemon>>> sortPokemonListUseCase();
 }

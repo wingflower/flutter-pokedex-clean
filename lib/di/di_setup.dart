@@ -13,6 +13,8 @@ import 'package:pokedex_clean/domain/repository/user_account_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
 import 'package:pokedex_clean/domain/use_case/collection/draw_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/check_verify_use_case.dart';
@@ -48,6 +50,8 @@ void diSetup() {
   //                                      <<< ETC Declaration END
   // ============================================================
 
+
+
   // ============================================================
   // REPOSITORIES Declaration START >>>
   // ============================================================
@@ -70,6 +74,8 @@ void diSetup() {
   // ============================================================
   //                             <<< REPOSITORIES Declaration END
   // ============================================================
+
+
 
   // ============================================================
   // USE_CASES Declaration START >>>
@@ -137,9 +143,19 @@ void diSetup() {
   getIt.registerSingleton<DrawPokemonUseCase>(
     DrawPokemonUseCase(),
   );
+  getIt.registerSingleton<SortedPokemonListUseCase>(
+    SortedPokemonListUseCase(
+      pokemonRepository: getIt<PokemonRepository>(),
+    ),
+  );
+  getIt.registerSingleton<SearchByNamePokemonUseCase>(
+    SearchByNamePokemonUseCase(),
+  );
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
+
+
 
   // ============================================================
   // VIEW_MODELS Declaration START >>>
@@ -167,9 +183,11 @@ void diSetup() {
       logoutUseCase: getIt<LogoutUseCase>(),
       removeUserAccountUseCase: getIt<RemoveUserAccountUseCase>(),
       getPokemonUseCase: getIt<GetPokemonUseCase>(),
+      sortedPokemonListUseCase: getIt<SortedPokemonListUseCase>(),
       getUserAccountUseCase: getIt<GetUserAccountUseCase>(),
       getUserInfoUseCase: getIt<GetUserInfoUseCase>(),
       addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
+      searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
     ),
   );
 

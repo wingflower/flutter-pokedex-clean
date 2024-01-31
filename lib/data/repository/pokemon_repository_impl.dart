@@ -27,4 +27,10 @@ class PokemonRepositoryImpl implements PokemonRepository {
       return const Result.error('데이터를 가져오는 도중 오류가 발생했습니다.');
     }
   }
+
+  @override
+  Future<Result<List<Pokemon>>> sortPokemonListUseCase() {
+    // TODO: implement sortPokemonListUseCase
+    throw UnimplementedError();
+  }
 }

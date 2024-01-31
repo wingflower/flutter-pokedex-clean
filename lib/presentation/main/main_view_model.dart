@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
-import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
@@ -18,23 +18,29 @@ class MainViewModel extends ChangeNotifier {
   final LogoutUseCase _logoutUseCase;
   final RemoveUserAccountUseCase _removeUserAccountUseCase;
   final GetPokemonUseCase _getPokemonUseCase;
+  final SortedPokemonListUseCase _sortPokemonListUseCase;
   final GetUserAccountUseCase _getUserAccountUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final AddAndUpdateUserInfoUseCase _addAndUpdateUserInfoUseCase;
+  final SearchByNamePokemonUseCase _searchByNamePokemonUseCase;
 
   MainViewModel({
     required LogoutUseCase logoutUseCase,
     required RemoveUserAccountUseCase removeUserAccountUseCase,
     required GetPokemonUseCase getPokemonUseCase,
+    required SortedPokemonListUseCase sortedPokemonListUseCase,
     required GetUserAccountUseCase getUserAccountUseCase,
     required GetUserInfoUseCase getUserInfoUseCase,
     required AddAndUpdateUserInfoUseCase addAndUpdateUserInfoUseCase,
+    required SearchByNamePokemonUseCase searchByNamePokemonUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
+        _sortPokemonListUseCase = sortedPokemonListUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
         _getUserAccountUseCase = getUserAccountUseCase,
         _getUserInfoUseCase = getUserInfoUseCase,
-        _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase {
+        _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase,
+        _searchByNamePokemonUseCase = searchByNamePokemonUseCase {
     _initUserInfo();
   }
 
@@ -157,6 +163,18 @@ class MainViewModel extends ChangeNotifier {
       sortDirection: boolSortDirection,
       sortIsCollected: boolSortIsCollected,
     );
+    notifyListeners();
+  }
+
+  void searchPokemon(String name) {
+    if (name.isEmpty) {
+      _state = state.copyWith(isFiltered: false);
+      notifyListeners();
+      return;
+    }
+
+    List<Pokemon> filterList = _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
+    _state = state.copyWith(filterListData: filterList, isFiltered: true);
     notifyListeners();
   }
 

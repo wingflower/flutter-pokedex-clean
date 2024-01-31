@@ -18,6 +18,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late final TextEditingController _textEditingController = TextEditingController();
+
   @override
   void initState() {
     Future.microtask(() {
@@ -48,10 +50,18 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
-      viewModel.fetchPokemonDataList();
       appTimer.startTimer();
+      _textEditingController.addListener(() {
+        viewModel.searchPokemon(_textEditingController.text);
+      });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,10 +71,19 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Consumer<AppTimer>(
-          builder: (context, appTimer, child) {
-            return Text('CNT: ${appTimer.count}');
-          },
+        title: TextField(
+          controller: _textEditingController,
+          decoration: InputDecoration(
+            hintText: '이름 검색',
+            prefixIcon: const Icon(Icons.search_outlined),
+            suffixIcon: Visibility(
+              visible: _textEditingController.text.isNotEmpty,
+              child: IconButton(
+                icon: const Icon(Icons.close_rounded),
+                onPressed: _textEditingController.clear,
+              ),
+            ),
+          ),
         ),
         actions: [
           IconButton(
@@ -93,7 +112,9 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           SpeedDialChild(
             label: !state.sortDirection ? '정방향' : '역방향',
-            child: state.sortDirection ? const Icon(Icons.upload) : const Icon(Icons.download),
+            child: state.sortDirection
+                ? const Icon(Icons.upload)
+                : const Icon(Icons.download),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
