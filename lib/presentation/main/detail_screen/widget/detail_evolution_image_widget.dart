@@ -23,7 +23,7 @@ class DetailEvolutionImageWidget extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print('qwerasdf ${pokemonData.evolutions[index]}');
+                    // print('qwerasdf ${pokemonData.evolutions[index]}');
                   },
                   child: CachedNetworkImage(
                     imageUrl:

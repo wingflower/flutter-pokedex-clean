@@ -8,6 +8,7 @@ import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/main_grid_view_widget.dart';
+import 'widget/user_sort_option_elevated_button_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,7 +18,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -82,14 +84,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.access_time),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.info_outline),
-          ),
+          const UserSortOptionElevatedButtonWidget(),
           IconButton(
               onPressed: () {
                 showSimpleDialog(
@@ -115,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
               borderRadius: BorderRadius.circular(50),
             ),
             onTap: () {
-              viewModel.sortPokemonDataList('direction');
+              viewModel.sortedByOptionPokemonList('direction');
             },
           ),
           SpeedDialChild(
@@ -127,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
               borderRadius: BorderRadius.circular(50),
             ),
             onTap: () {
-              viewModel.sortPokemonDataList('collected');
+              viewModel.sortedByOptionPokemonList('collected');
             },
           ),
           SpeedDialChild(

@@ -96,7 +96,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
             (index) {
               return GestureDetector(
                 onTap: () {
-                  TypeEffectShowDialogFunction(context, index, testType,
+                  typeEffectShowDialogFunction(context, index, testType,
                       goodForType, badForType, noneForType);
                 },
                 child: Image.asset(
@@ -112,7 +112,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
     );
   }
 
-  Future<dynamic> TypeEffectShowDialogFunction(
+  Future<dynamic> typeEffectShowDialogFunction(
       BuildContext context,
       int index,
       Map<String, dynamic> testType,

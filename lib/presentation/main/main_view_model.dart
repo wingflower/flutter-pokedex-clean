@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
-import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
@@ -18,29 +18,29 @@ class MainViewModel extends ChangeNotifier {
   final LogoutUseCase _logoutUseCase;
   final RemoveUserAccountUseCase _removeUserAccountUseCase;
   final GetPokemonUseCase _getPokemonUseCase;
-  final SortedPokemonListUseCase _sortPokemonListUseCase;
   final GetUserAccountUseCase _getUserAccountUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final AddAndUpdateUserInfoUseCase _addAndUpdateUserInfoUseCase;
   final SearchByNamePokemonUseCase _searchByNamePokemonUseCase;
+  final SortedByOptionPokemonUseCase _sortedByOptionPokemonUseCase;
 
   MainViewModel({
     required LogoutUseCase logoutUseCase,
     required RemoveUserAccountUseCase removeUserAccountUseCase,
     required GetPokemonUseCase getPokemonUseCase,
-    required SortedPokemonListUseCase sortedPokemonListUseCase,
     required GetUserAccountUseCase getUserAccountUseCase,
     required GetUserInfoUseCase getUserInfoUseCase,
     required AddAndUpdateUserInfoUseCase addAndUpdateUserInfoUseCase,
     required SearchByNamePokemonUseCase searchByNamePokemonUseCase,
+    required SortedByOptionPokemonUseCase sortedByOptionPokemonUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
-        _sortPokemonListUseCase = sortedPokemonListUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
         _getUserAccountUseCase = getUserAccountUseCase,
         _getUserInfoUseCase = getUserInfoUseCase,
         _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase,
-        _searchByNamePokemonUseCase = searchByNamePokemonUseCase {
+        _searchByNamePokemonUseCase = searchByNamePokemonUseCase,
+        _sortedByOptionPokemonUseCase = sortedByOptionPokemonUseCase {
     _initUserInfo();
   }
 
@@ -99,7 +99,6 @@ class MainViewModel extends ChangeNotifier {
     final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (pokemonList) {
-        
         for (final numberString in state.userInfo.pokemons) {
           pokemonList
               .firstWhere((element) => element.id == numberString)
@@ -117,56 +116,58 @@ class MainViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> sortPokemonDataList(String option) async {
-    _state = state.copyWith(isLoading: true);
-    notifyListeners();
+  void sortedByOptionPokemonList(String option) async {
+    // _state = state.copyWith(isLoading: true);
+    // notifyListeners();
 
-    List<Pokemon> sortedPokemonList = [];
-    List<Pokemon> pokemonList = List.from(state.pokemonListData);
-    bool boolSortDirection = state.sortDirection;
-    bool boolSortIsCollected = state.sortIsCollected;
+    // List<Pokemon> sortedPokemonList = [];
+    // List<Pokemon> pokemonList = List.from(state.pokemonListData);
+    // bool boolSortDirection = state.sortDirection;
+    // bool boolSortIsCollected = state.sortIsCollected;
 
-    switch (option) {
-      case 'direction':
-        boolSortDirection = !boolSortDirection;
-        break;
-      case 'collected':
-        boolSortIsCollected = !boolSortIsCollected;
-        break;
-      default:
-        break;
-    }
+    // switch (option) {
+    //   case 'direction':
+    //     boolSortDirection = !boolSortDirection;
+    //     break;
+    //   case 'collected':
+    //     boolSortIsCollected = !boolSortIsCollected;
+    //     break;
+    //   default:
+    //     break;
+    // }
 
-    if (boolSortIsCollected) {
-      List<Pokemon> collectedList = [];
-      List<Pokemon> notCollectedList = [];
-      for (var pokemon in pokemonList) {
-        pokemon.isCollected
-            ? collectedList.add(pokemon)
-            : notCollectedList.add(pokemon);
-      }
-      collectedList.sort((a, b) => boolSortDirection
-          ? int.parse(a.id).compareTo(int.parse(b.id))
-          : int.parse(b.id).compareTo(int.parse(a.id)));
-      notCollectedList.sort((a, b) => boolSortDirection
-          ? int.parse(a.id).compareTo(int.parse(b.id))
-          : int.parse(b.id).compareTo(int.parse(a.id)));
+    // if (boolSortIsCollected) {
+    //   List<Pokemon> collectedList = [];
+    //   List<Pokemon> notCollectedList = [];
+    //   for (var pokemon in pokemonList) {
+    //     pokemon.isCollected
+    //         ? collectedList.add(pokemon)
+    //         : notCollectedList.add(pokemon);
+    //   }
+    //   collectedList.sort((a, b) => boolSortDirection
+    //       ? int.parse(a.id).compareTo(int.parse(b.id))
+    //       : int.parse(b.id).compareTo(int.parse(a.id)));
+    //   notCollectedList.sort((a, b) => boolSortDirection
+    //       ? int.parse(a.id).compareTo(int.parse(b.id))
+    //       : int.parse(b.id).compareTo(int.parse(a.id)));
 
-      sortedPokemonList = boolSortDirection
-          ? [...collectedList, ...notCollectedList]
-          : [...notCollectedList, ...collectedList];
-    } else {
-      pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-      sortedPokemonList =
-          boolSortDirection ? pokemonList : pokemonList.reversed.toList();
-    }
+    //   sortedPokemonList = boolSortDirection
+    //       ? [...collectedList, ...notCollectedList]
+    //       : [...notCollectedList, ...collectedList];
+    // } else {
+    //   pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    //   sortedPokemonList =
+    //       boolSortDirection ? pokemonList : pokemonList.reversed.toList();
+    // }
 
-    _state = state.copyWith(
-      pokemonListData: sortedPokemonList,
-      isLoading: false,
-      sortDirection: boolSortDirection,
-      sortIsCollected: boolSortIsCollected,
-    );
+    _sortedByOptionPokemonUseCase.execute();
+
+    // _state = state.copyWith(
+    //   pokemonListData: sortedPokemonList,
+    //   isLoading: false,
+    //   sortDirection: boolSortDirection,
+    //   sortIsCollected: boolSortIsCollected,
+    // );
     notifyListeners();
   }
 
@@ -177,7 +178,8 @@ class MainViewModel extends ChangeNotifier {
       return;
     }
 
-    List<Pokemon> filterList = _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
+    List<Pokemon> filterList =
+        _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
     _state = state.copyWith(filterListData: filterList, isFiltered: true);
     notifyListeners();
   }

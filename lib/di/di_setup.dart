@@ -134,10 +134,8 @@ void diSetup() {
       pokemonRepository: getIt<PokemonRepository>(),
     ),
   );
-  getIt.registerSingleton<SortedPokemonListUseCase>(
-    SortedPokemonListUseCase(
-      pokemonRepository: getIt<PokemonRepository>(),
-    ),
+  getIt.registerSingleton<SortedByOptionPokemonUseCase>(
+    SortedByOptionPokemonUseCase(),
   );
   getIt.registerSingleton<SearchByNamePokemonUseCase>(
     SearchByNamePokemonUseCase(),
@@ -172,11 +170,11 @@ void diSetup() {
       logoutUseCase: getIt<LogoutUseCase>(),
       removeUserAccountUseCase: getIt<RemoveUserAccountUseCase>(),
       getPokemonUseCase: getIt<GetPokemonUseCase>(),
-      sortedPokemonListUseCase: getIt<SortedPokemonListUseCase>(),
       getUserAccountUseCase: getIt<GetUserAccountUseCase>(),
       getUserInfoUseCase: getIt<GetUserInfoUseCase>(),
       addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
       searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
+      sortedByOptionPokemonUseCase: getIt<SortedByOptionPokemonUseCase>(),
     ),
   );
   // ============================================================
