@@ -8,6 +8,7 @@ import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/type/get_type_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/logout_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/remove_user_account_use_case.dart';
@@ -23,6 +24,7 @@ class MainViewModel extends ChangeNotifier {
   final AddAndUpdateUserInfoUseCase _addAndUpdateUserInfoUseCase;
   final SearchByNamePokemonUseCase _searchByNamePokemonUseCase;
   final SortedByOptionPokemonUseCase _sortedByOptionPokemonUseCase;
+  final GetTypeUseCase _getTypeUseCase;
 
   MainViewModel({
     required LogoutUseCase logoutUseCase,
@@ -33,6 +35,7 @@ class MainViewModel extends ChangeNotifier {
     required AddAndUpdateUserInfoUseCase addAndUpdateUserInfoUseCase,
     required SearchByNamePokemonUseCase searchByNamePokemonUseCase,
     required SortedByOptionPokemonUseCase sortedByOptionPokemonUseCase,
+    required GetTypeUseCase getTypeUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
@@ -40,7 +43,8 @@ class MainViewModel extends ChangeNotifier {
         _getUserInfoUseCase = getUserInfoUseCase,
         _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase,
         _searchByNamePokemonUseCase = searchByNamePokemonUseCase,
-        _sortedByOptionPokemonUseCase = sortedByOptionPokemonUseCase {
+        _sortedByOptionPokemonUseCase = sortedByOptionPokemonUseCase,
+        _getTypeUseCase = getTypeUseCase {
     _initUserInfo();
   }
 
@@ -107,26 +111,12 @@ class MainViewModel extends ChangeNotifier {
         _state = state.copyWith(
           pokemonListData: pokemonList,
           isLoading: false,
-          // sortDirection: true,
-          // sortIsCollected: false,
         );
         notifyListeners();
         sortedByOptionPokemonList();
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
-  }
-
-  void updateUserOption(List<bool> selectedCollectionOptions,
-      List<bool> selectedDirectionOptions, int gridColumnCount) {
-    _state = state.copyWith(
-      sortDirection: selectedDirectionOptions,
-      sortIsCollected: selectedCollectionOptions,
-      gridCrossAxisCount: gridColumnCount,
-    );
-
-    sortedByOptionPokemonList();
-    notifyListeners();
   }
 
   void sortedByOptionPokemonList() {
@@ -156,12 +146,14 @@ class MainViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // 사용자 옵션 그리드 열 수 옵션 변경
   void updateGridColumnOption(double gridViewColumnCount) {
     _state = state.copyWith(gridCrossAxisCount: gridViewColumnCount.toInt());
     notifyListeners();
     sortedByOptionPokemonList();
   }
 
+  // 사용자 옵션 수집여부 옵션 변경
   void updateCollectionOption(List<bool> collectionOption, int index) {
     for (int i = 0; i < collectionOption.length; i++) {
       collectionOption[i] = i == index;
@@ -171,6 +163,7 @@ class MainViewModel extends ChangeNotifier {
     sortedByOptionPokemonList();
   }
 
+  // 사용자 옵션 방향 옵션 변경
   void updateDirectionOption(List<bool> directionOption, int index) {
     for (int i = 0; i < directionOption.length; i++) {
       directionOption[i] = i == index;
@@ -178,5 +171,18 @@ class MainViewModel extends ChangeNotifier {
     _state = state.copyWith(sortDirection: directionOption);
     notifyListeners();
     sortedByOptionPokemonList();
+  }
+
+  Future<void> fetchTypeList(String? typeId) async {
+    final fetchPokemonDataListResult = await _getTypeUseCase.execute(typeId);
+    fetchPokemonDataListResult.when(
+      success: (typeList) {
+        _state = state.copyWith(
+          typeList: typeList,
+        );
+        notifyListeners();
+      },
+      error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
+    );
   }
 }

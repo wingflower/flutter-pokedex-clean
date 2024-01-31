@@ -69,11 +69,8 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _textEditingController.dispose();
     _sliderValueStreamController.close();
-    print('qwerasdf _sliderValueStreamController close');
     _collectionOptionStreamController.close();
-    print('qwerasdf _collectionOptionStreamController close');
     _directionOptionStreamController.close();
-    print('qwerasdf _directionOptionStreamController close');
     super.dispose();
   }
 

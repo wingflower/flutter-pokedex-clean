@@ -6,13 +6,24 @@ import 'package:pokedex_clean/presentation/common/type_enum.dart';
 import 'package:pokedex_clean/presentation/common/widget/type_page_view_container.dart';
 import 'package:pokedex_clean/presentation/main/detail_screen/widget/detail_info_title_text_widget.dart';
 
-class DetailTypeColumnWidget extends StatelessWidget {
+class DetailTypeColumnWidget extends StatefulWidget {
   const DetailTypeColumnWidget({
     super.key,
     required this.pokemonData,
   });
 
   final Pokemon pokemonData;
+
+  @override
+  State<DetailTypeColumnWidget> createState() => _DetailTypeColumnWidgetState();
+}
+
+class _DetailTypeColumnWidgetState extends State<DetailTypeColumnWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +103,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
         ),
         Row(
           children: List.generate(
-            pokemonData.types.length,
+            widget.pokemonData.types.length,
             (index) {
               return GestureDetector(
                 onTap: () {
@@ -101,7 +112,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
                 },
                 child: Image.asset(
                   getTypeImagebyTypeId(
-                    pokemonData.types[index],
+                    widget.pokemonData.types[index],
                   ),
                 ),
               );
@@ -131,7 +142,7 @@ class DetailTypeColumnWidget extends StatelessWidget {
                   Row(
                     children: [
                       Image.asset(
-                        getTypeImagebyTypeId(pokemonData.types[index]),
+                        getTypeImagebyTypeId(widget.pokemonData.types[index]),
                         width: 64.0,
                         height: 64.0,
                       ),
