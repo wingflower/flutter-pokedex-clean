@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -19,6 +17,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late final TextEditingController _textEditingController = TextEditingController();
+
   @override
   void initState() {
     Future.microtask(() {
@@ -47,9 +47,17 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
-      //viewModel.fetchPokemonDataList();
+      _textEditingController.addListener(() {
+        viewModel.searchPokemon(_textEditingController.text);
+      });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,7 +67,20 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_calculateTime(state.rewardTime)),
+        title: TextField(
+          controller: _textEditingController,
+          decoration: InputDecoration(
+            hintText: '이름 검색',
+            prefixIcon: const Icon(Icons.search_outlined),
+            suffixIcon: Visibility(
+              visible: _textEditingController.text.isNotEmpty,
+              child: IconButton(
+                icon: const Icon(Icons.close_rounded),
+                onPressed: _textEditingController.clear,
+              ),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
