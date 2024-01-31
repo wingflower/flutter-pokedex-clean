@@ -29,10 +29,13 @@ class DetailEvolutionImageWidget extends StatelessWidget {
                     imageUrl:
                         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${int.parse(pokemonData.evolutions[index])}.png',
                     width: MediaQuery.of(context).size.width / 4,
+                    height: MediaQuery.of(context).size.width / 4,
                     placeholder: (context, url) => Opacity(
                       opacity: 0.5,
                       child: Image.asset(
                         pokeball,
+                        width: MediaQuery.of(context).size.width / 4,
+                        height: MediaQuery.of(context).size.width / 4,
                       ),
                     ),
                     // errorWidget: ,
