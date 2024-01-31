@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +22,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   late final TextEditingController _textEditingController =
       TextEditingController();
+
+  late final StreamController<double> _sliderValueStreamController =
+      StreamController<double>.broadcast();
+  late final StreamController<List<bool>> _collectionOptionStreamController =
+      StreamController<List<bool>>.broadcast();
+  late final StreamController<List<bool>> _directionOptionStreamController =
+      StreamController<List<bool>>.broadcast();
 
   @override
   void initState() {
@@ -59,6 +68,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _sliderValueStreamController.close();
+    print('qwerasdf _sliderValueStreamController close');
+    _collectionOptionStreamController.close();
+    print('qwerasdf _collectionOptionStreamController close');
+    _directionOptionStreamController.close();
+    print('qwerasdf _directionOptionStreamController close');
     super.dispose();
   }
 
@@ -86,6 +101,9 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           UserSortOptionElevatedButtonWidget(
             mainViewModel: viewModel,
+            sliderValueStreamController: _sliderValueStreamController,
+            collectionOptionStreamController: _collectionOptionStreamController,
+            directionOptionStreamController: _directionOptionStreamController,
           ),
           IconButton(
               onPressed: () {

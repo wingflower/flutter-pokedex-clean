@@ -159,6 +159,7 @@ class MainViewModel extends ChangeNotifier {
   void updateGridColumnOption(double gridViewColumnCount) {
     _state = state.copyWith(gridCrossAxisCount: gridViewColumnCount.toInt());
     notifyListeners();
+    sortedByOptionPokemonList();
   }
 
   void updateCollectionOption(List<bool> collectionOption, int index) {
@@ -167,6 +168,7 @@ class MainViewModel extends ChangeNotifier {
     }
     _state = state.copyWith(sortIsCollected: collectionOption);
     notifyListeners();
+    sortedByOptionPokemonList();
   }
 
   void updateDirectionOption(List<bool> directionOption, int index) {
@@ -175,5 +177,6 @@ class MainViewModel extends ChangeNotifier {
     }
     _state = state.copyWith(sortDirection: directionOption);
     notifyListeners();
+    sortedByOptionPokemonList();
   }
 }
