@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
+import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/common/type_enum.dart';
 
 class TypeScreen extends StatelessWidget {
+  final List<TypeModel> typeList;
   const TypeScreen({
     super.key,
+    required this.typeList,
   });
 
   @override
   Widget build(BuildContext context) {
-    List<String> typeTest = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -39,12 +26,18 @@ class TypeScreen extends StatelessWidget {
             mainAxisSpacing: 4.0,
             crossAxisCount: 3,
           ),
-          itemCount: typeTest.length,
+          itemCount: typeList.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                typeEffectShowDialogFunction(
+                  context,
+                  index,
+                  typeList[index],
+                );
+              },
               child: Image.asset(
-                getTypeDoubleImagebyTypeId(typeTest[index]),
+                getTypeDoubleImagebyTypeId(typeList[index].id),
               ),
             );
           },

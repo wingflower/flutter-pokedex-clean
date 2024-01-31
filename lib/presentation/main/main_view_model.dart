@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
@@ -83,6 +84,7 @@ class MainViewModel extends ChangeNotifier {
       },
     );
     fetchPokemonDataList();
+    fetchTypeList();
   }
 
   Future<void> logout() async {
@@ -173,8 +175,8 @@ class MainViewModel extends ChangeNotifier {
     sortedByOptionPokemonList();
   }
 
-  Future<void> fetchTypeList(String? typeId) async {
-    final fetchPokemonDataListResult = await _getTypeUseCase.execute(typeId);
+  Future<void> fetchTypeList() async {
+    final fetchPokemonDataListResult = await _getTypeUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (typeList) {
         _state = state.copyWith(
@@ -184,5 +186,9 @@ class MainViewModel extends ChangeNotifier {
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
+  }
+
+  TypeModel getTypeByTypeId(String typeId) {
+    return state.typeList.firstWhere((element) => element.id == typeId);
   }
 }

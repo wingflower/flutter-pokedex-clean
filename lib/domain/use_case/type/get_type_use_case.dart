@@ -8,14 +8,11 @@ class GetTypeUseCase {
   GetTypeUseCase({required TypeRepository pokemonRepository})
       : _typeRepository = pokemonRepository;
 
-  Future<Result<List<TypeModel>>> execute(String? typeId) async {
+  Future<Result<List<TypeModel>>> execute() async {
     final pokemonListResult = await _typeRepository.getTypeList();
 
     return pokemonListResult.when(
         success: (pokemonList) {
-          if (typeId != null) {
-            pokemonList.where((typeModel) => typeModel.id.contains(typeId));
-          }
           return Result.success(pokemonList);
         },
         error: (e) => Result.error(e));

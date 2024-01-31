@@ -5,10 +5,12 @@ import 'package:get_it/get_it.dart';
 import 'package:pokedex_clean/data/repository/firebase_auth_repository.dart';
 import 'package:pokedex_clean/data/repository/firestore_user_infor_repository.dart';
 import 'package:pokedex_clean/data/repository/pokemon_repository_impl.dart';
+import 'package:pokedex_clean/data/repository/type_repository_impl.dart';
 import 'package:pokedex_clean/data/repository/user_account_repository_impl.dart';
 import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/domain/repository/auth_repository.dart';
 import 'package:pokedex_clean/domain/repository/pokemon_repository.dart';
+import 'package:pokedex_clean/domain/repository/type_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_account_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
@@ -16,6 +18,7 @@ import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/type/get_type_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/check_verify_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/login_use_case.dart';
@@ -66,6 +69,9 @@ void diSetup() {
     FirestoreUserInfoRepository(
       instance: FirebaseFirestore.instance,
     ),
+  );
+  getIt.registerSingleton<TypeRepository>(
+    TypeRepositoryImpl(),
   );
   // ============================================================
   //                             <<< REPOSITORIES Declaration END
@@ -142,6 +148,11 @@ void diSetup() {
   getIt.registerSingleton<SearchByNamePokemonUseCase>(
     SearchByNamePokemonUseCase(),
   );
+  getIt.registerSingleton<GetTypeUseCase>(
+    GetTypeUseCase(
+      pokemonRepository: getIt<TypeRepository>(),
+    ),
+  );
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
@@ -177,6 +188,7 @@ void diSetup() {
       addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
       searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
       sortedByOptionPokemonUseCase: getIt<SortedByOptionPokemonUseCase>(),
+      getTypeUseCase: getIt<GetTypeUseCase>(),
     ),
   );
   // ============================================================

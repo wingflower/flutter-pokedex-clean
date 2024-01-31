@@ -41,7 +41,10 @@ class MainGridViewWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => pokemonList[index].isCollected
-                  ? context.push('/main/detail', extra: pokemonList[index])
+                  ? context.push('/main/detail', extra: {
+                      'pokemonList': pokemonList[index],
+                      'mainState': state,
+                    })
                   : showDialog(
                       context: context,
                       builder: (BuildContext context) {
