@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/presentation/common/type_enum.dart';
 import 'package:pokedex_clean/presentation/main/detail_screen/type/widget/type_page_view_container.dart';
+import 'package:pokedex_clean/presentation/main/detail_screen/type/widget/type_page_view_indicator.dart';
 
 void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
@@ -93,6 +94,7 @@ Future<dynamic> typeEffectShowDialogFunction(
   BuildContext context,
   int index,
   TypeModel typeModel,
+  // PageController pageController2,
 ) {
   List<String> goodForType = removeTypeDuplicates(
       typeModel.double_damage_to, typeModel.half_damage_from);
@@ -100,6 +102,8 @@ Future<dynamic> typeEffectShowDialogFunction(
       typeModel.double_damage_from, typeModel.half_damage_to);
   List<String> noneForType =
       removeTypeDuplicates(typeModel.no_damage_to, typeModel.no_damage_from);
+
+  final PageController pageController = PageController();
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -140,18 +144,46 @@ Future<dynamic> typeEffectShowDialogFunction(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
           ),
-          child: PageView(
+          child: Column(
             children: [
-              TypePageViewContainer(
-                  title: '유리함', typeList: goodForType, color: Colors.blue),
-              TypePageViewContainer(
-                  title: '불리함', typeList: badForType, color: Colors.red),
-              TypePageViewContainer(
-                  title: '효과없음', typeList: noneForType, color: Colors.grey),
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return TypePageViewContainer(
+                          title: '유리함',
+                          typeList: goodForType,
+                          color: Colors.blue,
+                        );
+                      case 1:
+                        return TypePageViewContainer(
+                          title: '불리함',
+                          typeList: badForType,
+                          color: Colors.red,
+                        );
+                      case 2:
+                        return TypePageViewContainer(
+                          title: '효과없음',
+                          typeList: noneForType,
+                          color: Colors.grey,
+                        );
+                      default:
+                        throw Exception('Invalid index: $index');
+                    }
+                  },
+                ),
+              ),
+              TypePageViewIndicator(
+                pageController: pageController,
+                itemCount: 3,
+              ),
             ],
           ),
         ),
       );
     },
-  );
+  ).then((value) => pageController.dispose());
 }

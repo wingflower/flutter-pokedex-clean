@@ -22,6 +22,20 @@ class DetailTypeColumnWidget extends StatefulWidget {
 }
 
 class _DetailTypeColumnWidgetState extends State<DetailTypeColumnWidget> {
+  // late PageController _pageController;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _pageController = PageController(initialPage: 0);
+  // }
+
+  // @override
+  // void dispose() {
+  //   _pageController.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     List<TypeModel> typeList = widget.mainState.typeList;
@@ -53,6 +67,7 @@ class _DetailTypeColumnWidgetState extends State<DetailTypeColumnWidget> {
                     context,
                     index,
                     typeModel,
+                    // _pageController,
                   );
                 },
                 child: Image.asset(
