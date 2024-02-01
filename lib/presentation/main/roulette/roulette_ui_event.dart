@@ -6,5 +6,5 @@ part 'roulette_ui_event.freezed.dart';
 @freezed
 sealed class RouletteUiEvent with _$RouletteUiEvent {
   const factory RouletteUiEvent.showSnackBar(String message) = ShowSnackBar;
-  const factory RouletteUiEvent.showDialog(Pokemon pokemon) = ShowDialog;
+  const factory RouletteUiEvent.showDialog(Pokemon pokemon, bool exist) = ShowDialog;
 }

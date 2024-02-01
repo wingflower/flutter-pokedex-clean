@@ -46,7 +46,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case ShowDialog():
-            _showPokemonDialog(event.pokemon);
+            _showPokemonDialog(event.pokemon, event.exist);
             appTimer.subtractCount();
         }
       });
@@ -137,7 +137,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     );
   }
 
-  void _showPokemonDialog(Pokemon pokemon) {
+  void _showPokemonDialog(Pokemon pokemon, bool exist) {
     double width = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -148,10 +148,12 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
           scrollable: true,
           title: Center(
             child: Text(
-              '${pokemon.description.name} 획득!',
+              exist ? '중복이네요😢\n${pokemon.description.name}'
+              : '🎉 축하합니다 🎉\n${pokemon.description.name} 획득',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           content: Column(
