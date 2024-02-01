@@ -5,6 +5,7 @@ import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/refresh_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
@@ -26,6 +27,7 @@ class MainViewModel extends ChangeNotifier {
   final SearchByNamePokemonUseCase _searchByNamePokemonUseCase;
   final SortedByOptionPokemonUseCase _sortedByOptionPokemonUseCase;
   final GetTypeUseCase _getTypeUseCase;
+  final RefreshPokemonUseCase _refreshPokemonUseCase;
 
   MainViewModel({
     required LogoutUseCase logoutUseCase,
@@ -37,6 +39,7 @@ class MainViewModel extends ChangeNotifier {
     required SearchByNamePokemonUseCase searchByNamePokemonUseCase,
     required SortedByOptionPokemonUseCase sortedByOptionPokemonUseCase,
     required GetTypeUseCase getTypeUseCase,
+    required RefreshPokemonUseCase refreshPokemonUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
@@ -45,7 +48,8 @@ class MainViewModel extends ChangeNotifier {
         _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase,
         _searchByNamePokemonUseCase = searchByNamePokemonUseCase,
         _sortedByOptionPokemonUseCase = sortedByOptionPokemonUseCase,
-        _getTypeUseCase = getTypeUseCase {
+        _getTypeUseCase = getTypeUseCase,
+        _refreshPokemonUseCase = refreshPokemonUseCase {
     _initUserInfo();
   }
 
@@ -191,13 +195,10 @@ class MainViewModel extends ChangeNotifier {
   }
 
   void refresh() {
-    final List<Pokemon> pokemonList = state.pokemonListData;
+    final List<Pokemon> refreshPokemonList = _refreshPokemonUseCase.execute(state.pokemonListData, state.userInfo.pokemons);
 
-    for (final numberString in state.userInfo.pokemons) {
-      pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
-    }
     _state = state.copyWith(
-      pokemonListData: pokemonList,
+      pokemonListData: refreshPokemonList,
     );
     notifyListeners();
   }
