@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,7 @@ import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/main_grid_view_widget.dart';
+import 'widget/user_sort_option_elevated_button_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,7 +21,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController =
+      TextEditingController();
+
+  late final StreamController<double> _sliderValueStreamController =
+      StreamController<double>.broadcast();
+  late final StreamController<List<bool>> _collectionOptionStreamController =
+      StreamController<List<bool>>.broadcast();
+  late final StreamController<List<bool>> _directionOptionStreamController =
+      StreamController<List<bool>>.broadcast();
 
   @override
   void initState() {
@@ -61,6 +72,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _sliderValueStreamController.close();
+    _collectionOptionStreamController.close();
+    _directionOptionStreamController.close();
     super.dispose();
   }
 
@@ -86,13 +100,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.access_time),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.info_outline),
+          UserSortOptionElevatedButtonWidget(
+            mainViewModel: viewModel,
+            sliderValueStreamController: _sliderValueStreamController,
+            collectionOptionStreamController: _collectionOptionStreamController,
+            directionOptionStreamController: _directionOptionStreamController,
           ),
           IconButton(
               onPressed: () {
@@ -106,34 +118,34 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: MainGridViewWidget(state: viewModel.state),
+      body: MainGridViewWidget(state: state),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
         children: [
-          SpeedDialChild(
-            label: !state.sortDirection ? '정방향' : '역방향',
-            child: state.sortDirection
-                ? const Icon(Icons.upload)
-                : const Icon(Icons.download),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            onTap: () {
-              viewModel.sortPokemonDataList('direction');
-            },
-          ),
-          SpeedDialChild(
-            label: '컬렉션만',
-            child: !state.sortIsCollected
-                ? const Icon(Icons.check_box_outline_blank_outlined)
-                : const Icon(Icons.check_box_outlined),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            onTap: () {
-              viewModel.sortPokemonDataList('collected');
-            },
-          ),
+          // SpeedDialChild(
+          //   label: !state.sortDirection ? '정방향' : '역방향',
+          //   child: state.sortDirection
+          //       ? const Icon(Icons.upload)
+          //       : const Icon(Icons.download),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(50),
+          //   ),
+          //   onTap: () {
+          //     viewModel.sortedByOptionPokemonList('direction');
+          //   },
+          // ),
+          // SpeedDialChild(
+          //   label: '컬렉션만',
+          //   child: !state.sortIsCollected
+          //       ? const Icon(Icons.check_box_outline_blank_outlined)
+          //       : const Icon(Icons.check_box_outlined),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(50),
+          //   ),
+          //   onTap: () {
+          //     viewModel.sortedByOptionPokemonList('collected');
+          //   },
+          // ),
           SpeedDialChild(
             child: const Icon(Icons.circle_outlined),
             shape: RoundedRectangleBorder(

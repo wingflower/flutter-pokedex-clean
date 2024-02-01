@@ -1,4 +1,4 @@
-class Type {
+class TypeModel {
   String id;
   String name;
   String imageurl;
@@ -9,7 +9,7 @@ class Type {
   List<Map<String, dynamic>> no_damage_to;
   List<Map<String, dynamic>> no_damage_from;
 
-  Type({
+  TypeModel({
     required this.id,
     required this.name,
     required this.imageurl,
@@ -21,8 +21,8 @@ class Type {
     required this.no_damage_from,
   });
 
-  factory Type.fromJson(Map<String, dynamic> json) {
-    return Type(
+  factory TypeModel.fromJson(Map<String, dynamic> json) {
+    return TypeModel(
       id: json['id'],
       name: json['name'],
       imageurl: json['imageurl'],

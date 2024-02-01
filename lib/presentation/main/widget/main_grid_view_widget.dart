@@ -19,7 +19,7 @@ class MainGridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Pokemon> pokemonList = state.isFiltered ? state.filterListData : state.pokemonListData;
+    List<Pokemon> pokemonList = state.filterListData;
     int gridCrossAxisCount = state.gridCrossAxisCount;
 
     return RawScrollbar(
@@ -32,8 +32,8 @@ class MainGridViewWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: gridCrossAxisCount,
             crossAxisSpacing: 4.0,
             mainAxisSpacing: 4.0,
           ),
@@ -41,7 +41,10 @@ class MainGridViewWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => pokemonList[index].isCollected
-                  ? context.push('/main/detail', extra: pokemonList[index])
+                  ? context.push('/main/detail', extra: {
+                      'pokemonList': pokemonList[index],
+                      'mainState': state,
+                    })
                   : showDialog(
                       context: context,
                       builder: (BuildContext context) {

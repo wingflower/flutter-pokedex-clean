@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 
 import 'widget/detail_ability_column_widget.dart';
 import 'widget/detail_about_column_widget.dart';
@@ -11,10 +12,12 @@ import 'widget/detail_stat_info_row_widget.dart';
 import 'widget/detail_type_column_widget.dart';
 
 class DetailScreen extends StatelessWidget {
+  final MainState mainState;
   final Pokemon pokemonData;
   const DetailScreen({
     super.key,
     required this.pokemonData,
+    required this.mainState,
   });
 
   @override
@@ -119,7 +122,10 @@ class DetailScreen extends StatelessWidget {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  DetailTypeColumnWidget(pokemonData: pokemonData),
+                  DetailTypeColumnWidget(
+                    pokemonData: pokemonData,
+                    mainState: mainState,
+                  ),
                   const SizedBox(
                     height: 16.0,
                   ),
