@@ -63,9 +63,11 @@ class MainViewModel extends ChangeNotifier {
       success: (data) {
         _state = state.copyWith(email: data.$1);
         _getUserInfo();
-      }, error: (e) async {
+      },
+      error: (e) async {
         await _removeUserAccountUseCase.execute(keyEmail, keyPassword);
-        _controller.add(const MainUiEvent.errorInitialize('사용자 정보를 초기화하는데 실패했습니다.'));
+        _controller
+            .add(const MainUiEvent.errorInitialize('사용자 정보를 초기화하는데 실패했습니다.'));
       },
     );
   }
@@ -106,7 +108,9 @@ class MainViewModel extends ChangeNotifier {
     fetchPokemonDataListResult.when(
       success: (pokemonList) {
         for (final numberString in state.userInfo.pokemons) {
-          pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
+          pokemonList
+              .firstWhere((element) => element.id == numberString)
+              .isCollected = true;
         }
         _state = state.copyWith(
           pokemonListData: pokemonList,
@@ -194,11 +198,14 @@ class MainViewModel extends ChangeNotifier {
     final List<Pokemon> pokemonList = state.pokemonListData;
 
     for (final numberString in state.userInfo.pokemons) {
-      pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
+      pokemonList
+          .firstWhere((element) => element.id == numberString)
+          .isCollected = true;
     }
     _state = state.copyWith(
       pokemonListData: pokemonList,
     );
     notifyListeners();
+    sortedByOptionPokemonList();
   }
 }

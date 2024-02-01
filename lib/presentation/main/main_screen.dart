@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pokedex_clean/app_timer.dart';
+import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -122,18 +123,21 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       body: state.isLoading
-        ? Center(
-            child: Lottie.asset('assets/images/common/squirtle.json',
-            width: MediaQuery.of(context).size.width / 2),
-          )
-        : MainGridViewWidget(state: state),
+          ? Center(
+              child: Lottie.asset(squirtleJson,
+                  width: MediaQuery.of(context).size.width / 2),
+            )
+          : MainGridViewWidget(state: state),
       floatingActionButton: FloatingActionButton.large(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(48.0),
+        ),
         backgroundColor: Colors.lightBlueAccent.withOpacity(0.75),
         child: Stack(
           alignment: AlignmentDirectional.topEnd,
           children: [
             Image.asset(
-              'assets/images/pokeball/pokeball.png',
+              pokeball,
               width: 60,
             ),
             Container(
@@ -145,17 +149,17 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: Center(
                 child: Text(
-                    timer.count.toString(),
+                  timer.count.toString(),
                   style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: timer.count < 10 ? 16 : 14
-                  ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: timer.count < 10 ? 16 : 14),
                 ),
               ),
             ),
           ],
-        ).animate(onPlay: (controller) => controller.repeat())
+        )
+            .animate(onPlay: (controller) => controller.repeat())
             .shake(duration: const Duration(seconds: 1), hz: timer.count / 2),
         onPressed: () async {
           await context.push(
