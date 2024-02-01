@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
@@ -39,7 +40,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
       final RouletteViewModel viewModel = context.read();
       final AppTimer appTimer = context.read();
       streamSubscription = viewModel.stream.listen((event) {
-        switch(event) {
+        switch (event) {
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case ShowDialog():
@@ -52,7 +53,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     _animationController.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
-          _animationController.reverse();
+          _animationController.reset();
         }
       },
     );
@@ -67,40 +68,63 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animationSize = Tween(begin: 1.0, end: 2.0).animate(_animationController);
+    final Animation<double> animationSize = Tween(begin: 0.8, end: 2.0).animate(_animationController);
     final AppTimer appTimer = context.watch();
     final bool activeButton = appTimer.count > 0;
     final RouletteViewModel viewModel = context.watch();
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Consumer<AppTimer>(
-          builder: (context, appTimer, child) {
-            return Text('CNT: ${appTimer.count}');
-          },
-        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: Row(children: [
+          Image.asset(
+            'assets/images/pokeball/pokeball.png',
+            height: 40,
+            width: 40,
+          ),
+          Consumer<AppTimer>(
+            builder: (context, appTimer, child) {
+              return Text('X ${appTimer.count}');
+            },
+          ),
+        ]),
       ),
       body: Center(
-        child: RotationTransition(
-          turns: Tween<double>(begin: 0.0, end: 5.0).animate(_scaleAnimation),
-          child: ScaleTransition(
-            scale: animationSize,
-            child: GestureDetector(
-              onTap: activeButton
-                  ? () {
-                      if (_animationController.isDismissed || _animationController.isCompleted) {
-                        _animationController.forward(from: 0.0);
-                        viewModel.drawPokemon(widget.pokemonList, widget.userInfo, widget.email);
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/pokeball/grassland.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: RotationTransition(
+            turns: Tween<double>(begin: 0.0, end: 1.0).animate(_scaleAnimation),
+            child: ScaleTransition(
+              scale: animationSize,
+              child: GestureDetector(
+                onTap: activeButton
+                    ? () {
+                        if (_animationController.isDismissed || _animationController.isCompleted) {
+                          _animationController.forward(from: 0.0);
+                          viewModel.drawPokemon(widget.pokemonList, widget.userInfo, widget.email);
+                        }
                       }
-                    }
-                  : null,
-              child: Container(
-                width: 300,
-                height: 300,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/pokeball/pokeball.png'),
-                    fit: BoxFit.cover,
+                    : null,
+                child: ShakeAnimatedWidget(
+                  enabled: appTimer.count >= 1,
+                  duration: const Duration(seconds: 2),
+                  shakeAngle: Rotation.deg(z: 15),
+                  curve: Curves.linearToEaseOut,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/pokeball/pokeball.png'),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -111,12 +135,12 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     );
   }
 
-
   void _showPokemonDialog(Pokemon pokemon) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
-        title: const Center(child: Text("포켓몬 획득!")),
+        title: Center(child: Text('${pokemon.description.name} 획득!')),
         content: Image.network(
           pokemon.imageurl,
           height: 400,
