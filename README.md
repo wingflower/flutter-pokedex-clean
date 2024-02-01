@@ -45,6 +45,12 @@ sc2bat</b></sub></a><br /></td>
 ### figma Link
 https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=design&t=XSx1PJWzuheQVJ1A-0
 
+### notion
+https://www.notion.so/2789-76dc7c6eae17445fa252a65f36eb1c18?pvs=4
+
+### ppt
+https://docs.google.com/presentation/d/1XKyIopnsb7QRJ6wxCLxZcRwWdIEbu0hh6Q7nbRvqHEE/edit?usp=sharing
+
 1. [x] 로딩
 
 |진행|화면|기능|
@@ -61,7 +67,7 @@ https://www.figma.com/file/OldTPFBBEOLmVd9GxBrZMV/Untitled?type=design&mode=desi
 |:heavy_check_mark:|이메일인증|등록한 이메일을 인증하여 최종 승인|
 |:heavy_check_mark:|비밀번호 초기화|비밀번호를 초기화|
 
-3. [ ] 메인
+3. [x] 메인
 
 |진행|화면|기능|
 |---|---|---|
@@ -74,27 +80,27 @@ https://gist.githubusercontent.com/sc2bat/f495ec7cf9ce22bad0e69f42f656194f/raw/a
 - pokemon_data
 https://gist.githubusercontent.com/sc2bat/28d2991fb9e361f0e50fd52ac7c40774/raw/48a3eb10ff8094a300775471c1d8b7e0bbb29f09/pokemon_data.json
 
-4. [ ] 룰렛
+4. [x] 룰렛
 
 |진행|화면|기능|
 |---|---|---|
 |진행중|룰렛|- 활성화 시간 표시<br>- 룰렛 버튼<br>[활성화/비활성화]|
 
-5. [ ] 정보
+5. [x] 정보
 
 |진행|화면|기능|
 |---|---|---|
-||상세|- 이미지 표시<br>- 정보 표시<br>- 스탯 표시<br>- 진화 표시<br>- 유형 표시|
-||유형|- 유형 종류 표시<br>- 유형 효과 표시|
+|:heavy_check_mark:|상세|- 이미지 표시<br>- 정보 표시<br>- 스탯 표시<br>- 진화 표시<br>- 유형 표시|
+|:heavy_check_mark:|유형|- 유형 종류 표시<br>- 유형 효과 표시|
 
 6. [ ] Firestore
 
 |진행|화면|기능|
 |---|---|---|
 |:heavy_check_mark:|연동||
-|진행중|Read||
-||Create||
-||Update||
+|:heavy_check_mark:|Read||
+|:heavy_check_mark:|Create||
+|:heavy_check_mark:|Update||
 ||Delete||
 
 
