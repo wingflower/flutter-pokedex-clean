@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/user_info.dart';
@@ -139,21 +140,16 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AlertDialog(
-        title: Center(child: Text('${pokemon.description.name} 획득!')),
-        content: Image.network(
-          pokemon.imageurl,
-          height: 400,
-          width: 400,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text("확인"),
+      builder: (_) => GestureDetector(
+        onTap: context.pop,
+        child: AlertDialog(
+          title: Center(child: Text('${pokemon.description.name} 획득!')),
+          content: Image.network(
+            pokemon.imageurl,
+            height: 400,
+            width: 400,
           ),
-        ],
+        ),
       ),
     );
   }
