@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
-import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/presentation/login/login_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
@@ -10,7 +10,6 @@ import 'package:pokedex_clean/presentation/main/detail_screen/type/type_screen.d
 import 'package:pokedex_clean/presentation/main/main_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_screen.dart';
-import 'package:pokedex_clean/presentation/main/type/type_screen.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
 import 'package:pokedex_clean/presentation/splash/splash_screen.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
