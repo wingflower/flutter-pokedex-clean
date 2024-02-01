@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
+import 'package:pokedex_clean/presentation/common/type_enum.dart';
+import 'package:pokedex_clean/presentation/main/detail_screen/type/widget/type_page_view_container.dart';
+import 'package:pokedex_clean/presentation/main/detail_screen/type/widget/type_page_view_indicator.dart';
 
 void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
@@ -67,4 +71,119 @@ Color getColorFromString(String colorString) {
     default:
       return Colors.transparent; // 기본값 설정
   }
+}
+
+// 타입 중복 값 제거
+List<String> removeTypeDuplicates(
+    List<Map<String, dynamic>> list1, List<Map<String, dynamic>> list2) {
+  Set<String> resultList = {};
+
+  for (var entry in list1) {
+    resultList.add(entry['id']);
+  }
+
+  for (var entry in list2) {
+    resultList.add(entry['id']);
+  }
+
+  return resultList.toList();
+}
+
+// 타입 다이얼로그
+Future<dynamic> typeEffectShowDialogFunction(
+  BuildContext context,
+  int index,
+  TypeModel typeModel,
+  // PageController pageController2,
+) {
+  List<String> goodForType = removeTypeDuplicates(
+      typeModel.double_damage_to, typeModel.half_damage_from);
+  List<String> badForType = removeTypeDuplicates(
+      typeModel.double_damage_from, typeModel.half_damage_to);
+  List<String> noneForType =
+      removeTypeDuplicates(typeModel.no_damage_to, typeModel.no_damage_from);
+
+  final PageController pageController = PageController();
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  getTypeImagebyTypeId(typeModel.id),
+                  width: 64.0,
+                  height: 64.0,
+                ),
+                Text(
+                  '${typeModel.name} 타입의 상성정보',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.close_outlined,
+                size: 32.0,
+              ),
+            ),
+          ],
+        ),
+        scrollable: true,
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.6,
+          height: MediaQuery.of(context).size.height * 0.5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return TypePageViewContainer(
+                          title: '유리함',
+                          typeList: goodForType,
+                          color: Colors.blue,
+                        );
+                      case 1:
+                        return TypePageViewContainer(
+                          title: '불리함',
+                          typeList: badForType,
+                          color: Colors.red,
+                        );
+                      case 2:
+                        return TypePageViewContainer(
+                          title: '효과없음',
+                          typeList: noneForType,
+                          color: Colors.grey,
+                        );
+                      default:
+                        throw Exception('Invalid index: $index');
+                    }
+                  },
+                ),
+              ),
+              TypePageViewIndicator(
+                pageController: pageController,
+                itemCount: 3,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  ).then((value) => pageController.dispose());
 }

@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
+import 'package:pokedex_clean/presentation/main/main_state.dart';
 
 import 'widget/detail_ability_column_widget.dart';
 import 'widget/detail_about_column_widget.dart';
@@ -13,27 +11,17 @@ import 'widget/detail_info_title_text_widget.dart';
 import 'widget/detail_stat_info_row_widget.dart';
 import 'widget/detail_type_column_widget.dart';
 
-class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
-
-  @override
-  State<DetailScreen> createState() => _DetailScreenState();
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class DetailScreen extends StatelessWidget {
+  final MainState mainState;
+  final Pokemon pokemonData;
+  const DetailScreen({
+    super.key,
+    required this.pokemonData,
+    required this.mainState,
+  });
 
   @override
   Widget build(BuildContext context) {
-    late Pokemon pokemonData;
-    if (GoRouterState.of(context).extra != null) {
-      pokemonData = GoRouterState.of(context).extra! as Pokemon;
-    } else {
-      throw Exception(e);
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -134,7 +122,10 @@ class _DetailScreenState extends State<DetailScreen> {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  DetailTypeColumnWidget(pokemonData: pokemonData),
+                  DetailTypeColumnWidget(
+                    pokemonData: pokemonData,
+                    mainState: mainState,
+                  ),
                   const SizedBox(
                     height: 16.0,
                   ),
@@ -153,4 +144,3 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
-
