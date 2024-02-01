@@ -100,6 +100,8 @@ class MainViewModel extends ChangeNotifier {
     _state = state.copyWith(isLoading: true);
     notifyListeners();
 
+    await Future.delayed(const Duration(seconds: 1));
+
     final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (pokemonList) {

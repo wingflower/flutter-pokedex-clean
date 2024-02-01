@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
@@ -72,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
+
     _sliderValueStreamController.close();
     _collectionOptionStreamController.close();
     _directionOptionStreamController.close();
@@ -80,6 +82,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AppTimer timer = context.watch();
     final MainViewModel viewModel = context.watch();
     final MainState state = viewModel.state;
 
@@ -118,58 +121,53 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: MainGridViewWidget(state: state),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        children: [
-          // SpeedDialChild(
-          //   label: !state.sortDirection ? '정방향' : '역방향',
-          //   child: state.sortDirection
-          //       ? const Icon(Icons.upload)
-          //       : const Icon(Icons.download),
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(50),
-          //   ),
-          //   onTap: () {
-          //     viewModel.sortedByOptionPokemonList('direction');
-          //   },
-          // ),
-          // SpeedDialChild(
-          //   label: '컬렉션만',
-          //   child: !state.sortIsCollected
-          //       ? const Icon(Icons.check_box_outline_blank_outlined)
-          //       : const Icon(Icons.check_box_outlined),
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(50),
-          //   ),
-          //   onTap: () {
-          //     viewModel.sortedByOptionPokemonList('collected');
-          //   },
-          // ),
-          SpeedDialChild(
-            child: const Icon(Icons.circle_outlined),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+      body: state.isLoading
+        ? Center(
+            child: Lottie.asset('assets/images/common/squirtle.json',
+            width: MediaQuery.of(context).size.width / 2),
+          )
+        : MainGridViewWidget(state: state),
+      floatingActionButton: FloatingActionButton.large(
+        backgroundColor: Colors.lightBlueAccent.withOpacity(0.75),
+        child: Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            Image.asset(
+              'assets/images/pokeball/pokeball.png',
+              width: 60,
             ),
-            onTap: () async {
-              final result = await context.push(
-                '/main/roulette',
-                extra: {
-                  'pokemonData': state.pokemonListData,
-                  'userInfo': state.userInfo,
-                  'email': state.email,
-                },
-              );
-              viewModel.refresh();
+            Container(
+              width: 30,
+              height: 30,
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                    timer.count.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: timer.count < 10 ? 16 : 14
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ).animate(onPlay: (controller) => controller.repeat())
+            .shake(duration: const Duration(seconds: 1), hz: timer.count / 2),
+        onPressed: () async {
+          await context.push(
+            '/main/roulette',
+            extra: {
+              'pokemonData': state.pokemonListData,
+              'userInfo': state.userInfo,
+              'email': state.email,
             },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.star_border_outlined),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-          ),
-        ],
+          );
+          viewModel.refresh();
+        },
       ),
     );
   }
