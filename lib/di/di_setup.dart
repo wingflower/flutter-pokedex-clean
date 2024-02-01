@@ -13,6 +13,7 @@ import 'package:pokedex_clean/domain/repository/pokemon_repository.dart';
 import 'package:pokedex_clean/domain/repository/type_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_account_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
+import 'package:pokedex_clean/domain/use_case/collection/draw_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
@@ -30,6 +31,7 @@ import 'package:pokedex_clean/domain/use_case/user/reset_password_use_case.dart'
 import 'package:pokedex_clean/domain/use_case/user/store_user_account_use_case.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
+import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
 import 'package:pokedex_clean/presentation/splash/splash_view_model.dart';
 
 final getIt = GetIt.instance;
@@ -50,6 +52,8 @@ void diSetup() {
   // ============================================================
   //                                      <<< ETC Declaration END
   // ============================================================
+
+
 
   // ============================================================
   // REPOSITORIES Declaration START >>>
@@ -76,6 +80,8 @@ void diSetup() {
   // ============================================================
   //                             <<< REPOSITORIES Declaration END
   // ============================================================
+
+
 
   // ============================================================
   // USE_CASES Declaration START >>>
@@ -145,6 +151,9 @@ void diSetup() {
       pokemonRepository: getIt<PokemonRepository>(),
     ),
   );
+  getIt.registerSingleton<DrawPokemonUseCase>(
+    DrawPokemonUseCase(),
+  );
   getIt.registerSingleton<SearchByNamePokemonUseCase>(
     SearchByNamePokemonUseCase(),
   );
@@ -156,6 +165,8 @@ void diSetup() {
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
+
+
 
   // ============================================================
   // VIEW_MODELS Declaration START >>>
@@ -189,6 +200,13 @@ void diSetup() {
       searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
       sortedByOptionPokemonUseCase: getIt<SortedByOptionPokemonUseCase>(),
       getTypeUseCase: getIt<GetTypeUseCase>(),
+    ),
+  );
+
+  getIt.registerFactory<RouletteViewModel>(
+    () => RouletteViewModel(
+      drawPokemonUseCase: getIt<DrawPokemonUseCase>(),
+      addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
     ),
   );
   // ============================================================

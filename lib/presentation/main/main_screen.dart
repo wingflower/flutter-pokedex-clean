@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
 import 'package:pokedex_clean/presentation/main/main_ui_event.dart';
@@ -34,11 +35,13 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     Future.microtask(() {
       final MainViewModel viewModel = context.read();
+      final AppTimer appTimer = context.read();
       viewModel.stream.listen((event) {
         switch (event) {
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case SuccessLogout():
+            appTimer.resetTimer();
             showSimpleDialog(
               context,
               title: '로그아웃 성공',
@@ -58,6 +61,7 @@ class _MainScreenState extends State<MainScreen> {
             );
         }
       });
+      appTimer.startTimer();
       _textEditingController.addListener(() {
         viewModel.searchPokemon(_textEditingController.text);
       });
@@ -147,8 +151,16 @@ class _MainScreenState extends State<MainScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            onTap: () {
-              context.push('/main/roulette');
+            onTap: () async {
+              final result = await context.push(
+                '/main/roulette',
+                extra: {
+                  'pokemonData': state.pokemonListData,
+                  'userInfo': state.userInfo,
+                  'email': state.email,
+                },
+              );
+              viewModel.refresh();
             },
           ),
           SpeedDialChild(
@@ -160,12 +172,5 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
-  }
-
-  String _calculateTime(int rewardTime) {
-    int minutes = rewardTime ~/ 60;
-    int seconds = rewardTime % 60;
-
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }
