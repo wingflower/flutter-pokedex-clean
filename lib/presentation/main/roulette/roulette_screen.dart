@@ -117,7 +117,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                 child: ShakeAnimatedWidget(
                   enabled: appTimer.count >= 1,
                   duration: const Duration(seconds: 2),
-                  shakeAngle: Rotation.deg(z: 10),
+                  shakeAngle: Rotation.deg(z: 15),
                   curve: Curves.linearToEaseOut,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -137,6 +137,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
   void _showPokemonDialog(Pokemon pokemon) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
         title: Center(child: Text('${pokemon.description.name} 획득!')),
