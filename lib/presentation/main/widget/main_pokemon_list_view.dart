@@ -13,7 +13,6 @@ class MainPokemonListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Pokemon> pokemonList = state.pokemonListData;
-    print('qwerasdf MainPokemonListView ${pokemonList.length}');
     return ListView.builder(
         itemCount: pokemonList.length,
         itemBuilder: (context, index) {

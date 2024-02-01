@@ -1,10 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/presentation/login/login_screen.dart';
 import 'package:pokedex_clean/presentation/login/login_view_model.dart';
 import 'package:pokedex_clean/presentation/main/detail_screen/detail_screen.dart';
+import 'package:pokedex_clean/presentation/main/detail_screen/type/type_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_screen.dart';
 import 'package:pokedex_clean/presentation/main/main_view_model.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_screen.dart';
@@ -52,8 +54,10 @@ final routes = GoRouter(
           path: 'detail',
           builder: (_, state) {
             if (state.extra != null) {
+              Map<String, dynamic> args = state.extra! as Map<String, dynamic>;
               return DetailScreen(
-                pokemonData: state.extra! as Pokemon,
+                pokemonData: args['pokemonList'],
+                mainState: args['mainState'],
               );
             } else {
               return const MainScreen();
@@ -62,8 +66,8 @@ final routes = GoRouter(
         ),
         GoRoute(
           path: 'type',
-          builder: (_, __) {
-            return const TypeScreen();
+          builder: (_, state) {
+            return TypeScreen(typeList: state.extra! as List<TypeModel>);
           },
         ),
       ],

@@ -21,27 +21,33 @@ class TypePageViewContainer extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic,
+              color: color,
             ),
           ),
         ),
         Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-            ),
-            itemCount: typeList.length,
-            itemBuilder: (context, index) => Image.asset(
-              getTypeImagebyTypeId(
-                typeList[index],
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Scrollbar(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0,
+                ),
+                itemCount: typeList.length,
+                itemBuilder: (context, index) => Image.asset(
+                  getTypeImagebyTypeId(
+                    typeList[index],
+                  ),
+                  width: 16.0,
+                  height: 16.0,
+                ),
               ),
-              width: 16.0,
-              height: 16.0,
             ),
           ),
         ),

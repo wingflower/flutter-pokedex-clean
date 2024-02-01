@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
+import 'package:pokedex_clean/domain/model/type.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
-import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/get_user_info_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/type/get_type_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/logout_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/remove_user_account_use_case.dart';
@@ -18,29 +20,32 @@ class MainViewModel extends ChangeNotifier {
   final LogoutUseCase _logoutUseCase;
   final RemoveUserAccountUseCase _removeUserAccountUseCase;
   final GetPokemonUseCase _getPokemonUseCase;
-  final SortedPokemonListUseCase _sortPokemonListUseCase;
   final GetUserAccountUseCase _getUserAccountUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final AddAndUpdateUserInfoUseCase _addAndUpdateUserInfoUseCase;
   final SearchByNamePokemonUseCase _searchByNamePokemonUseCase;
+  final SortedByOptionPokemonUseCase _sortedByOptionPokemonUseCase;
+  final GetTypeUseCase _getTypeUseCase;
 
   MainViewModel({
     required LogoutUseCase logoutUseCase,
     required RemoveUserAccountUseCase removeUserAccountUseCase,
     required GetPokemonUseCase getPokemonUseCase,
-    required SortedPokemonListUseCase sortedPokemonListUseCase,
     required GetUserAccountUseCase getUserAccountUseCase,
     required GetUserInfoUseCase getUserInfoUseCase,
     required AddAndUpdateUserInfoUseCase addAndUpdateUserInfoUseCase,
     required SearchByNamePokemonUseCase searchByNamePokemonUseCase,
+    required SortedByOptionPokemonUseCase sortedByOptionPokemonUseCase,
+    required GetTypeUseCase getTypeUseCase,
   })  : _logoutUseCase = logoutUseCase,
         _getPokemonUseCase = getPokemonUseCase,
-        _sortPokemonListUseCase = sortedPokemonListUseCase,
         _removeUserAccountUseCase = removeUserAccountUseCase,
         _getUserAccountUseCase = getUserAccountUseCase,
         _getUserInfoUseCase = getUserInfoUseCase,
         _addAndUpdateUserInfoUseCase = addAndUpdateUserInfoUseCase,
-        _searchByNamePokemonUseCase = searchByNamePokemonUseCase {
+        _searchByNamePokemonUseCase = searchByNamePokemonUseCase,
+        _sortedByOptionPokemonUseCase = sortedByOptionPokemonUseCase,
+        _getTypeUseCase = getTypeUseCase {
     _initUserInfo();
   }
 
@@ -77,6 +82,7 @@ class MainViewModel extends ChangeNotifier {
       },
     );
     fetchPokemonDataList();
+    fetchTypeList();
   }
 
   Future<void> logout() async {
@@ -97,15 +103,80 @@ class MainViewModel extends ChangeNotifier {
     final fetchPokemonDataListResult = await _getPokemonUseCase.execute();
     fetchPokemonDataListResult.when(
       success: (pokemonList) {
-        
         for (final numberString in state.userInfo.pokemons) {
           pokemonList.firstWhere((element) => element.id == numberString).isCollected = true;
         }
         _state = state.copyWith(
           pokemonListData: pokemonList,
           isLoading: false,
-          sortDirection: true,
-          sortIsCollected: false,
+        );
+        notifyListeners();
+        sortedByOptionPokemonList();
+      },
+      error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
+    );
+  }
+
+  void sortedByOptionPokemonList() {
+    List<Pokemon> sortedPokemonList = [];
+
+    sortedPokemonList = _sortedByOptionPokemonUseCase.execute(
+      pokemonDataList: state.pokemonListData,
+      collectionOption: state.sortIsCollected,
+      directionOption: state.sortDirection,
+    );
+
+    _state = state.copyWith(filterListData: sortedPokemonList);
+    notifyListeners();
+  }
+
+  void searchPokemon(String name) {
+    sortedByOptionPokemonList();
+    if (name.isEmpty) {
+      _state = state.copyWith(isFiltered: false);
+      notifyListeners();
+      return;
+    }
+
+    List<Pokemon> filterList =
+        _searchByNamePokemonUseCase.execute(name, state.filterListData);
+    _state = state.copyWith(filterListData: filterList, isFiltered: true);
+    notifyListeners();
+  }
+
+  // 사용자 옵션 그리드 열 수 옵션 변경
+  void updateGridColumnOption(double gridViewColumnCount) {
+    _state = state.copyWith(gridCrossAxisCount: gridViewColumnCount.toInt());
+    notifyListeners();
+    sortedByOptionPokemonList();
+  }
+
+  // 사용자 옵션 수집여부 옵션 변경
+  void updateCollectionOption(List<bool> collectionOption, int index) {
+    for (int i = 0; i < collectionOption.length; i++) {
+      collectionOption[i] = i == index;
+    }
+    _state = state.copyWith(sortIsCollected: collectionOption);
+    notifyListeners();
+    sortedByOptionPokemonList();
+  }
+
+  // 사용자 옵션 방향 옵션 변경
+  void updateDirectionOption(List<bool> directionOption, int index) {
+    for (int i = 0; i < directionOption.length; i++) {
+      directionOption[i] = i == index;
+    }
+    _state = state.copyWith(sortDirection: directionOption);
+    notifyListeners();
+    sortedByOptionPokemonList();
+  }
+
+  Future<void> fetchTypeList() async {
+    final fetchPokemonDataListResult = await _getTypeUseCase.execute();
+    fetchPokemonDataListResult.when(
+      success: (typeList) {
+        _state = state.copyWith(
+          typeList: typeList,
         );
         notifyListeners();
       },
@@ -113,69 +184,8 @@ class MainViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> sortPokemonDataList(String option) async {
-    _state = state.copyWith(isLoading: true);
-    notifyListeners();
-
-    List<Pokemon> sortedPokemonList = [];
-    List<Pokemon> pokemonList = List.from(state.pokemonListData);
-    bool boolSortDirection = state.sortDirection;
-    bool boolSortIsCollected = state.sortIsCollected;
-
-    switch (option) {
-      case 'direction':
-        boolSortDirection = !boolSortDirection;
-        break;
-      case 'collected':
-        boolSortIsCollected = !boolSortIsCollected;
-        break;
-      default:
-        break;
-    }
-
-    if (boolSortIsCollected) {
-      List<Pokemon> collectedList = [];
-      List<Pokemon> notCollectedList = [];
-      for (var pokemon in pokemonList) {
-        pokemon.isCollected
-            ? collectedList.add(pokemon)
-            : notCollectedList.add(pokemon);
-      }
-      collectedList.sort((a, b) => boolSortDirection
-          ? int.parse(a.id).compareTo(int.parse(b.id))
-          : int.parse(b.id).compareTo(int.parse(a.id)));
-      notCollectedList.sort((a, b) => boolSortDirection
-          ? int.parse(a.id).compareTo(int.parse(b.id))
-          : int.parse(b.id).compareTo(int.parse(a.id)));
-
-      sortedPokemonList = boolSortDirection
-          ? [...collectedList, ...notCollectedList]
-          : [...notCollectedList, ...collectedList];
-    } else {
-      pokemonList.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-      sortedPokemonList =
-          boolSortDirection ? pokemonList : pokemonList.reversed.toList();
-    }
-
-    _state = state.copyWith(
-      pokemonListData: sortedPokemonList,
-      isLoading: false,
-      sortDirection: boolSortDirection,
-      sortIsCollected: boolSortIsCollected,
-    );
-    notifyListeners();
-  }
-
-  void searchPokemon(String name) {
-    if (name.isEmpty) {
-      _state = state.copyWith(isFiltered: false);
-      notifyListeners();
-      return;
-    }
-
-    List<Pokemon> filterList = _searchByNamePokemonUseCase.execute(name, state.pokemonListData);
-    _state = state.copyWith(filterListData: filterList, isFiltered: true);
-    notifyListeners();
+  TypeModel getTypeByTypeId(String typeId) {
+    return state.typeList.firstWhere((element) => element.id == typeId);
   }
 
   void refresh() {
