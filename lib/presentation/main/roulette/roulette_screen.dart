@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/user_info.dart';
+import 'package:pokedex_clean/presentation/common/assets.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
@@ -17,13 +18,18 @@ class RouletteScreen extends StatefulWidget {
   final UserInfo userInfo;
   final String email;
 
-  const RouletteScreen({super.key, required this.pokemonList, required this.userInfo, required this.email});
+  const RouletteScreen(
+      {super.key,
+      required this.pokemonList,
+      required this.userInfo,
+      required this.email});
 
   @override
   State<RouletteScreen> createState() => _RouletteScreenState();
 }
 
-class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProviderStateMixin {
+class _RouletteScreenState extends State<RouletteScreen>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 500),
@@ -70,7 +76,8 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animationSize = Tween(begin: 0.8, end: 2.0).animate(_animationController);
+    final Animation<double> animationSize =
+        Tween(begin: 0.8, end: 2.0).animate(_animationController);
     final AppTimer appTimer = context.watch();
     final bool activeButton = appTimer.count > 0;
     final RouletteViewModel viewModel = context.watch();
@@ -82,7 +89,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
         elevation: 0.0,
         title: Row(children: [
           Image.asset(
-            'assets/images/pokeball/pokeball.png',
+            pokeball,
             height: 40,
             width: 40,
           ),
@@ -107,15 +114,17 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
               scale: animationSize,
               child: GestureDetector(
                 onTap: () {
-                      if(!activeButton) {
-                        showSnackBar(context, '남은 포켓볼이 없습니다');
-                        return;
-                      }
-                      if (_animationController.isDismissed || _animationController.isCompleted) {
-                        _animationController.forward(from: 0.0);
-                        viewModel.drawPokemon(widget.pokemonList, widget.userInfo, widget.email);
-                      }
-                  },
+                  if (!activeButton) {
+                    showSnackBar(context, '남은 포켓볼이 없습니다');
+                    return;
+                  }
+                  if (_animationController.isDismissed ||
+                      _animationController.isCompleted) {
+                    _animationController.forward(from: 0.0);
+                    viewModel.drawPokemon(
+                        widget.pokemonList, widget.userInfo, widget.email);
+                  }
+                },
                 child: ShakeAnimatedWidget(
                   enabled: appTimer.count >= 1,
                   duration: const Duration(seconds: 2),
@@ -124,7 +133,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                   child: Container(
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/pokeball/pokeball.png'),
+                        image: AssetImage(pokeball),
                       ),
                     ),
                   ),
@@ -148,8 +157,9 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
           scrollable: true,
           title: Center(
             child: Text(
-              exist ? '중복이네요😢\n${pokemon.description.name}'
-              : '🎉 축하합니다 🎉\n${pokemon.description.name} 획득',
+              exist
+                  ? '중복이네요😢\n${pokemon.description.name}'
+                  : '🎉 축하합니다 🎉\n${pokemon.description.name} 획득',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -169,7 +179,8 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                 height: width,
               ),
               if (pokemon.description.flavor_text.isNotEmpty)
-                Text(pokemon.description.flavor_text, style: const TextStyle(fontSize: 18))
+                Text(pokemon.description.flavor_text,
+                    style: const TextStyle(fontSize: 18))
             ],
           ),
         ),
