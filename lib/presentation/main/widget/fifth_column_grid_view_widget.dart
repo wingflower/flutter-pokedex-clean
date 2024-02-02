@@ -19,6 +19,7 @@ class FifthColumnGridViewWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: PokemonImageWidget(
           isCollected: pokemon.isCollected,
+          isNew: pokemon.isNew,
           imageurl: pokemon.imageurl,
           gridCrossAxisCount: gridCrossAxisCount,
         ),

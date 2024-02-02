@@ -15,6 +15,7 @@ import 'package:pokedex_clean/domain/repository/user_account_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
 import 'package:pokedex_clean/domain/use_case/collection/draw_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/refresh_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
@@ -162,6 +163,9 @@ void diSetup() {
       pokemonRepository: getIt<TypeRepository>(),
     ),
   );
+  getIt.registerSingleton<RefreshPokemonUseCase>(
+    RefreshPokemonUseCase(),
+  );
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
@@ -188,7 +192,6 @@ void diSetup() {
       checkVerifyUseCase: getIt<CheckVerifyUseCase>(),
     ),
   );
-
   getIt.registerFactory<MainViewModel>(
     () => MainViewModel(
       logoutUseCase: getIt<LogoutUseCase>(),
@@ -200,9 +203,9 @@ void diSetup() {
       searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
       sortedByOptionPokemonUseCase: getIt<SortedByOptionPokemonUseCase>(),
       getTypeUseCase: getIt<GetTypeUseCase>(),
+      refreshPokemonUseCase: getIt<RefreshPokemonUseCase>(),
     ),
   );
-
   getIt.registerFactory<RouletteViewModel>(
     () => RouletteViewModel(
       drawPokemonUseCase: getIt<DrawPokemonUseCase>(),

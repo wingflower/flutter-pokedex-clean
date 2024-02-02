@@ -6,11 +6,13 @@ class PokemonImageWidget extends StatelessWidget {
   const PokemonImageWidget({
     super.key,
     required this.isCollected,
+    required this.isNew,
     required this.imageurl,
     required this.gridCrossAxisCount,
   });
 
   final bool isCollected;
+  final bool isNew;
   final String imageurl;
   final int gridCrossAxisCount;
 
@@ -48,6 +50,15 @@ class PokemonImageWidget extends StatelessWidget {
     }
     return Container(
       alignment: Alignment.center,
+      decoration: isNew ? BoxDecoration(
+        border: Border.all(
+          strokeAlign: gridCrossAxisCount > 4
+              ? BorderSide.strokeAlignOutside
+              : BorderSide.strokeAlignInside,
+          color: Colors.red,
+          width: 4
+        )
+      ) : null,
       child: isCollected
           ? CachedNetworkImage(
               imageUrl: imageurl,
