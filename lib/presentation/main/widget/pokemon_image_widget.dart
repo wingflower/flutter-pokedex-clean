@@ -50,15 +50,15 @@ class PokemonImageWidget extends StatelessWidget {
     }
     return Container(
       alignment: Alignment.center,
-      decoration: isNew ? BoxDecoration(
-        border: Border.all(
-          strokeAlign: gridCrossAxisCount > 4
-              ? BorderSide.strokeAlignOutside
-              : BorderSide.strokeAlignInside,
-          color: Colors.red,
-          width: 4
-        )
-      ) : null,
+      decoration: isNew
+          ? BoxDecoration(
+              border: Border.all(
+                  strokeAlign: BorderSide.strokeAlignInside,
+                  color: Colors.red.withOpacity(0.8),
+                  width: 4),
+              borderRadius: BorderRadius.circular(10.0),
+            )
+          : null,
       child: isCollected
           ? CachedNetworkImage(
               imageUrl: imageurl,

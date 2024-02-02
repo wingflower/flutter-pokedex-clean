@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_widgets/animated_widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
@@ -167,20 +168,48 @@ class _RouletteScreenState extends State<RouletteScreen>
             ),
           ),
           content: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              PokemonIdTextWidget(
-                id: pokemon.id,
-                gridCrossAxisCount: 1,
+              Stack(
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: pokemon.imageurl,
+                    width: width,
+                    height: width,
+                    // placeholder: (context, url) => Opacity(
+                    //   opacity: 0.5,
+                    //   child: Image.asset(
+                    //     pokeball,
+                    //     width: MediaQuery.of(context).size.width * 0.6,
+                    //     height: MediaQuery.of(context).size.width * 0.6,
+                    //   ),
+                    // ),
+                    // errorWidget: ,
+                  ),
+                  // Image.network(
+                  //   pokemon.imageurl,
+                  //   width: width,
+                  //   height: width,
+                  // ),
+                  Positioned(
+                    top: 8.0,
+                    right: 8.0,
+                    child: PokemonIdTextWidget(
+                      id: pokemon.id,
+                      gridCrossAxisCount: 1,
+                    ),
+                  ),
+                ],
               ),
-              Image.network(
-                pokemon.imageurl,
-                width: width,
-                height: width,
-              ),
-              if (pokemon.description.flavor_text.isNotEmpty)
-                Text(pokemon.description.flavor_text,
-                    style: const TextStyle(fontSize: 18))
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Text(
+                  pokemon.description.flavor_text.isNotEmpty
+                      ? pokemon.description.flavor_text
+                      : '',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              )
             ],
           ),
         ),
