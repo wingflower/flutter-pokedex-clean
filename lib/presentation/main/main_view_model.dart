@@ -81,10 +81,16 @@ class MainViewModel extends ChangeNotifier {
 
     result.when(
       success: (userInfo) {
+        if (userInfo.pokemons.isEmpty) {
+          userInfo = userInfo.copyWith(pokemons: List.empty(growable: true));
+        }
         _state = state.copyWith(userInfo: userInfo);
       },
       error: (e) async {
         await _addAndUpdateUserInfoUseCase.execute(state.email, state.userInfo);
+        if (state.userInfo.pokemons.isEmpty) {
+          _state = state.copyWith(userInfo: state.userInfo.copyWith(pokemons: List.empty(growable: true)));
+        }
       },
     );
     fetchPokemonDataList();
