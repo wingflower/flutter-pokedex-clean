@@ -14,13 +14,11 @@ import 'widget/detail_type_column_widget.dart';
 class DetailScreen extends StatelessWidget {
   final MainState mainState;
   final Pokemon pokemonData;
-  DetailScreen({
+  const DetailScreen({
     super.key,
     required this.pokemonData,
     required this.mainState,
-  }) {
-    pokemonData.setIsNew = false;
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
