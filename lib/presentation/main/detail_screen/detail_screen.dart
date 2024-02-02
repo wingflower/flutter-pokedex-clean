@@ -24,21 +24,14 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('qwerasdf pokemonData.isNew ${pokemonData.isNew}');
     return Scaffold(
       appBar: AppBar(
         title: Text(
           '#${pokemonData.id} ${pokemonData.description.name}',
         ),
         backgroundColor: getColorFromString(pokemonData.color),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.info_outline,
-              size: 32.0,
-            ),
-          ),
-        ],
+        actions: const [],
       ),
       body: SingleChildScrollView(
         child: Column(
