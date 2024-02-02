@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/user_info.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_ui_event.dart';
 import 'package:pokedex_clean/presentation/main/roulette/roulette_view_model.dart';
+import 'package:pokedex_clean/presentation/main/widget/pokemon_id_text_widget.dart';
 import 'package:provider/provider.dart';
 
 class RouletteScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
           case ShowSnackBar():
             showSnackBar(context, event.message);
           case ShowDialog():
-            _showPokemonDialog(event.pokemon);
+            _showPokemonDialog(event.pokemon, event.exist);
             appTimer.subtractCount();
         }
       });
@@ -93,8 +95,6 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
       ),
       body: Center(
         child: Container(
-          width: double.infinity,
-          height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/pokeball/grassland.jpg'),
@@ -106,14 +106,16 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
             child: ScaleTransition(
               scale: animationSize,
               child: GestureDetector(
-                onTap: activeButton
-                    ? () {
-                        if (_animationController.isDismissed || _animationController.isCompleted) {
-                          _animationController.forward(from: 0.0);
-                          viewModel.drawPokemon(widget.pokemonList, widget.userInfo, widget.email);
-                        }
+                onTap: () {
+                      if(!activeButton) {
+                        showSnackBar(context, '남은 포켓볼이 없습니다');
+                        return;
                       }
-                    : null,
+                      if (_animationController.isDismissed || _animationController.isCompleted) {
+                        _animationController.forward(from: 0.0);
+                        viewModel.drawPokemon(widget.pokemonList, widget.userInfo, widget.email);
+                      }
+                  },
                 child: ShakeAnimatedWidget(
                   enabled: appTimer.count >= 1,
                   duration: const Duration(seconds: 2),
@@ -135,25 +137,42 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     );
   }
 
-  void _showPokemonDialog(Pokemon pokemon) {
+  void _showPokemonDialog(Pokemon pokemon, bool exist) {
+    double width = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AlertDialog(
-        title: Center(child: Text('${pokemon.description.name} 획득!')),
-        content: Image.network(
-          pokemon.imageurl,
-          height: 400,
-          width: 400,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text("확인"),
+      builder: (_) => GestureDetector(
+        onTap: context.pop,
+        child: AlertDialog(
+          scrollable: true,
+          title: Center(
+            child: Text(
+              exist ? '중복이네요😢\n${pokemon.description.name}'
+              : '🎉 축하합니다 🎉\n${pokemon.description.name} 획득',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ],
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PokemonIdTextWidget(
+                id: pokemon.id,
+                gridCrossAxisCount: 1,
+              ),
+              Image.network(
+                pokemon.imageurl,
+                width: width,
+                height: width,
+              ),
+              if (pokemon.description.flavor_text.isNotEmpty)
+                Text(pokemon.description.flavor_text, style: const TextStyle(fontSize: 18))
+            ],
+          ),
+        ),
       ),
     );
   }
