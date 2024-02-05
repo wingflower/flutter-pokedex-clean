@@ -10,12 +10,14 @@ import 'package:pokedex_clean/presentation/main/widget/third_column_grid_view_wi
 import 'two_column_grid_view_widget.dart';
 
 class MainGridViewWidget extends StatelessWidget {
+  final MainState state;
+  final Function(Pokemon pokemon) onTap;
   const MainGridViewWidget({
     super.key,
     required this.state,
+    required this.onTap,
   });
 
-  final MainState state;
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +42,24 @@ class MainGridViewWidget extends StatelessWidget {
           itemCount: pokemonList.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () => pokemonList[index].isCollected
-                  ? context.push('/main/detail', extra: {
-                      'pokemonList': pokemonList[index],
-                      'mainState': state,
-                    })
-                  : showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('안내'),
-                          content: Text(
-                              '${'?' * pokemonList[index].description.name.length} 은(는) 미보유 상태입니다.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('확인'),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+              onTap: () {
+                onTap(pokemonList[index]);
+              },
+              /*onTap: () async {
+                if (!pokemonList[index].isCollected) {
+                  showSimpleDialog(
+                    context,
+                    title: '안내',
+                    content: '${'?' * pokemonList[index].description.name.length} 은(는) 미보유 상태입니다.',
+                  );
+                }
+                else {
+                  await context.push('/main/detail', extra: {
+                    'pokemonList': pokemonList[index],
+                    'mainState': state,
+                  });
+                }
+              },*/
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),

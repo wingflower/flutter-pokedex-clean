@@ -127,7 +127,26 @@ class _MainScreenState extends State<MainScreen> {
               child: Lottie.asset(squirtleJson,
                   width: MediaQuery.of(context).size.width / 2),
             )
-          : MainGridViewWidget(state: state),
+          : MainGridViewWidget(
+              state: state,
+              onTap: (pokemon) async {
+                if (!pokemon.isCollected) {
+                  showSimpleDialog(
+                    context,
+                    title: '안내',
+                    content: '${'?' * pokemon.description.name.length} 은(는) 미보유 상태입니다.',
+                    isVisibleCancelButton: false
+                  );
+                }
+                else {
+                  await context.push('/main/detail', extra: {
+                    'pokemonList': pokemon,
+                    'mainState': state,
+                  });
+                  viewModel.markItemAsSeen(pokemon);
+                }
+              },
+            ),
       floatingActionButton: FloatingActionButton.large(
         backgroundColor: Colors.lightBlueAccent.withOpacity(0.75),
         shape: RoundedRectangleBorder(

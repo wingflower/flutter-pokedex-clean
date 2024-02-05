@@ -214,4 +214,9 @@ class MainViewModel extends ChangeNotifier {
     notifyListeners();
     sortedByOptionPokemonList();
   }
+
+  void markItemAsSeen(Pokemon pokemon) {
+    state.pokemonListData.firstWhere((element) => element.id == pokemon.id).isNew = false;
+    notifyListeners();
+  }
 }
