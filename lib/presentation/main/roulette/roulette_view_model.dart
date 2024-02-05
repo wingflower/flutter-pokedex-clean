@@ -22,7 +22,8 @@ class RouletteViewModel extends ChangeNotifier {
 
   Stream<RouletteUiEvent> get stream => _controller.stream;
 
-  Future<void> drawPokemon(List<Pokemon> pokemonList, UserInfo userInfo, String email) async {
+  Future<void> drawPokemon(
+      List<Pokemon> pokemonList, UserInfo userInfo, String email) async {
     final Pokemon pokemon = _drawPokemonUseCase.execute(pokemonList);
 
     if (userInfo.pokemons.contains(pokemon.id)) {
@@ -31,7 +32,8 @@ class RouletteViewModel extends ChangeNotifier {
     }
 
     userInfo.pokemons.add(pokemon.id);
-    final Result<void> result = await _addAndUpdateUserInfoUseCase.execute(email, userInfo);
+    final Result<void> result =
+        await _addAndUpdateUserInfoUseCase.execute(email, userInfo);
 
     result.when(
       success: (data) {

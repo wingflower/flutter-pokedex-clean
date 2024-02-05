@@ -89,7 +89,9 @@ class MainViewModel extends ChangeNotifier {
       error: (e) async {
         await _addAndUpdateUserInfoUseCase.execute(state.email, state.userInfo);
         if (state.userInfo.pokemons.isEmpty) {
-          _state = state.copyWith(userInfo: state.userInfo.copyWith(pokemons: List.empty(growable: true)));
+          _state = state.copyWith(
+              userInfo: state.userInfo
+                  .copyWith(pokemons: List.empty(growable: true)));
         }
       },
     );
@@ -164,7 +166,6 @@ class MainViewModel extends ChangeNotifier {
   void updateGridColumnOption(double gridViewColumnCount) {
     _state = state.copyWith(gridCrossAxisCount: gridViewColumnCount.toInt());
     notifyListeners();
-    sortedByOptionPokemonList();
   }
 
   // 사용자 옵션 수집여부 옵션 변경
@@ -216,7 +217,9 @@ class MainViewModel extends ChangeNotifier {
   }
 
   void markItemAsSeen(Pokemon pokemon) {
-    state.pokemonListData.firstWhere((element) => element.id == pokemon.id).isNew = false;
+    state.pokemonListData
+        .firstWhere((element) => element.id == pokemon.id)
+        .isNew = false;
     notifyListeners();
   }
 }
