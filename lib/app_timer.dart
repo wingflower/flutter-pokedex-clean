@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
@@ -37,6 +38,15 @@ class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
       _count += 1;
       notifyListeners();
     }
+
+    if (_timeState < _maxTimeState) {
+      _timeState += 1;
+    } else {
+      _timeState = 0;
+      _count += 1;
+    }
+    notifyListeners();
+
     if (_count == _maxCount) {
       _timer?.cancel();
     }

@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pokedex_clean/data/data_source/local/user_account_storage.dart';
+import 'package:pokedex_clean/data/data_source/remote/pokemon_api.dart';
+import 'package:pokedex_clean/data/data_source/remote/type_api.dart';
 import 'package:pokedex_clean/data/repository/firebase_auth_repository.dart';
 import 'package:pokedex_clean/data/repository/firestore_user_infor_repository.dart';
 import 'package:pokedex_clean/data/repository/pokemon_repository_impl.dart';
@@ -54,7 +57,21 @@ void diSetup() {
   //                                      <<< ETC Declaration END
   // ============================================================
 
-
+  // ============================================================
+  // DATA Declaration START >>>
+  // ============================================================
+  getIt.registerSingleton<PokemonApi>(
+    PokemonApi(),
+  );
+  getIt.registerSingleton<TypeApi>(
+    TypeApi(),
+  );
+  getIt.registerSingleton<UserAccountStorage>(
+    UserAccountStorage(flutterSecureStorage: getIt<FlutterSecureStorage>()),
+  );
+  // ============================================================
+  //                                     <<< DATA Declaration END
+  // ============================================================
 
   // ============================================================
   // REPOSITORIES Declaration START >>>
@@ -64,11 +81,13 @@ void diSetup() {
   );
   getIt.registerSingleton<UserAccountRepository<String, String>>(
     UserAccountRepositoryImpl(
-      flutterSecureStorage: getIt<FlutterSecureStorage>(),
+      userAccountStorage: getIt<UserAccountStorage>(),
     ),
   );
   getIt.registerSingleton<PokemonRepository>(
-    PokemonRepositoryImpl(),
+    PokemonRepositoryImpl(
+      pokemonApi: getIt<PokemonApi>(),
+    ),
   );
   getIt.registerSingleton<UserInfoRepository>(
     FirestoreUserInfoRepository(
@@ -76,13 +95,13 @@ void diSetup() {
     ),
   );
   getIt.registerSingleton<TypeRepository>(
-    TypeRepositoryImpl(),
+    TypeRepositoryImpl(
+      typeApi: getIt<TypeApi>(),
+    ),
   );
   // ============================================================
   //                             <<< REPOSITORIES Declaration END
   // ============================================================
-
-
 
   // ============================================================
   // USE_CASES Declaration START >>>
@@ -148,9 +167,7 @@ void diSetup() {
     ),
   );
   getIt.registerSingleton<SortedByOptionPokemonUseCase>(
-    SortedByOptionPokemonUseCase(
-      pokemonRepository: getIt<PokemonRepository>(),
-    ),
+    SortedByOptionPokemonUseCase(),
   );
   getIt.registerSingleton<DrawPokemonUseCase>(
     DrawPokemonUseCase(),
@@ -169,8 +186,6 @@ void diSetup() {
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
-
-
 
   // ============================================================
   // VIEW_MODELS Declaration START >>>

@@ -185,9 +185,7 @@ class _UserSortOptionElevatedButtonWidgetState
               ),
             );
           },
-        ).then((value) {
-          // print('qwerasdf then close');
-        });
+        );
       },
       child: const Icon(
         Icons.sort,

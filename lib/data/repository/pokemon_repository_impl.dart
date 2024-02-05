@@ -1,60 +1,18 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:pokedex_clean/core/result.dart';
-import 'package:pokedex_clean/core/secure_storage_key.dart';
+import 'package:pokedex_clean/data/data_source/remote/pokemon_api.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/repository/pokemon_repository.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
+  final PokemonApi _pokemonApi;
+
+  PokemonRepositoryImpl({
+    required PokemonApi pokemonApi,
+  }) : _pokemonApi = pokemonApi;
+
   @override
   Future<Result<List<Pokemon>>> getPokemonList() async {
-    try {
-      final response = await http.get(Uri.parse(pokemonUrl));
-
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonData = jsonDecode(response.body);
-        final List<Pokemon> pokemonList =
-            jsonData.map((json) => Pokemon.fromJson(json)).toList();
-
-        return Result.success(pokemonList);
-      } else {
-        return Result.error('서버에서 에러 응답: ${response.statusCode}');
-      }
-    } catch (e) {
-      return const Result.error('데이터를 가져오는 도중 오류가 발생했습니다.');
-    }
-  }
-
-  @override
-  List<Pokemon> sortedByCollectionPokemonListUseCase(
-      List<Pokemon> pokemonDataList, List<bool> collectionOption) {
-    List<Pokemon> resultList = [];
-    for (int i = 0; i < collectionOption.length; i++) {
-      if (collectionOption[i]) {
-        if (i == 1) {
-          resultList
-              .addAll(pokemonDataList.where((pokemon) => pokemon.isCollected));
-        } else if (i == 2) {
-          resultList
-              .addAll(pokemonDataList.where((pokemon) => !pokemon.isCollected));
-        } else {
-          resultList.addAll(pokemonDataList);
-        }
-      }
-    }
-    return resultList;
-  }
-
-  @override
-  List<Pokemon> sortedByDriectionPokemonListUseCase(
-      List<Pokemon> pokemonDataList, List<bool> directionOption) {
-    List<Pokemon> sortedList = List.from(pokemonDataList);
-
-    sortedList.sort((a, b) => directionOption[0]
-        ? int.parse(a.id).compareTo(int.parse(b.id))
-        : int.parse(b.id).compareTo(int.parse(a.id)));
-
-    return sortedList;
+    final result = _pokemonApi.getPokemonList();
+    return result;
   }
 }

@@ -6,14 +6,16 @@ import 'package:pokedex_clean/domain/repository/auth_repository.dart';
 class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
   final FirebaseAuth _firebaseAuth;
 
-  FirebaseAuthRepository({required FirebaseAuth firebaseAuth}) : _firebaseAuth = firebaseAuth;
+  FirebaseAuthRepository({
+    required FirebaseAuth firebaseAuth,
+  }) : _firebaseAuth = firebaseAuth;
 
   @override
   Future<Result<bool>> login(EmailPassword model) async {
     try {
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-          email: model.email, password: model.password
-      );
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
+              email: model.email, password: model.password);
       if (userCredential.user?.emailVerified ?? false) {
         return const Result.success(true);
       }
@@ -34,10 +36,9 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
   @override
   Future<Result<void>> register(EmailPassword model) async {
     try {
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: model.email,
-          password: model.password
-      );
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+              email: model.email, password: model.password);
       if (userCredential.user == null) {
         return const Result.error('가입 실패');
       }
@@ -72,8 +73,7 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
     } on FirebaseAuthException catch (e) {
       print(e.code);
       return const Result.error('이메일 재전송에 실패했습니다. 잠시 후 다시 시도하세요');
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return const Result.error('이메일 재전송에 실패했습니다. 잠시 후 다시 시도하세요');
     }
