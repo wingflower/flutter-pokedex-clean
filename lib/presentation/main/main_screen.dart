@@ -83,7 +83,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final AppTimer timer = context.watch();
     final MainViewModel viewModel = context.watch();
     final MainState state = viewModel.state;
 
@@ -150,34 +149,38 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.0),
         ),
-        child: Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            Image.asset(
-              pokeball,
-              width: 60,
-            ),
-            Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  timer.count.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: timer.count < 10 ? 16 : 14),
+        child: Consumer<AppTimer>(
+          builder: (context, timer, child) {
+            return Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Image.asset(
+                  pokeball,
+                  width: 60,
                 ),
-              ),
-            ),
-          ],
-        )
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      timer.count.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: timer.count < 10 ? 16 : 14),
+                    ),
+                  ),
+                ),
+              ],
+            )
             .animate(onPlay: (controller) => controller.repeat())
-            .shake(duration: const Duration(seconds: 1), hz: timer.count / 2),
+            .shake(duration: const Duration(seconds: 1), hz: timer.count / 2);
+          },
+        ),
         onPressed: () async {
           await context.push(
             '/main/roulette',
