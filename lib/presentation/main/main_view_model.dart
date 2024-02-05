@@ -162,20 +162,22 @@ class MainViewModel extends ChangeNotifier {
   }
 
   // 사용자 옵션 수집여부 옵션 변경
-  void updateCollectionOption(List<bool> collectionOption, int index) {
-    for (int i = 0; i < collectionOption.length; i++) {
-      collectionOption[i] = i == index;
+  void updateCollectionOption(int index) {
+    List<bool> sortList = List.of(state.sortIsCollected);
+    for (int i = 0; i < sortList.length; i++) {
+      sortList[i] = i == index;
     }
-    _state = state.copyWith(sortIsCollected: collectionOption);
+    _state = state.copyWith(sortIsCollected: sortList);
     _filterPokemonList();
   }
 
   // 사용자 옵션 방향 옵션 변경
-  void updateDirectionOption(List<bool> directionOption, int index) {
-    for (int i = 0; i < directionOption.length; i++) {
-      directionOption[i] = i == index;
+  void updateDirectionOption(int index) {
+    List<bool> directionList = List.of(state.sortDirection);
+    for (int i = 0; i < directionList.length; i++) {
+      directionList[i] = i == index;
     }
-    _state = state.copyWith(sortDirection: directionOption);
+    _state = state.copyWith(sortDirection: directionList);
     _filterPokemonList();
   }
 

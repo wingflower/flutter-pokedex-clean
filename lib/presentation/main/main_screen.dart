@@ -103,11 +103,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          UserSortOptionElevatedButtonWidget(
-            mainViewModel: viewModel,
-            sliderValueStreamController: _sliderValueStreamController,
-            collectionOptionStreamController: _collectionOptionStreamController,
-            directionOptionStreamController: _directionOptionStreamController,
+          IconButton(
+            onPressed: () => showSortingDialog(context),
+            icon: const Icon(Icons.sort_outlined),
           ),
           IconButton(
               onPressed: () {
