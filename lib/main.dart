@@ -1,12 +1,12 @@
-import 'package:firebase_core/firebase_core.dart' hide EmailAuthProvider;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
 import 'package:pokedex_clean/firebase_options.dart';
 import 'package:pokedex_clean/presentation/routes.dart';
 import 'package:provider/provider.dart';
-import 'package:pokedex_clean/app_timer.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -42,4 +42,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

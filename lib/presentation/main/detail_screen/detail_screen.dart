@@ -22,7 +22,6 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('qwerasdf pokemonData.isNew ${pokemonData.isNew}');
     return Scaffold(
       appBar: AppBar(
         title: Text(

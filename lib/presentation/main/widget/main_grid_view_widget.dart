@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/presentation/common/common.dart';
 import 'package:pokedex_clean/presentation/main/main_state.dart';
@@ -17,7 +16,6 @@ class MainGridViewWidget extends StatelessWidget {
     required this.state,
     required this.onTap,
   });
-
 
   @override
   Widget build(BuildContext context) {

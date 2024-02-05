@@ -16,32 +16,27 @@ class DetailAbilityColumnWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(pokemonData.abilities.length, (index) {
-          return GestureDetector(
-            onTap: () => print(
-              'qwerasdf ${pokemonData.abilities[index].ability_id}',
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  pokemonData.abilities[index].name,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                pokemonData.abilities[index].name,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                ),
+                child: Text(
+                  '- ${pokemonData.abilities[index].flavor_text}',
                   style: const TextStyle(
                     fontSize: 18.0,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  child: Text(
-                    '- ${pokemonData.abilities[index].flavor_text}',
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         }),
       ),

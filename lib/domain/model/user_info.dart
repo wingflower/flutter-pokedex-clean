@@ -18,7 +18,7 @@ class UserInfo {
 
   @override
   String toString() {
-    return 'UserInfo{' + ' pokemons: $pokemons,' + '}';
+    return 'UserInfo{ pokemons: $pokemons,}';
   }
 
   UserInfo copyWith({
@@ -31,13 +31,14 @@ class UserInfo {
 
   Map<String, dynamic> toJson() {
     return {
-      'pokemons': this.pokemons,
+      'pokemons': pokemons,
     };
   }
 
   factory UserInfo.fromJson(Map<String, dynamic> map) {
     return UserInfo(
-      pokemons: (map['pokemons'] as List<dynamic>).map((e) => e.toString()).toList(),
+      pokemons:
+          (map['pokemons'] as List<dynamic>).map((e) => e.toString()).toList(),
     );
   }
 

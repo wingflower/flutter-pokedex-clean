@@ -6,7 +6,7 @@ import 'package:pokedex_clean/data/data_source/local/user_account_storage.dart';
 import 'package:pokedex_clean/data/data_source/remote/pokemon_api.dart';
 import 'package:pokedex_clean/data/data_source/remote/type_api.dart';
 import 'package:pokedex_clean/data/repository/firebase_auth_repository.dart';
-import 'package:pokedex_clean/data/repository/firestore_user_infor_repository.dart';
+import 'package:pokedex_clean/data/repository/firestore_user_info_repository.dart';
 import 'package:pokedex_clean/data/repository/pokemon_repository_impl.dart';
 import 'package:pokedex_clean/data/repository/type_repository_impl.dart';
 import 'package:pokedex_clean/data/repository/user_account_repository_impl.dart';

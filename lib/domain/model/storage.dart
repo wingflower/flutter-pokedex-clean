@@ -21,7 +21,7 @@ class Storage {
 
   @override
   String toString() {
-    return 'Storage{' + ' email: $email,' + ' pokemons: $pokemons,' + '}';
+    return 'Storage{ email: $email, pokemons: $pokemons,}';
   }
 
   Storage copyWith({
@@ -36,8 +36,8 @@ class Storage {
 
   Map<String, dynamic> toJson() {
     return {
-      'email': this.email,
-      'pokemons': this.pokemons,
+      'email': email,
+      'pokemons': pokemons,
     };
   }
 

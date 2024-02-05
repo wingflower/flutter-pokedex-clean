@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pokedex_clean/core/result.dart';
 import 'package:pokedex_clean/domain/model/email_password.dart';
 import 'package:pokedex_clean/domain/repository/auth_repository.dart';
@@ -21,7 +22,9 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
       }
       return const Result.success(false);
     } on FirebaseAuthException catch (e) {
-      print(e.code);
+      if (kDebugMode) {
+        print(e.code);
+      }
       if (e.code == 'user-not-found') {
         return const Result.error('유저 정보를 찾을 수 없습니다');
       } else if (e.code == 'wrong-password') {
@@ -44,14 +47,18 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
       }
       return const Result.success(null);
     } on FirebaseAuthException catch (e) {
-      print('FirebaseAuthException ${e.code}');
+      if (kDebugMode) {
+        print('FirebaseAuthException ${e.code}');
+      }
       if (e.code == 'weak-password') {
         return const Result.error('패스워드는 최소 6글자 이상으로 등록해야 합니다');
       } else if (e.code == 'email-already-in-use') {
         return const Result.error('해당 계정은 이미 등록되어있습니다');
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return const Result.error('가입 실패');
   }
@@ -71,10 +78,14 @@ class FirebaseAuthRepository implements AuthRepository<EmailPassword> {
     try {
       await _firebaseAuth.currentUser!.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
-      print(e.code);
+      if (kDebugMode) {
+        print(e.code);
+      }
       return const Result.error('이메일 재전송에 실패했습니다. 잠시 후 다시 시도하세요');
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return const Result.error('이메일 재전송에 실패했습니다. 잠시 후 다시 시도하세요');
     }
     return const Result.success(null);
