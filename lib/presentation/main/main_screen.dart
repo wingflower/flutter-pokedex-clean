@@ -131,14 +131,12 @@ class _MainScreenState extends State<MainScreen> {
               state: state,
               onTap: (pokemon) async {
                 if (!pokemon.isCollected) {
-                  showSimpleDialog(
-                    context,
-                    title: '안내',
-                    content: '${'?' * pokemon.description.name.length} 은(는) 미보유 상태입니다.',
-                    isVisibleCancelButton: false
-                  );
-                }
-                else {
+                  showSimpleDialog(context,
+                      title: '안내',
+                      content:
+                          '${'?' * pokemon.description.name.length} 은(는) 미보유 상태입니다.',
+                      isVisibleCancelButton: false);
+                } else {
                   await context.push('/main/detail', extra: {
                     'pokemonList': pokemon,
                     'mainState': state,

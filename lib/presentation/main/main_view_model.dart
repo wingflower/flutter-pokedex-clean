@@ -129,17 +129,19 @@ class MainViewModel extends ChangeNotifier {
           isLoading: false,
         );
         notifyListeners();
-        sortedByOptionPokemonList();
+        _filterPokemonList();
       },
       error: (e) => _controller.add(MainUiEvent.showSnackBar(e)),
     );
   }
 
-  void sortedByOptionPokemonList() {
-    List<Pokemon> sortedPokemonList = [];
+  void _filterPokemonList() {
+    List<Pokemon> filterList = _searchByNamePokemonUseCase.execute(
+        state.filterName, state.pokemonListData);
 
-    sortedPokemonList = _sortedByOptionPokemonUseCase.execute(
-      pokemonDataList: state.pokemonListData,
+    List<Pokemon> sortedPokemonList = _sortedByOptionPokemonUseCase.execute(
+      pokemonDataList:
+          state.filterName.isEmpty ? state.pokemonListData : filterList,
       collectionOption: state.sortIsCollected,
       directionOption: state.sortDirection,
     );
@@ -149,17 +151,8 @@ class MainViewModel extends ChangeNotifier {
   }
 
   void searchPokemon(String name) {
-    sortedByOptionPokemonList();
-    if (name.isEmpty) {
-      _state = state.copyWith(isFiltered: false);
-      notifyListeners();
-      return;
-    }
-
-    List<Pokemon> filterList =
-        _searchByNamePokemonUseCase.execute(name, state.filterListData);
-    _state = state.copyWith(filterListData: filterList, isFiltered: true);
-    notifyListeners();
+    _state = state.copyWith(filterName: name);
+    _filterPokemonList();
   }
 
   // 사용자 옵션 그리드 열 수 옵션 변경
@@ -174,8 +167,7 @@ class MainViewModel extends ChangeNotifier {
       collectionOption[i] = i == index;
     }
     _state = state.copyWith(sortIsCollected: collectionOption);
-    notifyListeners();
-    sortedByOptionPokemonList();
+    _filterPokemonList();
   }
 
   // 사용자 옵션 방향 옵션 변경
@@ -184,8 +176,7 @@ class MainViewModel extends ChangeNotifier {
       directionOption[i] = i == index;
     }
     _state = state.copyWith(sortDirection: directionOption);
-    notifyListeners();
-    sortedByOptionPokemonList();
+    _filterPokemonList();
   }
 
   Future<void> fetchTypeList() async {
@@ -213,7 +204,6 @@ class MainViewModel extends ChangeNotifier {
       pokemonListData: refreshPokemonList,
     );
     notifyListeners();
-    sortedByOptionPokemonList();
   }
 
   void markItemAsSeen(Pokemon pokemon) {
