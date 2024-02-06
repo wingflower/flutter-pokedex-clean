@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pokedex_clean/data/data_source/local/user_account_storage.dart';
+import 'package:pokedex_clean/data/data_source/remote/pokemon_api.dart';
+import 'package:pokedex_clean/data/data_source/remote/type_api.dart';
 import 'package:pokedex_clean/data/repository/firebase_auth_repository.dart';
-import 'package:pokedex_clean/data/repository/firestore_user_infor_repository.dart';
+import 'package:pokedex_clean/data/repository/firestore_user_info_repository.dart';
 import 'package:pokedex_clean/data/repository/pokemon_repository_impl.dart';
 import 'package:pokedex_clean/data/repository/type_repository_impl.dart';
 import 'package:pokedex_clean/data/repository/user_account_repository_impl.dart';
@@ -15,6 +18,7 @@ import 'package:pokedex_clean/domain/repository/user_account_repository.dart';
 import 'package:pokedex_clean/domain/repository/user_info_repository.dart';
 import 'package:pokedex_clean/domain/use_case/collection/draw_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/get_pokemon_use_case.dart';
+import 'package:pokedex_clean/domain/use_case/collection/refresh_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/search_by_name_pokemon_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/collection/sort_pokemon_list_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/info/add_and_update_user_info_use_case.dart';
@@ -53,7 +57,21 @@ void diSetup() {
   //                                      <<< ETC Declaration END
   // ============================================================
 
-
+  // ============================================================
+  // DATA Declaration START >>>
+  // ============================================================
+  getIt.registerSingleton<PokemonApi>(
+    PokemonApi(),
+  );
+  getIt.registerSingleton<TypeApi>(
+    TypeApi(),
+  );
+  getIt.registerSingleton<UserAccountStorage>(
+    UserAccountStorage(flutterSecureStorage: getIt<FlutterSecureStorage>()),
+  );
+  // ============================================================
+  //                                     <<< DATA Declaration END
+  // ============================================================
 
   // ============================================================
   // REPOSITORIES Declaration START >>>
@@ -63,11 +81,13 @@ void diSetup() {
   );
   getIt.registerSingleton<UserAccountRepository<String, String>>(
     UserAccountRepositoryImpl(
-      flutterSecureStorage: getIt<FlutterSecureStorage>(),
+      userAccountStorage: getIt<UserAccountStorage>(),
     ),
   );
   getIt.registerSingleton<PokemonRepository>(
-    PokemonRepositoryImpl(),
+    PokemonRepositoryImpl(
+      pokemonApi: getIt<PokemonApi>(),
+    ),
   );
   getIt.registerSingleton<UserInfoRepository>(
     FirestoreUserInfoRepository(
@@ -75,13 +95,13 @@ void diSetup() {
     ),
   );
   getIt.registerSingleton<TypeRepository>(
-    TypeRepositoryImpl(),
+    TypeRepositoryImpl(
+      typeApi: getIt<TypeApi>(),
+    ),
   );
   // ============================================================
   //                             <<< REPOSITORIES Declaration END
   // ============================================================
-
-
 
   // ============================================================
   // USE_CASES Declaration START >>>
@@ -147,9 +167,7 @@ void diSetup() {
     ),
   );
   getIt.registerSingleton<SortedByOptionPokemonUseCase>(
-    SortedByOptionPokemonUseCase(
-      pokemonRepository: getIt<PokemonRepository>(),
-    ),
+    SortedByOptionPokemonUseCase(),
   );
   getIt.registerSingleton<DrawPokemonUseCase>(
     DrawPokemonUseCase(),
@@ -162,11 +180,12 @@ void diSetup() {
       pokemonRepository: getIt<TypeRepository>(),
     ),
   );
+  getIt.registerSingleton<RefreshPokemonUseCase>(
+    RefreshPokemonUseCase(),
+  );
   // ============================================================
   //                                <<< USE_CASES Declaration END
   // ============================================================
-
-
 
   // ============================================================
   // VIEW_MODELS Declaration START >>>
@@ -188,7 +207,6 @@ void diSetup() {
       checkVerifyUseCase: getIt<CheckVerifyUseCase>(),
     ),
   );
-
   getIt.registerFactory<MainViewModel>(
     () => MainViewModel(
       logoutUseCase: getIt<LogoutUseCase>(),
@@ -200,9 +218,9 @@ void diSetup() {
       searchByNamePokemonUseCase: getIt<SearchByNamePokemonUseCase>(),
       sortedByOptionPokemonUseCase: getIt<SortedByOptionPokemonUseCase>(),
       getTypeUseCase: getIt<GetTypeUseCase>(),
+      refreshPokemonUseCase: getIt<RefreshPokemonUseCase>(),
     ),
   );
-
   getIt.registerFactory<RouletteViewModel>(
     () => RouletteViewModel(
       drawPokemonUseCase: getIt<DrawPokemonUseCase>(),

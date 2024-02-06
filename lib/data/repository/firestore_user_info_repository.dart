@@ -15,7 +15,7 @@ class FirestoreUserInfoRepository implements UserInfoRepository {
   @override
   Future<Result<UserInfo>> getUserInfo(String email) async {
     final Map<String, dynamic> json;
-    try{
+    try {
       final snapshot = await _userInfoRef.doc(email).get();
       json = snapshot.data() as Map<String, dynamic>;
     } catch (e) {
@@ -30,7 +30,7 @@ class FirestoreUserInfoRepository implements UserInfoRepository {
 
   @override
   Future<Result<void>> updateUserInfo(String email, UserInfo userInfo) async {
-    try{
+    try {
       await _instance
           .collection('user_info')
           .doc(email)

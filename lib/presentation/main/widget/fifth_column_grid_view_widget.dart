@@ -15,13 +15,11 @@ class FifthColumnGridViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: PokemonImageWidget(
-          isCollected: pokemon.isCollected,
-          imageurl: pokemon.imageurl,
-          gridCrossAxisCount: gridCrossAxisCount,
-        ),
+      child: PokemonImageWidget(
+        isCollected: pokemon.isCollected,
+        isNew: pokemon.isNew,
+        imageurl: pokemon.imageurl,
+        gridCrossAxisCount: gridCrossAxisCount,
       ),
     );
   }

@@ -11,7 +11,7 @@ class MainState with _$MainState {
     @Default('') String email,
     @Default(UserInfo(pokemons: [])) UserInfo userInfo,
     @Default(false) bool isLoading,
-    @Default(false) bool isFiltered,
+    @Default('') String filterName,
     @Default([]) List<Pokemon> pokemonListData,
     @Default([]) List<Pokemon> filterListData,
     @Default(2) int gridCrossAxisCount,

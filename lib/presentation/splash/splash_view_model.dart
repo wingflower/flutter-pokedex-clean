@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/core/secure_storage_key.dart';
 import 'package:pokedex_clean/domain/use_case/user/get_user_account_use_case.dart';
 import 'package:pokedex_clean/domain/use_case/user/login_use_case.dart';
