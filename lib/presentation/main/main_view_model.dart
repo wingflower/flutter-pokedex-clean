@@ -205,7 +205,7 @@ class MainViewModel extends ChangeNotifier {
     _state = state.copyWith(
       pokemonListData: refreshPokemonList,
     );
-    notifyListeners();
+    state.sortIsCollected[1] ? _filterPokemonList() : notifyListeners();
   }
 
   void markItemAsSeen(Pokemon pokemon) {
