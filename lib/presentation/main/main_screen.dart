@@ -26,13 +26,6 @@ class _MainScreenState extends State<MainScreen> {
   late final TextEditingController _textEditingController =
       TextEditingController();
 
-  late final StreamController<double> _sliderValueStreamController =
-      StreamController<double>.broadcast();
-  late final StreamController<List<bool>> _collectionOptionStreamController =
-      StreamController<List<bool>>.broadcast();
-  late final StreamController<List<bool>> _directionOptionStreamController =
-      StreamController<List<bool>>.broadcast();
-
   @override
   void initState() {
     Future.microtask(() {
@@ -74,10 +67,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
-
-    _sliderValueStreamController.close();
-    _collectionOptionStreamController.close();
-    _directionOptionStreamController.close();
     super.dispose();
   }
 
