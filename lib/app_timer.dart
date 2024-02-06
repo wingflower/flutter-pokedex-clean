@@ -31,8 +31,8 @@ class AppTimer extends ChangeNotifier with WidgetsBindingObserver {
     } else {
       _timeState = 0;
       _count += 1;
+      notifyListeners();
     }
-    notifyListeners();
 
     if (_count == _maxCount) {
       _stopTimer();

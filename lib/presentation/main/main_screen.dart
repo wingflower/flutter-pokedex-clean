@@ -26,13 +26,6 @@ class _MainScreenState extends State<MainScreen> {
   late final TextEditingController _textEditingController =
       TextEditingController();
 
-  late final StreamController<double> _sliderValueStreamController =
-      StreamController<double>.broadcast();
-  late final StreamController<List<bool>> _collectionOptionStreamController =
-      StreamController<List<bool>>.broadcast();
-  late final StreamController<List<bool>> _directionOptionStreamController =
-      StreamController<List<bool>>.broadcast();
-
   @override
   void initState() {
     Future.microtask(() {
@@ -74,16 +67,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _textEditingController.dispose();
-
-    _sliderValueStreamController.close();
-    _collectionOptionStreamController.close();
-    _directionOptionStreamController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final AppTimer timer = context.watch();
     final MainViewModel viewModel = context.watch();
     final MainState state = viewModel.state;
 
@@ -104,11 +92,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          UserSortOptionElevatedButtonWidget(
-            mainViewModel: viewModel,
-            sliderValueStreamController: _sliderValueStreamController,
-            collectionOptionStreamController: _collectionOptionStreamController,
-            directionOptionStreamController: _directionOptionStreamController,
+          IconButton(
+            onPressed: () => showSortingDialog(context),
+            icon: const Icon(Icons.sort_outlined),
           ),
           IconButton(
               onPressed: () {
@@ -150,34 +136,38 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.0),
         ),
-        child: Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            Image.asset(
-              pokeball,
-              width: 60,
-            ),
-            Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  timer.count.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: timer.count < 10 ? 16 : 14),
+        child: Consumer<AppTimer>(
+          builder: (context, timer, child) {
+            return Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Image.asset(
+                  pokeball,
+                  width: 60,
                 ),
-              ),
-            ),
-          ],
-        )
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      timer.count.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: timer.count < 10 ? 16 : 14),
+                    ),
+                  ),
+                ),
+              ],
+            )
             .animate(onPlay: (controller) => controller.repeat())
-            .shake(duration: const Duration(seconds: 1), hz: timer.count / 2),
+            .shake(duration: const Duration(seconds: 1), hz: timer.count / 2);
+          },
+        ),
         onPressed: () async {
           await context.push(
             '/main/roulette',
