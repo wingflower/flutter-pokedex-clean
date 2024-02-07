@@ -51,7 +51,7 @@ final routes = GoRouter(
             return MultiProvider(
               providers: [
                 ChangeNotifierProvider.value(
-                  value: (map['parentContext'] as BuildContext).read<AppTimer>(),
+                  value: map['appTimer'] as AppTimer,
                 ),
                 ChangeNotifierProvider(
                   create: (_) => getIt<RouletteViewModel>(),
