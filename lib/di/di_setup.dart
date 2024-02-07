@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/data/data_source/local/user_account_storage.dart';
 import 'package:pokedex_clean/data/data_source/remote/pokemon_api.dart';
 import 'package:pokedex_clean/data/data_source/remote/type_api.dart';
@@ -226,6 +227,9 @@ void diSetup() {
       drawPokemonUseCase: getIt<DrawPokemonUseCase>(),
       addAndUpdateUserInfoUseCase: getIt<AddAndUpdateUserInfoUseCase>(),
     ),
+  );
+  getIt.registerFactory<AppTimer>(
+    () => AppTimer(),
   );
   // ============================================================
   //                              <<< VIEW_MODELS Declaration END

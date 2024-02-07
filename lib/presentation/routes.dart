@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
 import 'package:pokedex_clean/domain/model/pokemon.dart';
 import 'package:pokedex_clean/domain/model/type.dart';
@@ -30,17 +32,31 @@ final routes = GoRouter(
     ),
     GoRoute(
       path: '/main',
-      builder: (_, __) => ChangeNotifierProvider(
-        create: (_) => getIt<MainViewModel>(),
-        child: const MainScreen(),
+      builder: (_, __) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => getIt<MainViewModel>(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => getIt<AppTimer>(),
+          )
+        ],
+        builder: (_, __) => const MainScreen(),
       ),
       routes: [
         GoRoute(
           path: 'roulette',
           builder: (_, state) {
             final map = state.extra! as Map<String, dynamic>;
-            return ChangeNotifierProvider(
-              create: (_) => getIt<RouletteViewModel>(),
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider.value(
+                  value: (map['parentContext'] as BuildContext).read<AppTimer>(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => getIt<RouletteViewModel>(),
+                ),
+              ],
               child: RouletteScreen(
                 pokemonList: map['pokemonData'] as List<Pokemon>,
                 userInfo: map['userInfo'] as UserInfo,

@@ -172,6 +172,7 @@ class _MainScreenState extends State<MainScreen> {
           await context.push(
             '/main/roulette',
             extra: {
+              'parentContext': context,
               'pokemonData': state.pokemonListData,
               'userInfo': state.userInfo,
               'email': state.email,
