@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_clean/app_timer.dart';
 import 'package:pokedex_clean/di/di_setup.dart';
