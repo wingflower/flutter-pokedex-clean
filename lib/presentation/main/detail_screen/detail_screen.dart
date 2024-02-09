@@ -121,12 +121,6 @@ class DetailScreen extends StatelessWidget {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  // const Column(
-                  //   children: [
-                  //     DetailInfoTitleTextWidget(title: 'Against'),
-                  //     Text(''),
-                  //   ],
-                  // ),
                 ],
               ),
             )
