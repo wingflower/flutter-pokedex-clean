@@ -30,8 +30,10 @@ class DetailAbilityColumnWidget extends StatelessWidget {
                   horizontal: 16.0,
                 ),
                 child: Text(
-                  pokemonData.abilities[index].flavor_text == '' ||
-                          pokemonData.abilities[index].flavor_text.isEmpty
+                  pokemonData.abilities[index].flavor_text.trim() != '' ||
+                          pokemonData.abilities[index].flavor_text
+                              .trim()
+                              .isNotEmpty
                       ? '- ${pokemonData.abilities[index].flavor_text}'
                       : '- 미확인됨',
                   style: const TextStyle(
