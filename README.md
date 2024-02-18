@@ -109,6 +109,23 @@ https://gist.githubusercontent.com/sc2bat/28d2991fb9e361f0e50fd52ac7c40774/raw/4
 - 포켓몬 수집
 
 
+
+# App Preview
+
+### Firebase login
+![Firebase login](https://github.com/wingflower/flutter-pokedex-clean/assets/87482415/062f0f12-d1fc-4732-aa16-c855ad0f57d6)
+
+### Filter Option
+![Filter Option](https://github.com/wingflower/flutter-pokedex-clean/assets/87482415/05e33e6e-35fb-4d8b-a61c-d4bcd0780725)
+
+### Detail Screen
+![Detail Screen](https://github.com/wingflower/flutter-pokedex-clean/assets/87482415/fb7bdcd4-0881-4593-8f17-180a3f0db600)
+
+### Roulette
+![Roulette](https://github.com/wingflower/flutter-pokedex-clean/assets/87482415/5ac8e702-ca2c-4e8d-b8dc-ac2a938c9ff6)
+
+
+
 # Tech
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
